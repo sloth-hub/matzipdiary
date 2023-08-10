@@ -1,13 +1,135 @@
-body {
+/*! minireset.css v0.0.6 | MIT License | github.com/jgthms/minireset.css */
+blockquote, body, dd, dl, dt, fieldset, figure, h1, h2, h3, h4, h5, h6, hr, html, iframe, legend, li, ol, p, pre, textarea, ul {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+h1, h2, h3, h4, h5, h6 {
+  font-size: 100%;
+  font-weight: 400
+}
+
+ul {
+  list-style: none
+}
+
+button, input, select {
+  margin: 0
+}
+
+html {
+  box-sizing: border-box
+}
+
+*, :after, :before {
+  box-sizing: inherit
+}
+
+img, video {
+  height: auto;
+  max-width: 100%
+}
+
+iframe {
+  border: 0
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0
+}
+
+td, th {
+  padding: 0
+}
+
+/* global */
+
+:root {
+  --main-color: #ffc03a;
+  --sub-color: #555;
+  --black: #181818;
+  --white: #fff;
+  --red: #dd0416;
+  --D-gray: #8b8b8e;
+  --M-gray: #b9b9bb;
+  --L-gray: #cfcfcf;
+}
+
+.hide {
+  border: 0;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+button {
+  border: none;
+  height: 48px;
+  padding: 15px;
+  border-radius: 5px;
+  color: var(--white);
+  background-color: var(--main-color);
+  transition: all .05s linear;
+  margin-top: 10px;
+}
+
+input::placeholder {
+  color: var(--L-gray);
+}
+
+/* sign-form */
+.sign-form h1 {
+  font-size: 24px;
+  text-align: center;
+  padding: 30px 0;
+}
+
+.sign-form form {
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.sign-form .input-box {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.sign-form label {
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.sign-form input {
+  border: 1px solid var(--L-gray);
+  height: 48px;
+  padding: 0 10px;
+  font-size: 15px;
+  border-radius: 5px;
+  outline: none;
+}
+
+.sign-form input:focus {
+  border: 1px solid var(--main-color);
+}
+
+.sign-form .input-error {
+  color: var(--red);
+  font-size: 14px;
 }
