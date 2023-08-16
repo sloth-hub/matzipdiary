@@ -1,12 +1,12 @@
 export interface UserInterface {
     uid: string,
     email: string,
-    name: string,
+    nickname: string,
     date_created: string,
 }
 
 export interface UserInputInterface {
     email: string,
-    name: string,
+    nickname: string,
     password: string
 }
