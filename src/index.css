@@ -91,45 +91,46 @@ input::placeholder {
   color: var(--L-gray);
 }
 
-/* sign-form */
-.sign-form h1 {
+/* form */
+h1 {
   font-size: 24px;
   text-align: center;
   padding: 30px 0;
 }
 
-.sign-form form {
+form {
   width: 320px;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
-.sign-form .input-box {
+.input-box {
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
 }
 
-.sign-form label {
+label {
   font-size: 14px;
   margin-bottom: 10px;
 }
 
-.sign-form input {
+input {
   border: 1px solid var(--L-gray);
   height: 48px;
   padding: 0 10px;
   font-size: 15px;
   border-radius: 5px;
   outline: none;
+  transition: all .05s linear;
 }
 
-.sign-form input:focus {
+input:focus {
   border: 1px solid var(--main-color);
 }
 
-.sign-form .input-error {
+.input-error {
   color: var(--red);
   font-size: 14px;
 }
