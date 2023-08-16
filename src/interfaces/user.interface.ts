@@ -7,6 +7,6 @@ export interface UserInterface {
 
 export interface UserInputInterface {
     email: string,
-    nickname: string,
+    nickname?: string,
     password: string
 }
