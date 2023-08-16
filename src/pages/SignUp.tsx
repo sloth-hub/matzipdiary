@@ -1,13 +1,21 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useState, } from "react";
+import { useNavigate } from "react-router-dom";
 import { UserInputInterface } from "../interfaces/user.interface";
+import { db, firebaseAuth } from "../Firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { collection, addDoc, getDocs } from "firebase/firestore";
+import moment from "moment";
 
 export const SignUp = () => {
 
     const [signupData, setSignupData] = useState<UserInputInterface>({
         email: "",
-        name: "",
+        nickname: "",
         password: ""
     });
+
+    const { email, nickname, password } = signupData;
+    const navigate = useNavigate();
 
     const psConfirm = (e: ChangeEvent<HTMLInputElement>) => {
         const { value, nextSibling } = e.target;
@@ -25,15 +33,28 @@ export const SignUp = () => {
         });
     }
 
-    const onSubmit = (e: ChangeEvent<HTMLFormElement>) => {
+    const onSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log(signupData);
+        await createUserWithEmailAndPassword(firebaseAuth, email, password)
+            .then(async (userCredential) => {
+                const user = userCredential.user;
+                await addDoc(collection(db, "users"), {
+                    uid: user.uid,
+                    ...signupData,
+                    date_created: moment().utc().format("YYYY-MM-DD HH:mm:ss")
+                });
+                alert("가입이 완료되었습니다");
+                navigate("/login");
+            })
+            .catch((error) => {
+                console.log(`${error.code} - ${error.message}`);
+            });
     }
 
     return (
         <div className="sign-form">
             <h1>sign up page</h1>
-            <form method="post" onSubmit={onSubmit}>
+            <form onSubmit={onSubmit}>
                 <div className="input-box">
                     <label htmlFor="email">이메일</label>
                     <input type="email" name="email" id="email"
@@ -42,8 +63,8 @@ export const SignUp = () => {
                     <span className="input-error hide">이메일 형식이 올바르지 않습니다.</span>
                 </div>
                 <div className="input-box">
-                    <label htmlFor="name">닉네임</label>
-                    <input type="text" name="name" id="name"
+                    <label htmlFor="nickname">닉네임</label>
+                    <input type="text" name="nickname" id="nickname"
                         placeholder="한글 6글자, 영문 10글자 이하" onChange={onChange}
                         required />
                     <span className="input-error hide">한글 6글자, 영문 10글자 이하만 가능합니다.</span>
