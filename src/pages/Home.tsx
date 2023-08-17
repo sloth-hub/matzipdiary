@@ -1,17 +1,19 @@
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { firebaseAuth } from "../Firebase";
 
-export const Home = () => {
+export const Home = ({ userObj }: any) => {
 
-    const navigate = useNavigate();
 
-    const goLogin = () => {
-        navigate("/signup");
+    const logout = () => {
+        firebaseAuth.signOut();
+        window.location.reload();
     }
 
     return (
         <>
             <h1>home page</h1>
-            <button onClick={goLogin}>signup 페이지로</button>
+            <p>어서오세요 {userObj.nickname}님!</p>
+            <button onClick={logout}>로그아웃</button>
         </>
     )
 }
