@@ -84,6 +84,7 @@ export const SignUp = () => {
                     <span className="input-error hide">비밀번호가 일치하지 않습니다.</span>
                 </div>
                 <button type="submit">가입하기</button>
+                <button type="button" onClick={()=> navigate("/")}>뒤로</button>
             </form>
         </div>
     )

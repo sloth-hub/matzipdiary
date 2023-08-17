@@ -34,10 +34,15 @@ export const Login = () => {
         await signInWithEmailAndPassword(firebaseAuth, email, password)
             .then((userCredential) => {
                 const user = userCredential.user;
-                console.log(user);
                 navigate("/");
             }).catch((error) => {
-                console.log(`${error.code} - ${error.message}`);
+                if(error.code === "auth/user-not-found") {
+                    alert("회원 정보가 없습니다.");
+                }else if (error.code === "auth/wrong-password") {
+                    alert("비밀번호가 맞지 않습니다.")
+                }else {
+                    console.log(`${error.code} - ${error.message}`);
+                }
             });
     }
 
@@ -64,6 +69,7 @@ export const Login = () => {
                     <span className="input-error hide">비밀번호가 맞지 않습니다.</span>
                 </div>
                 <button type="submit">로그인</button>
+                <button type="button" onClick={() => navigate("/signup")}>회원가입</button>
             </form>
         </div>
     )
