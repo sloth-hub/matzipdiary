@@ -14,9 +14,16 @@ export const AppRouter = ({ isLoggedIn, userObj }: RouterType) => {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Home userObj={userObj} />} />
-                <Route path="/signup/*" element={<SignUp />} />
-                <Route path="/login/*" element={<Login />} />
+                {isLoggedIn ?
+                    <>
+                        <Route path="/" element={<Home userObj={userObj} />} />
+                    </>
+                    :
+                    <>
+                        <Route path="/" element={<Login />} />
+                        <Route path="/signup" element={<SignUp />} />
+                    </>
+                }
             </Routes>
         </BrowserRouter>
     )

@@ -35,7 +35,7 @@ const App = () => {
             }
             setInit(true);
         });
-    });
+    }, []);
 
 
     return (
