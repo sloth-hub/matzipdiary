@@ -1,5 +1,8 @@
-import React, { ChangeEvent, useState, KeyboardEvent } from "react";
+import React, { ChangeEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { UserInputInterface } from "../interfaces/user.interface";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { firebaseAuth } from "../Firebase";
 
 export const Login = () => {
 
@@ -10,6 +13,9 @@ export const Login = () => {
 
     const [val_email, setVal_email] = useState<string>();
     const [val_pass, setVal_pass] = useState<string>();
+
+    const { email, password } = signupData;
+    const navigate = useNavigate();
 
     const onChange = (e: ChangeEvent<HTMLInputElement>) => {
         let { name, value } = e.target;
@@ -25,7 +31,14 @@ export const Login = () => {
     }
     const onSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log(signupData);
+        await signInWithEmailAndPassword(firebaseAuth, email, password)
+            .then((userCredential) => {
+                const user = userCredential.user;
+                console.log(user);
+                navigate("/");
+            }).catch((error) => {
+                console.log(`${error.code} - ${error.message}`);
+            });
     }
 
     return (
@@ -44,7 +57,7 @@ export const Login = () => {
                 <div className="input-box">
                     <label htmlFor="password">비밀번호</label>
                     <input type="password" name="password" id="password"
-                        placeholder="********" 
+                        placeholder="********"
                         onChange={onChange}
                         value={val_pass || ""}
                         required />
