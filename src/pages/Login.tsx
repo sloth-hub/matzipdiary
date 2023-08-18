@@ -1,8 +1,11 @@
 import React, { ChangeEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserInputInterface } from "../interfaces/user.interface";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { firebaseAuth } from "../Firebase";
+import { GithubAuthProvider, GoogleAuthProvider, signInWithCredential, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { db, firebaseAuth } from "../Firebase";
+import { Link } from "react-router-dom";
+import { addDoc, collection, getDocs } from "firebase/firestore";
+import moment from "moment";
 
 export const Login = () => {
 
@@ -35,14 +38,45 @@ export const Login = () => {
             .then((userCredential) => {
                 const user = userCredential.user;
                 navigate("/");
-            }).catch((error) => {
-                if(error.code === "auth/user-not-found") {
+            }).catch(err => {
+                if (err.code === "auth/user-not-found") {
                     alert("회원 정보가 없습니다.");
-                }else if (error.code === "auth/wrong-password") {
+                } else if (err.code === "auth/wrong-password") {
                     alert("비밀번호가 맞지 않습니다.")
-                }else {
-                    console.log(`${error.code} - ${error.message}`);
+                } else {
+                    console.log(`${err.code} - ${err.message}`);
                 }
+            });
+    }
+    const snsLogin = async ({ target }: any) => {
+        if (target.name === "google") {
+            const provider = new GoogleAuthProvider;
+            addUserInfo(provider);
+        } else if (target.name === "github") {
+            const provider = new GithubAuthProvider;
+            addUserInfo(provider);
+        }
+    }
+
+    const addUserInfo = async (provider: any) => {
+        await signInWithPopup(firebaseAuth, provider)
+            .then(async (result) => {
+                const user = result.user;
+                const data = await getDocs(collection(db, "users"));
+                const usersData = data.docs.map(doc => ({
+                    ...doc.data()
+                }));
+                // 유저 정보가 없으면 유저 정보 db에 등록
+                if (!usersData.some(v => v.uid === user.uid)) {
+                    await addDoc(collection(db, "users"), {
+                        uid: user.uid,
+                        nickname: user.displayName,
+                        email: user.email,
+                        date_created: moment().utc().format("YYYY-MM-DD HH:mm:ss")
+                    });
+                }
+            }).catch(err => {
+                console.log(`${err.code} - ${err.message}`);
             });
     }
 
@@ -69,7 +103,11 @@ export const Login = () => {
                     <span className="input-error hide">비밀번호가 맞지 않습니다.</span>
                 </div>
                 <button type="submit">로그인</button>
-                <button type="button" onClick={() => navigate("/signup")}>회원가입</button>
+                <div className="sns-login">
+                    <button type="button" name="google" onClick={snsLogin}>구글 로그인</button>
+                    <button type="button" name="github" onClick={snsLogin}>깃허브 로그인</button>
+                </div>
+                <Link to="/signup">회원가입</Link>
             </form>
         </div>
     )
