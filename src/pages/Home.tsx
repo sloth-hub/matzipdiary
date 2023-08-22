@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { db, firebaseAuth } from "../Firebase";
 import { Notes } from "../Components/Notes";
 import { collection, getDocs, query, where } from "firebase/firestore";
+import { NoteInterface } from "../interfaces/note.interface";
 
 export const Home = ({ userObj }: any) => {
 
-    const [notes, setNotes] = useState([{}]);
+    const [notes, setNotes] = useState<NoteInterface[]>([]);
 
     useEffect(() => {
         getNotes();
@@ -16,9 +17,12 @@ export const Home = ({ userObj }: any) => {
             collection(db, "notes"),
             where("uid", "==", userObj.uid));
         const querySnapshot = await getDocs(q);
-        const data = querySnapshot.docs.map(doc => ({
-            ...doc.data()
-        }));
+        const data = querySnapshot.docs.map(doc => {
+            return {
+                ...doc.data()
+            }
+        });
+        // @ts-ignore
         setNotes(data);
     }
 
