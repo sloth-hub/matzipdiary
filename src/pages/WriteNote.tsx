@@ -1,12 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { firebaseAuth } from "../Firebase";
+import React, { ChangeEvent, useEffect, useState } from "react";
 
 export const WriteNote = () => {
+
+    useEffect(() => {
+        const categories = document.querySelector(".food-category");
+        categories!.addEventListener("click", (e: Event) => {
+           clickedMenu(e);
+        });
+    }, []);
 
     const onSubmit = () => {
 
     }
-    
+
     const addMenu = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
         const menuUl = document.querySelector(".menu-list");
@@ -17,6 +23,18 @@ export const WriteNote = () => {
         menuUl!.appendChild(li);
     }
 
+    const selectedToggle = () => {
+        const food_category = document.querySelector(".food-category");
+        food_category!.classList.toggle("active");
+    }
+
+    const clickedMenu = (e: Event) => {
+        const selectedValue = document.querySelector(".selected-value");
+        const evtTagrget = e.target as HTMLLIElement;
+        if (evtTagrget.tagName === "LI") {
+            (selectedValue as HTMLElement).innerText = evtTagrget.innerText;
+        }
+    }
 
     return (
         <form onSubmit={onSubmit}>
@@ -25,8 +43,13 @@ export const WriteNote = () => {
                 <input type="date" name="date_visited" id="date_visited" />
             </div>
             <div className="select-box">
-                <ul id="food_category">
-                    <li>분류</li>
+                <div className="selected">
+                    <div className="selected-value">
+                        음식 카테고리
+                    </div>
+                    <div className="arrow" onClick={selectedToggle}>&or;</div>
+                </div>
+                <ul className="food-category">
                     <li>한식</li>
                     <li>양식</li>
                     <li >중식</li>
@@ -42,7 +65,7 @@ export const WriteNote = () => {
             <div className="input-box">
                 <ul className="menu-list">
                     <li>
-                        <input type="text" name="menuName" id="menuName" placeholder="메뉴명"/>
+                        <input type="text" name="menuName" id="menuName" placeholder="메뉴명" />
                         <input type="number" name="menuPrice" id="menuPrice" />
                         <span>원</span>
                     </li>
