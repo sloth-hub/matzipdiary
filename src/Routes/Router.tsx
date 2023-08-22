@@ -4,6 +4,7 @@ import { SignUp } from "../pages/SignUp";
 import { Login } from "../pages/Login"
 import { Home } from "../pages/Home";
 import { UserInterface } from "../interfaces/user.interface";
+import { WriteNote } from "../pages/WriteNote";
 
 type RouterType = {
     isLoggedIn: boolean,
@@ -17,6 +18,7 @@ export const AppRouter = ({ isLoggedIn, userObj }: RouterType) => {
                 {isLoggedIn ?
                     <>
                         <Route path="/" element={<Home userObj={userObj} />} />
+                        <Route path="/write" element={<WriteNote />} />
                     </>
                     :
                     <>

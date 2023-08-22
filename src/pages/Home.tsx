@@ -3,6 +3,7 @@ import { db, firebaseAuth } from "../Firebase";
 import { Notes } from "../Components/Notes";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { NoteInterface } from "../interfaces/note.interface";
+import { Link } from "react-router-dom";
 
 export const Home = ({ userObj }: any) => {
 
@@ -42,6 +43,7 @@ export const Home = ({ userObj }: any) => {
             <h1>home page</h1>
             <p>{userObj ? `Hello, ${userObj.nickname}!` : "goodbye!"}</p>
             <button onClick={logout}>로그아웃</button>
+            <Link to="/write">일기쓰기</Link>
             <div className="notes">
                 {notes.map((note, index) =>
                     <Notes key={index} note={note} />
