@@ -105,7 +105,7 @@ form {
   justify-content: center;
 }
 
-.input-box {
+.input-box, .select-box {
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
@@ -116,7 +116,7 @@ label {
   margin-bottom: 10px;
 }
 
-input {
+input, .selected, .food-category, textarea {
   border: 1px solid var(--L-gray);
   height: 48px;
   padding: 0 10px;
@@ -143,4 +143,47 @@ input::-webkit-inner-spin-button {
 
 textarea {
   resize: none;
+  padding: 10px;
+  height: 200px;
+}
+
+/* note form */
+
+.select-box {
+  position: relative;
+  cursor: default;
+}
+
+.select-box .selected, .food-category {
+  height: 100%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.select-box .selected {
+  display: flex;
+  justify-content: space-between;
+}
+
+.select-box .selected .arrow {
+
+}
+
+.food-category {
+  position: relative;
+  display: none;
+  height: 100%;
+  background-color: var(--white);
+}
+
+.food-category.active {
+  display: block;
+}
+
+.food-category li:hover {
+  color: var(--main-color);
+}
+
+.food-category li+li{
+  padding-top: 10px;
 }
