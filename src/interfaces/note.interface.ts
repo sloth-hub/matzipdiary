@@ -3,6 +3,7 @@ export interface NoteInterface{
     date_created: string,
     date_visited: string,
     foodCategory: string,
+    placeName:string,
     location: string,
     text: string,
     images: Images,
