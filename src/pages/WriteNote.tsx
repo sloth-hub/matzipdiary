@@ -1,16 +1,41 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
+import { NoteInterface } from "../interfaces/note.interface";
+import Map from "../Components/Map";
 
-export const WriteNote = () => {
+export const WriteNote = ({ userObj }: any) => {
 
     useEffect(() => {
         const categories = document.querySelector(".food-category");
         categories!.addEventListener("click", (e: Event) => {
-           clickedMenu(e);
+            clickedMenu(e);
         });
     }, []);
 
-    const onSubmit = () => {
+    const [inputs, setInputs] = useState<NoteInterface>({
+        uid: userObj.uid,
+        date_created: "",
+        date_visited: "",
+        foodCategory: "",
+        location: "",
+        text: "",
+        placeName: "",
+        images: {
+            fileUrl: ""
+        },
+        menu: {
+            menuName: "",
+            menuPrice: 0,
+        }
+    });
 
+    const [location, setLocation] = useState({
+        La: 0,
+        Ma: 0
+    });
+
+    const onSubmit = (e: ChangeEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        console.log(location);
     }
 
     const addMenu = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -36,6 +61,10 @@ export const WriteNote = () => {
         }
     }
 
+    const test = (e: ChangeEvent) => {
+        console.log(e);
+    }
+
     return (
         <form onSubmit={onSubmit}>
             <div className="input-box">
@@ -59,9 +88,9 @@ export const WriteNote = () => {
                 </ul>
             </div>
             <div className="input-box">
-                <label htmlFor="loacation">가게명</label>
-                <input type="text" name="" id="" />
+                <input type="text" name="placeName" id="placeName" value="위치를 선택하면 가게명이 입력됩니다." onChange={test} readOnly />
             </div>
+            <Map setLocation={setLocation} />
             <div className="input-box">
                 <ul className="menu-list">
                     <li>
@@ -73,6 +102,7 @@ export const WriteNote = () => {
                 <button onClick={addMenu}>추가</button>
             </div>
             <textarea name="text" id="text" placeholder="솔직한 후기를 남겨보세요!" />
+            <button type="submit">완료</button>
         </form>
     )
 }

@@ -18,7 +18,7 @@ export const AppRouter = ({ isLoggedIn, userObj }: RouterType) => {
                 {isLoggedIn ?
                     <>
                         <Route path="/" element={<Home userObj={userObj} />} />
-                        <Route path="/write" element={<WriteNote />} />
+                        <Route path="/write" element={<WriteNote userObj={userObj} />} />
                     </>
                     :
                     <>
