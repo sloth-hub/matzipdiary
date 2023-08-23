@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { firebaseAuth } from "../Firebase";
+import React from "react";
 
 export const Notes = ({ note }: any) => {
 
     const { date_created,
         date_visited,
         foodCategory,
+        placeName,
         location,
         images,
         menu,
@@ -26,8 +26,8 @@ export const Notes = ({ note }: any) => {
                 <span>{foodCategory}</span>
             </div>
             <div>
-                <span>위치</span>
-                <span>{location}</span>
+                <span>가게명</span>
+                <span>{placeName}</span>
             </div>
             <div>
                 <span>내용</span>
