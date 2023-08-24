@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import "./kakaomap.css";
 
 type Props = {
     setLocation: (value:any)=>void;

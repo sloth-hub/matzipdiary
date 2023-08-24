@@ -66,7 +66,7 @@ export const WriteNote = ({ userObj }: any) => {
     }
 
     return (
-        <form onSubmit={onSubmit}>
+        <form className="note-form" onSubmit={onSubmit}>
             <div className="input-box">
                 <label htmlFor="date_visited">방문일자</label>
                 <input type="date" name="date_visited" id="date_visited" />
