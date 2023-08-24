@@ -45,9 +45,7 @@ export const WriteNote = ({ userObj }: any) => {
         e.preventDefault();
         const menuUl = document.querySelector(".menu-list");
         const li = document.createElement("li");
-        li.innerHTML = `<input type="text" name="menuName" id="menuName" placeholder="메뉴명"/>
-        <input type="number" name="menuPrice" id="menuPrice" />
-        <span>원</span>`;
+        li.innerHTML = `<li><input type="text" name="menuName" id="menuName" placeholder="메뉴명" /><input type="number" name="menuPrice" id="menuPrice" /><span>원</span></li>`;
         menuUl!.appendChild(li);
     }
 
@@ -104,7 +102,7 @@ export const WriteNote = ({ userObj }: any) => {
                         <span>원</span>
                     </li>
                 </ul>
-                <button onClick={addMenu}>추가</button>
+                <button onClick={addMenu} className="add-btn">+</button>
             </div>
             <textarea name="text" id="text" placeholder="솔직한 후기를 남겨보세요!" />
             <div className="btn-wrap">

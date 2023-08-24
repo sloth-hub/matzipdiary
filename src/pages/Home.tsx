@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { db, firebaseAuth } from "../Firebase";
+import { db } from "../Firebase";
 import { Note } from "../Components/Note";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { NoteInterface } from "../interfaces/note.interface";
@@ -27,28 +27,14 @@ export const Home = ({ userObj }: any) => {
         setNotes(data);
     }
 
-    const logout = () => {
-        firebaseAuth.signOut()
-            .then(() => {
-                window.location.reload();
-            }).catch(err => {
-                console.log(`${err.code} - ${err.message}`);
-            });
-    }
-
-
-
     return (
         <>
-            <h1>home page</h1>
-            <p>{userObj ? `Hello, ${userObj.nickname}!` : "goodbye!"}</p>
-            <button onClick={logout}>로그아웃</button>
-            <Link to="/write">일기쓰기</Link>
             <div className="notes">
                 {notes.map((note, index) =>
                     <Note key={index} note={note} />
                 )}
             </div>
+            <Link to="/write" className="write-btn">+</Link>
         </>
     )
 }
