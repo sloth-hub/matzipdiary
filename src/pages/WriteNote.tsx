@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { NoteInterface } from "../interfaces/note.interface";
 import Map from "../Components/Map";
+import { useNavigate } from "react-router";
 
 export const WriteNote = ({ userObj }: any) => {
 
@@ -32,6 +33,8 @@ export const WriteNote = ({ userObj }: any) => {
         La: 0,
         Ma: 0
     });
+
+    const navigate = useNavigate();
 
     const onSubmit = (e: ChangeEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -67,25 +70,27 @@ export const WriteNote = ({ userObj }: any) => {
 
     return (
         <form className="note-form" onSubmit={onSubmit}>
-            <div className="input-box">
-                <label htmlFor="date_visited">방문일자</label>
-                <input type="date" name="date_visited" id="date_visited" />
-            </div>
-            <div className="select-box">
-                <div className="selected">
-                    <div className="selected-value">
-                        음식 카테고리
-                    </div>
-                    <div className="arrow" onClick={selectedToggle}>&or;</div>
+            <div className="input-wrap">
+                <div className="input-box">
+                    <label htmlFor="date_visited">방문일자</label>
+                    <input type="date" name="date_visited" id="date_visited" />
                 </div>
-                <ul className="food-category">
-                    <li>한식</li>
-                    <li>양식</li>
-                    <li >중식</li>
-                    <li >일식</li>
-                    <li >아시아/퓨전</li>
-                    <li>카페</li>
-                </ul>
+                <div className="select-box">
+                    <label>음식 카테고리</label>
+                    <div className="selected">
+                        <div className="selected-value">
+                        </div>
+                        <div className="arrow" onClick={selectedToggle}>&or;</div>
+                    </div>
+                    <ul className="food-category">
+                        <li>한식</li>
+                        <li>양식</li>
+                        <li >중식</li>
+                        <li >일식</li>
+                        <li >아시아/퓨전</li>
+                        <li>카페</li>
+                    </ul>
+                </div>
             </div>
             <div className="input-box">
                 <input type="text" name="placeName" id="placeName" value="위치를 선택하면 가게명이 입력됩니다." onChange={test} readOnly />
@@ -102,7 +107,10 @@ export const WriteNote = ({ userObj }: any) => {
                 <button onClick={addMenu}>추가</button>
             </div>
             <textarea name="text" id="text" placeholder="솔직한 후기를 남겨보세요!" />
-            <button type="submit">완료</button>
+            <div className="btn-wrap">
+                <button type="button" onClick={() => navigate("/")}>뒤로</button>
+                <button type="submit">완료</button>
+            </div>
         </form>
     )
 }
