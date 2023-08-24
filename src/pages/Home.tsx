@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { db, firebaseAuth } from "../Firebase";
-import { Notes } from "../Components/Notes";
+import { Note } from "../Components/Note";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { NoteInterface } from "../interfaces/note.interface";
 import { Link } from "react-router-dom";
@@ -46,7 +46,7 @@ export const Home = ({ userObj }: any) => {
             <Link to="/write">일기쓰기</Link>
             <div className="notes">
                 {notes.map((note, index) =>
-                    <Notes key={index} note={note} />
+                    <Note key={index} note={note} />
                 )}
             </div>
         </>

@@ -1,6 +1,6 @@
 import React from "react";
 
-export const Notes = ({ note }: any) => {
+export const Note = ({ note }: any) => {
 
     const { date_created,
         date_visited,
