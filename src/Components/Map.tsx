@@ -31,7 +31,7 @@ export const Map:React.FC<Props> = ({ setLocation}) => {
 
     const searchPlaces = (e: React.MouseEvent) => {
         e.preventDefault();
-        var keyword = (document.getElementById("keyword") as HTMLInputElement).value;
+        const keyword = (document.getElementById("keyword") as HTMLInputElement).value;
 
         if (!keyword.replace(/^\s+|\s+$/g, '')) {
             alert('키워드를 입력해주세요!');
@@ -67,7 +67,7 @@ export const Map:React.FC<Props> = ({ setLocation}) => {
 
     function displayPlaces(places: any) {
 
-        var listEl = document.getElementById('placesList'),
+        let listEl = document.getElementById('placesList'),
             menuEl = document.getElementById('menu_wrap'),
             fragment = document.createDocumentFragment(),
             bounds = new kakao.maps.LatLngBounds(),
@@ -83,8 +83,8 @@ export const Map:React.FC<Props> = ({ setLocation}) => {
 
             // 마커를 생성하고 지도에 표시합니다
             var placePosition = new kakao.maps.LatLng(places[i].y, places[i].x),
-                //@ts-ignore
-                marker = addMarker(placePosition, i),
+                
+                marker = addMarker(placePosition, i, places[i].place_name),
                 itemEl = getListItem(i, places[i]); // 검색 결과 항목 Element를 생성합니다
 
             // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
@@ -123,10 +123,8 @@ export const Map:React.FC<Props> = ({ setLocation}) => {
         }
 
         // 검색결과 항목들을 검색결과 목록 Element에 추가합니다
-        //@ts-ignore
-        listEl.appendChild(fragment);
-        //@ts-ignore
-        menuEl.scrollTop = 0;
+        listEl!.appendChild(fragment);
+        menuEl!.scrollTop = 0;
 
         // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
         map.setBounds(bounds);
@@ -135,7 +133,7 @@ export const Map:React.FC<Props> = ({ setLocation}) => {
     // 검색결과 항목을 Element로 반환하는 함수입니다
     function getListItem(index: any, places: any) {
 
-        var el = document.createElement('li'),
+        let el = document.createElement('li'),
             itemStr = '<span class="markerbg marker_' + (index + 1) + '"></span>' +
                 '<div class="info">' +
                 '   <h5>' + places.place_name + '</h5>';
@@ -158,7 +156,7 @@ export const Map:React.FC<Props> = ({ setLocation}) => {
 
     // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
     function addMarker(position: any, idx: any, title: any) {
-        var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
+        let imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
             imageSize = new kakao.maps.Size(36, 37),  // 마커 이미지의 크기
             imgOptions = {
                 spriteSize: new kakao.maps.Size(36, 691), // 스프라이트 이미지의 크기
@@ -187,7 +185,7 @@ export const Map:React.FC<Props> = ({ setLocation}) => {
 
     // 검색결과 목록 하단에 페이지번호를 표시는 함수입니다
     function displayPagination(pagination: any) {
-        var paginationEl = (document.getElementById('pagination') as HTMLElement),
+        let paginationEl = (document.getElementById('pagination') as HTMLElement),
             fragment = document.createDocumentFragment(),
             i;
 
@@ -198,7 +196,7 @@ export const Map:React.FC<Props> = ({ setLocation}) => {
         }
 
         for (i = 1; i <= pagination.last; i++) {
-            var el = document.createElement('a');
+            let el = document.createElement('a');
             el.href = "#";
             //@ts-ignore
             el.innerHTML = i;
@@ -221,7 +219,7 @@ export const Map:React.FC<Props> = ({ setLocation}) => {
     // 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수입니다
     // 인포윈도우에 장소명을 표시합니다
     function displayInfowindow(marker: any, title: any) {
-        var content = '<div style="padding:5px;z-index:1;">' + title + '</div>';
+        let content = '<div style="padding:5px;z-index:1;">' + title + '</div>';
 
         infowindow.setContent(content);
         infowindow.open(map, marker);
