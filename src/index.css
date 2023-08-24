@@ -1,16 +1,16 @@
 /*! minireset.css v0.0.6 | MIT License | github.com/jgthms/minireset.css */
 blockquote, body, dd, dl, dt, fieldset, figure, h1, h2, h3, h4, h5, h6, hr, html, iframe, legend, li, ol, p, pre, textarea, ul {
   margin: 0;
-  padding: 0
+  padding: 0;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-size: 100%;
-  font-weight: 400
+  font-weight: 400;
 }
 
 ul {
-  list-style: none
+  list-style: none;
 }
 
 button, input, select {
@@ -18,29 +18,33 @@ button, input, select {
 }
 
 html {
-  box-sizing: border-box
+  box-sizing: border-box;
 }
 
 *, :after, :before {
-  box-sizing: inherit
+  box-sizing: inherit;
 }
 
 img, video {
   height: auto;
-  max-width: 100%
+  max-width: 100%;
 }
 
 iframe {
-  border: 0
+  border: 0;
 }
 
 table {
   border-collapse: collapse;
-  border-spacing: 0
+  border-spacing: 0;
 }
 
 td, th {
-  padding: 0
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
 }
 
 /* global */
@@ -69,34 +73,78 @@ td, th {
   white-space: nowrap;
 }
 
-.container {
+main {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  min-height: 800px;
 }
 
 button {
   border: none;
-  height: 48px;
-  padding: 15px;
-  border-radius: 5px;
-  color: var(--white);
-  background-color: var(--main-color);
-  transition: all .05s linear;
-  margin-top: 10px;
+  background-color: transparent;
+  padding: 0;
+  cursor: pointer;
 }
 
-input::placeholder {
-  color: var(--L-gray);
+.loader {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* nav */
+
+nav {
+  justify-content: space-between;
+  font-size: 14px;
+  padding: 0 10px;
+  height: 50px;
+  box-shadow: 0 2px 4px 0 hsla(0, 0%, 80.8%, .5);
+}
+
+nav, nav ul {
+  display: flex;
+  align-items: center;
+}
+
+nav li+li {
+  margin-left: 10px;
+}
+
+.logo {
+  color: var(--main-color);
+  font-weight: 700;
+}
+
+nav button {
+  background-color: var(--main-color);
+  color: var(--white);
+  border-radius: 5px;
+  padding: 5px 8px;
+}
+
+.write-btn {
+  position: absolute;
+  bottom: 81px;
+  right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  border-radius: 50%;
+  color: var(--white);
+  font-weight: 700;
+  background-color: var(--main-color);
 }
 
 /* form */
-h1 {
-  font-size: 24px;
-  text-align: center;
-  padding: 30px 0;
-}
 
 form {
   width: 320px;
@@ -113,6 +161,7 @@ form {
 
 label {
   font-size: 14px;
+  font-weight: 700;
   margin-bottom: 10px;
 }
 
@@ -135,6 +184,10 @@ input:focus {
   font-size: 14px;
 }
 
+input::placeholder {
+  color: var(--L-gray);
+}
+
 input::-webkit-inner-spin-button {
   appearance: none;
   -moz-appearance: none;
@@ -149,7 +202,20 @@ textarea {
 
 /* note form */
 
+.note-form {
+  width: 500px;
+}
+
+.input-wrap {
+  display: flex;
+}
+
+.input-wrap .input-box, .select-box {
+  width: 245px;
+}
+
 .select-box {
+  margin-left: 10px;
   position: relative;
   cursor: default;
 }
@@ -165,12 +231,22 @@ textarea {
   justify-content: space-between;
 }
 
-.select-box .selected .arrow {}
+.select-box .selected .arrow {
+  color: var(--M-gray);
+}
+
+.select-box .selected .arrow:hover {
+  color: var(--black);
+}
 
 .food-category {
-  position: relative;
+  position: absolute;
+  left: 0;
+  top: 75px;
+  width: 100%;
   display: none;
-  height: 100%;
+  height: fit-content;
+  z-index: 2;
   background-color: var(--white);
 }
 
@@ -186,5 +262,70 @@ textarea {
   padding-top: 10px;
 }
 
-/* note */
+.menu-list li+li {
+  margin-top: 15px;
+}
 
+.menu-list li input:first-of-type {
+  width: 269px;
+  margin-right: 10px;
+}
+
+.menu-list li input:last-of-type {
+  width: 200px;
+  text-align: right;
+  letter-spacing: 5px;
+  margin-right: 5px;
+}
+
+.add-btn {
+  width: 30px;
+  height: 30px;
+  font-size: 18px;
+  line-height: 30px;
+  padding: 0;
+  border-radius: 25%;
+  align-self: flex-end;
+  cursor: pointer;
+}
+
+form button {
+  height: 48px;
+  padding: 15px;
+  border-radius: 5px;
+  color: var(--white);
+  background-color: var(--main-color);
+  transition: all .05s linear;
+  margin-top: 10px;
+}
+
+.btn-wrap button {
+  width: 245px;
+}
+
+.btn-wrap button+button {
+  margin-left: 10px;
+}
+
+/* footer */
+
+footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 25px 0;
+  background-color: var(--main-color);
+  color: var(--white);
+}
+
+@media screen and (max-width:575.98px) {
+
+  .note-form {
+    width: 320px;
+  }
+
+  #map {
+    width: 320px !important;
+    height: 250px !important;
+  }
+}
