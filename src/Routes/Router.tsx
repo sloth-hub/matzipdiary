@@ -5,6 +5,7 @@ import { Login } from "../pages/Login"
 import { Home } from "../pages/Home";
 import { UserInterface } from "../interfaces/user.interface";
 import { WriteNote } from "../pages/WriteNote";
+import Nav from "../Components/Nav";
 
 type RouterType = {
     isLoggedIn: boolean,
@@ -14,19 +15,23 @@ type RouterType = {
 export const AppRouter = ({ isLoggedIn, userObj }: RouterType) => {
     return (
         <BrowserRouter>
-            <Routes>
-                {isLoggedIn ?
-                    <>
-                        <Route path="/" element={<Home userObj={userObj} />} />
-                        <Route path="/write" element={<WriteNote userObj={userObj} />} />
-                    </>
-                    :
-                    <>
-                        <Route path="/" element={<Login />} />
-                        <Route path="/signup" element={<SignUp />} />
-                    </>
-                }
-            </Routes>
+            <Nav userObj={userObj} />
+            <main id="main">
+                <Routes>
+                    {isLoggedIn ?
+                        <>
+                            <Route path="/" element={<Home userObj={userObj} />} />
+                            <Route path="/write" element={<WriteNote userObj={userObj} />} />
+                        </>
+                        :
+                        <>
+                            <Route path="/" element={<Login />} />
+                            <Route path="/signup" element={<SignUp />} />
+                        </>
+                    }
+                </Routes>
+            </main>
+            <footer>&copy; 2023 matzipdiary. All rights reserved.</footer>
         </BrowserRouter>
     )
 }

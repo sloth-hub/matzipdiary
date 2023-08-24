@@ -4,7 +4,6 @@ import { UserInterface } from "./interfaces/user.interface";
 import { onAuthStateChanged } from "firebase/auth";
 import { db, firebaseAuth } from "./Firebase";
 import { collection, getDocs, query, where } from "firebase/firestore";
-import { Login } from "./pages/Login";
 
 const App = () => {
 
@@ -37,15 +36,14 @@ const App = () => {
         });
     }, []);
 
-
     return (
-        <div className="container">
+        <>
             {init ?
                 <AppRouter
                     isLoggedIn={isLoggedIn} userObj={userObj} />
                 : <div className="loader">Loading...</div>
             }
-        </div>
+        </>
     );
 }
 
