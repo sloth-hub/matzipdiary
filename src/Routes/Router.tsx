@@ -17,21 +17,27 @@ export const AppRouter = ({ isLoggedIn, userObj }: RouterType) => {
         <BrowserRouter>
             <Nav userObj={userObj} />
             <main id="main">
-                <Routes>
-                    {isLoggedIn ?
-                        <>
-                            <Route path="/" element={<Home userObj={userObj} />} />
-                            <Route path="/write" element={<WriteNote userObj={userObj} />} />
-                        </>
-                        :
-                        <>
-                            <Route path="/" element={<Login />} />
-                            <Route path="/signup" element={<SignUp />} />
-                        </>
-                    }
-                </Routes>
+                <div className="inner">
+                    <Routes>
+                        {isLoggedIn ?
+                            <>
+                                <Route path="/" element={<Home userObj={userObj} />} />
+                                <Route path="/write" element={<WriteNote userObj={userObj} />} />
+                            </>
+                            :
+                            <>
+                                <Route path="/" element={<Login />} />
+                                <Route path="/signup" element={<SignUp />} />
+                            </>
+                        }
+                    </Routes>
+                </div>
             </main>
-            <footer>&copy; 2023 matzipdiary. All rights reserved.</footer>
+            <footer>
+                <div className="inner">
+                    &copy; 2023 <span>matzipdiary.</span> All rights reserved.
+                </div>
+            </footer>
         </BrowserRouter>
     )
 }

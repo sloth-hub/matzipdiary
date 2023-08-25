@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { UserInterface } from "../interfaces/user.interface";
 import { firebaseAuth } from "../Firebase";
 
@@ -9,6 +9,7 @@ type RouterType = {
 
 export const Nav = ({ userObj }: RouterType) => {
 
+    const navigate = useNavigate();
     const logout = () => {
         firebaseAuth.signOut()
             .then(() => {
@@ -20,13 +21,20 @@ export const Nav = ({ userObj }: RouterType) => {
 
     return (
         <nav>
-            <Link to="/" className="logo">맛집일기</Link>
-            <ul>
-                <li>{userObj ? `HELLO, ${userObj.nickname}!` : "goodbye!"}</li>
-                <li>
-                    <button onClick={logout}>로그아웃</button>
-                </li>
-            </ul>
+            <div className="inner">
+                <Link to="/" className="logo">맛집일기</Link>
+                <ul>
+                    <li>{userObj ? `HELLO, ${userObj.nickname}!` : ""}</li>
+                    <li>
+                        {userObj ? <button onClick={logout} className="logout">로그아웃</button> :
+                            <>
+                                <button onClick={() => navigate("/login")} className="login">로그인</button>
+                                <button onClick={() => navigate("/signup")} className="signup">회원가입</button>
+                            </>
+                        }
+                    </li>
+                </ul>
+            </div>
         </nav>
     );
 }
