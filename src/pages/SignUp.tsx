@@ -53,7 +53,6 @@ export const SignUp = () => {
 
     return (
         <div className="sign-form">
-            <h1>sign up page</h1>
             <form onSubmit={onSubmit}>
                 <div className="input-box">
                     <label htmlFor="email">이메일</label>
@@ -83,8 +82,10 @@ export const SignUp = () => {
                         required />
                     <span className="input-error hide">비밀번호가 일치하지 않습니다.</span>
                 </div>
-                <button type="submit">가입하기</button>
-                <button type="button" onClick={()=> navigate("/")}>뒤로</button>
+                <div className="btn-wrap">
+                    <button className="back" onClick={() => navigate("/")}>뒤로</button>
+                    <button type="submit">가입하기</button>
+                </div>
             </form>
         </div>
     )
