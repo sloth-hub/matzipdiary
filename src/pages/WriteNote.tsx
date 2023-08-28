@@ -34,8 +34,6 @@ export const WriteNote = ({ userObj }: any) => {
 
     const onSubmit = (e: ChangeEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const placeNameInput = (document.getElementById("placeName") as HTMLInputElement);
-        console.log(placeNameInput.dataset["location"]);
     }
 
     const addMenu = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -103,7 +101,7 @@ export const WriteNote = ({ userObj }: any) => {
             </div>
             <textarea name="text" id="text" placeholder="솔직한 후기를 남겨보세요!" />
             <div className="btn-wrap">
-                <button type="button" onClick={() => navigate("/")}>뒤로</button>
+                <button type="button" onClick={() => navigate("/")} className="back">뒤로</button>
                 <button type="submit">완료</button>
             </div>
         </form>

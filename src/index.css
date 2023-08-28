@@ -359,20 +359,22 @@ textarea {
 .select-box .selected {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .select-box .selected .arrow {
   color: var(--M-gray);
+  align-self: flex-end;
 }
 
 .select-box .selected .arrow:hover {
-  color: var(--black);
+  color: var(--D-gray);
 }
 
 .food-category {
   position: absolute;
   left: 0;
-  top: 75px;
+  top: 73px;
   width: 100%;
   display: none;
   height: fit-content;
@@ -393,7 +395,7 @@ textarea {
 }
 
 .menu-list li+li {
-  margin-top: 15px;
+  margin-top: 10px;
 }
 
 .menu-list li input:first-of-type {
@@ -443,6 +445,8 @@ form button {
 
 .back {
   background-color: var(--L-gray);
+  color: var(--black);
+  font-weight: 500;
 }
 
 /* footer */
