@@ -1,10 +1,7 @@
 import React, { useEffect } from "react";
 import "./kakaomap.css";
 
-type Props = {
-    setLocation: (value:any)=>void;
-}
-export const Map:React.FC<Props> = ({ setLocation}) => {
+export const Map= () => {
 
     useEffect(() => {
         init();
@@ -40,7 +37,9 @@ export const Map:React.FC<Props> = ({ setLocation}) => {
         }
 
         // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
-        ps.keywordSearch(keyword, placesSearchCB);
+        if (keyword !== null) {
+            ps.keywordSearch(keyword, placesSearchCB);
+        }
     }
 
     const placesSearchCB = (data: any, status: any, pagination: any) => {
@@ -84,7 +83,7 @@ export const Map:React.FC<Props> = ({ setLocation}) => {
 
             // 마커를 생성하고 지도에 표시합니다
             var placePosition = new kakao.maps.LatLng(places[i].y, places[i].x),
-                
+
                 marker = addMarker(placePosition, i, places[i].place_name),
                 itemEl = getListItem(i, places[i]); // 검색 결과 항목 Element를 생성합니다
 
@@ -96,12 +95,19 @@ export const Map:React.FC<Props> = ({ setLocation}) => {
             // 해당 장소에 인포윈도우에 장소명을 표시합니다
             // mouseout 했을 때는 인포윈도우를 닫습니다
             (function (marker, title) {
+                const placeNameInput = (document.getElementById("placeName") as HTMLInputElement);
+                
                 kakao.maps.event.addListener(marker, 'mouseover', function () {
                     displayInfowindow(marker, title);
                 });
 
                 kakao.maps.event.addListener(marker, 'mouseout', function () {
                     infowindow.close();
+                });
+
+                kakao.maps.event.addListener(marker, 'click', function () {
+                    placeNameInput.value = title;
+                    placeNameInput.dataset["location"] = marker.getPosition();
                 });
 
                 itemEl.onmouseover = function () {
@@ -113,9 +119,8 @@ export const Map:React.FC<Props> = ({ setLocation}) => {
                 };
 
                 itemEl.onclick = function () {
-                    const placeNameInput = (document.getElementById("placeName") as HTMLInputElement);
-                    setLocation(placePosition);
                     placeNameInput.value = title;
+                    placeNameInput.dataset["location"] = marker.getPosition();
                 }
 
             })(marker, places[i].place_name);
@@ -244,7 +249,7 @@ export const Map:React.FC<Props> = ({ setLocation}) => {
                 <div className="option">
                     <div>
                         <div>
-                            키워드 : <input type="text" id="keyword" size={15} />
+                            <input type="text" id="keyword" size={15} />
                             <button onClick={searchPlaces}>검색하기</button>
                         </div>
                     </div>
