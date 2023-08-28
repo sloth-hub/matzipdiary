@@ -1,11 +1,13 @@
 import React, { ChangeEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserInputInterface } from "../interfaces/user.interface";
-import { GithubAuthProvider, GoogleAuthProvider, signInWithCredential, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { GithubAuthProvider, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { db, firebaseAuth } from "../Firebase";
 import { Link } from "react-router-dom";
 import { addDoc, collection, getDocs } from "firebase/firestore";
 import moment from "moment";
+import { FcGoogle } from "react-icons/fc";
+import { FaGithub } from "react-icons/fa";
 
 export const Login = () => {
 
@@ -102,11 +104,16 @@ export const Login = () => {
                     <span className="input-error hide">비밀번호가 맞지 않습니다.</span>
                 </div>
                 <button type="submit">로그인</button>
-                <div className="sns-login">
-                    <button type="button" name="google" onClick={snsLogin}>구글 로그인</button>
-                    <button type="button" name="github" onClick={snsLogin}>깃허브 로그인</button>
+                <div className="or">
+                    <hr />
+                    <span>or</span>
+                    <hr />
                 </div>
-                <Link to="/signup">회원가입</Link>
+                <div className="sns-login">
+                    <button type="button" name="google" onClick={snsLogin}><FcGoogle size={"2em"} /><span className="hide">구글 로그인</span></button>
+                    <button type="button" name="github" onClick={snsLogin}><FaGithub size={"1.8em"} /><span className="hide">구글 로그인</span></button>
+                </div>
+                <Link to="/signup" className="signup">회원가입</Link>
             </form>
         </div>
     )
