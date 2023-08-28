@@ -250,7 +250,7 @@ export const Map= () => {
                     <div>
                         <div>
                             <input type="text" id="keyword" size={15} />
-                            <button onClick={searchPlaces}>검색하기</button>
+                            <button onClick={searchPlaces}>검색</button>
                         </div>
                     </div>
                 </div>
