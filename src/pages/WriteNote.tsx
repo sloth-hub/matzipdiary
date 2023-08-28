@@ -2,6 +2,7 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 import { NoteInterface } from "../interfaces/note.interface";
 import Map from "../Components/Map";
 import { useNavigate } from "react-router";
+import { RiArrowDownSLine } from "react-icons/ri";
 
 export const WriteNote = ({ userObj }: any) => {
 
@@ -29,16 +30,12 @@ export const WriteNote = ({ userObj }: any) => {
         }
     });
 
-    const [location, setLocation] = useState({
-        La: 0,
-        Ma: 0
-    });
-
     const navigate = useNavigate();
 
     const onSubmit = (e: ChangeEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log(location);
+        const placeNameInput = (document.getElementById("placeName") as HTMLInputElement);
+        console.log(placeNameInput.dataset["location"]);
     }
 
     const addMenu = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -54,16 +51,16 @@ export const WriteNote = ({ userObj }: any) => {
         food_category!.classList.toggle("active");
     }
 
+    const selectedHover = () => {
+        document.querySelector(".food-category")?.classList.remove("active");
+    }
+
     const clickedMenu = (e: Event) => {
         const selectedValue = document.querySelector(".selected-value");
         const evtTagrget = e.target as HTMLLIElement;
         if (evtTagrget.tagName === "LI") {
             (selectedValue as HTMLElement).innerText = evtTagrget.innerText;
         }
-    }
-
-    const test = (e: ChangeEvent) => {
-        console.log(e);
     }
 
     return (
@@ -73,12 +70,12 @@ export const WriteNote = ({ userObj }: any) => {
                     <label htmlFor="date_visited">방문일자</label>
                     <input type="date" name="date_visited" id="date_visited" />
                 </div>
-                <div className="select-box">
+                <div className="select-box" onMouseLeave={selectedHover}>
                     <label>음식 카테고리</label>
                     <div className="selected">
                         <div className="selected-value">
                         </div>
-                        <div className="arrow" onClick={selectedToggle}>&or;</div>
+                        <div className="arrow" onClick={selectedToggle}><RiArrowDownSLine size={"1.5em"} /></div>
                     </div>
                     <ul className="food-category">
                         <li>한식</li>
@@ -91,9 +88,9 @@ export const WriteNote = ({ userObj }: any) => {
                 </div>
             </div>
             <div className="input-box">
-                <input type="text" name="placeName" id="placeName" value="위치를 선택하면 가게명이 입력됩니다." onChange={test} readOnly />
+                <input type="text" name="placeName" id="placeName" placeholder="위치를 선택하면 가게명이 입력됩니다." data-location="" readOnly />
             </div>
-            <Map setLocation={setLocation} />
+            <Map />
             <div className="input-box">
                 <ul className="menu-list">
                     <li>
