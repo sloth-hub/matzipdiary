@@ -99,8 +99,7 @@ button {
 }
 
 button:hover {
-  opacity: .9
-  ;
+  opacity: .9;
 }
 
 .loader {
@@ -115,6 +114,20 @@ button:hover {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+main .inner {
+  flex-direction: column;
+}
+
+.warn {
+  text-align: center;
+}
+
+.warn p {
+  margin: 5px 0 40px;
+  font-size: 18px;
+  line-height: 1.8rem;
 }
 
 /* nav */
@@ -141,6 +154,7 @@ nav li+li {
 .logo {
   color: var(--main-color);
   font-weight: 900;
+  font-size: 16px;
 }
 
 nav button {
@@ -166,8 +180,8 @@ nav .login:hover {
 
 .write-btn {
   position: absolute;
-  bottom: 81px;
-  right: 10px;
+  bottom: 140px;
+  right: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -177,7 +191,18 @@ nav .login:hover {
   border-radius: 50%;
   color: var(--white);
   font-weight: 700;
+  opacity: 1;
   background-color: var(--main-color);
+  transition: all .08s linear;
+}
+
+.write-btn:hover {
+  opacity: .9;
+}
+
+.write-btn.active {
+  width: 100px;
+  border-radius: 30px;
 }
 
 /* form */
