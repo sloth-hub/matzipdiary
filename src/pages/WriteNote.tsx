@@ -30,10 +30,17 @@ export const WriteNote = ({ userObj }: any) => {
         }
     });
 
+    const {
+        location
+    } = inputs;
+
     const navigate = useNavigate();
 
-    const onSubmit = (e: ChangeEvent<HTMLFormElement>) => {
+    const onSubmit = (e: any) => {
         e.preventDefault();
+        console.log(inputs);
+        // const test = (document.querySelector(".selected-value") as HTMLInputElement).value;
+        // console.log(test);
     }
 
     const addMenu = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -55,10 +62,19 @@ export const WriteNote = ({ userObj }: any) => {
 
     const clickedMenu = (e: Event) => {
         const selectedValue = document.querySelector(".selected-value");
-        const evtTagrget = e.target as HTMLLIElement;
-        if (evtTagrget.tagName === "LI") {
-            (selectedValue as HTMLElement).innerText = evtTagrget.innerText;
+        const { value } = e.target as HTMLInputElement;
+        if ((e.target as HTMLElement).tagName === "BUTTON") {
+            (selectedValue as HTMLInputElement).value = value;
+            (selectedValue as HTMLInputElement).innerText = value;
         }
+    }
+
+    const onChange = (e: any) => {
+        const data_name = e.target.dataset["name"];
+        const { value } = e.target;
+        setInputs({
+            ...inputs, [data_name]: value
+        });
     }
 
     return (
@@ -66,27 +82,27 @@ export const WriteNote = ({ userObj }: any) => {
             <div className="input-wrap">
                 <div className="input-box">
                     <label htmlFor="date_visited">방문일자</label>
-                    <input type="date" name="date_visited" id="date_visited" />
+                    <input type="date" name="date_visited" data-name="date_visited" onChange={onChange} />
                 </div>
                 <div className="select-box" onMouseLeave={selectedHover}>
-                    <label>음식 카테고리</label>
+                    <label htmlFor="foodCategory">음식 카테고리</label>
                     <div className="selected">
-                        <div className="selected-value">
-                        </div>
+                        <button type="button" name="foodCategory" className="selected-value" onClick={selectedToggle}>
+                        </button>
                         <div className="arrow" onClick={selectedToggle}><RiArrowDownSLine size={"1.5em"} /></div>
                     </div>
-                    <ul className="food-category">
-                        <li>한식</li>
-                        <li>양식</li>
-                        <li >중식</li>
-                        <li >일식</li>
-                        <li >아시아/퓨전</li>
-                        <li>카페</li>
+                    <ul className="food-category" >
+                        <button type="button" data-name="foodCategory" value="한식" onClick={onChange}>한식</button>
+                        <button type="button" data-name="foodCategory" value="양식" onClick={onChange}>양식</button>
+                        <button type="button" data-name="foodCategory" value="중식" onClick={onChange}>중식</button>
+                        <button type="button" data-name="foodCategory" value="일식" onClick={onChange}>일식</button>
+                        <button type="button" data-name="foodCategory" value="아시아/퓨전" onClick={onChange}>아시아/퓨전</button>
+                        <button type="button" data-name="foodCategory" value="카페" onClick={onChange}>카페</button>
                     </ul>
                 </div>
             </div>
             <div className="input-box">
-                <input type="text" name="placeName" id="placeName" placeholder="위치를 선택하면 가게명이 입력됩니다." data-location="" readOnly />
+                <input type="text" data-name="placeName" id="placeName" placeholder="위치를 선택하면 가게명이 입력됩니다." data-location={location} readOnly />
             </div>
             <Map />
             <div className="input-box">
@@ -99,7 +115,7 @@ export const WriteNote = ({ userObj }: any) => {
                 </ul>
                 <button onClick={addMenu} className="add-btn">+</button>
             </div>
-            <textarea name="text" id="text" placeholder="솔직한 후기를 남겨보세요!" />
+            <textarea name="text" id="text" data-name="text" placeholder="솔직한 후기를 남겨보세요!" onChange={onChange} />
             <div className="btn-wrap">
                 <button type="button" onClick={() => navigate("/")} className="back">뒤로</button>
                 <button type="submit">완료</button>

@@ -226,7 +226,7 @@ label {
   margin-bottom: 10px;
 }
 
-input, .selected, .food-category, textarea {
+input, .selected-value, .food-category, textarea {
   border: 1px solid var(--L-gray);
   height: 48px;
   padding: 0 10px;
@@ -352,8 +352,7 @@ textarea {
 
 .select-box .selected, .food-category {
   height: 100%;
-  padding-top: 10px;
-  padding-bottom: 10px;
+
 }
 
 .select-box .selected {
@@ -362,9 +361,16 @@ textarea {
   align-items: center;
 }
 
+.select-box .selected-value {
+  width: 100%;
+  text-align-last: left;
+}
+
 .select-box .selected .arrow {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
   color: var(--M-gray);
-  align-self: flex-end;
 }
 
 .select-box .selected .arrow:hover {
@@ -376,6 +382,7 @@ textarea {
   left: 0;
   top: 73px;
   width: 100%;
+  padding: 15px 10px;
   display: none;
   height: fit-content;
   z-index: 2;
@@ -386,11 +393,15 @@ textarea {
   display: block;
 }
 
-.food-category li:hover {
+.food-category button {
+  display: block;
+}
+
+.food-category button:hover {
   color: var(--main-color);
 }
 
-.food-category li+li {
+.food-category button+button {
   padding-top: 10px;
 }
 
@@ -410,18 +421,7 @@ textarea {
   margin-right: 5px;
 }
 
-.add-btn {
-  width: 30px;
-  height: 30px;
-  font-size: 18px;
-  line-height: 30px;
-  padding: 0;
-  border-radius: 25%;
-  align-self: flex-end;
-  cursor: pointer;
-}
-
-form button {
+form button:not(.selected-value, .add-btn, .food-category button) {
   height: 48px;
   padding: 15px;
   border-radius: 5px;
@@ -429,6 +429,21 @@ form button {
   background-color: var(--main-color);
   transition: all .05s linear;
   margin-top: 10px;
+}
+
+form .add-btn {
+  width: 30px;
+  height: 30px;
+  font-size: 18px;
+  line-height: 30px;
+  padding: 0;
+  margin-top: 10px;
+  border-radius: 25%;
+  align-self: flex-end;
+  cursor: pointer;
+  color: var(--white);
+  background-color: var(--main-color);
+  transition: all .05s linear;
 }
 
 .btn-wrap button {
