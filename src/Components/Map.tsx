@@ -1,7 +1,12 @@
 import React, { useEffect } from "react";
 import "./kakaomap.css";
 
-export const Map= () => {
+type Props = {
+    inputs: {},
+    setInputs: (value: any) => void;
+}
+
+export const Map: React.FC<Props> = ({ inputs, setInputs }) => {
 
     useEffect(() => {
         init();
@@ -29,6 +34,7 @@ export const Map= () => {
 
     const searchPlaces = (e: React.MouseEvent) => {
         e.preventDefault();
+        init();
         const keyword = (document.getElementById("keyword") as HTMLInputElement).value;
 
         if (!keyword.replace(/^\s+|\s+$/g, '')) {
@@ -96,7 +102,6 @@ export const Map= () => {
             // mouseout 했을 때는 인포윈도우를 닫습니다
             (function (marker, title) {
                 const placeNameInput = (document.getElementById("placeName") as HTMLInputElement);
-                
                 kakao.maps.event.addListener(marker, 'mouseover', function () {
                     displayInfowindow(marker, title);
                 });
@@ -107,7 +112,13 @@ export const Map= () => {
 
                 kakao.maps.event.addListener(marker, 'click', function () {
                     placeNameInput.value = title;
-                    placeNameInput.dataset["location"] = marker.getPosition();
+                    placeNameInput.innerText = title;
+                    const data_name = placeNameInput.dataset["name"];
+                    setInputs((prevState: any) => {
+                        return {
+                            ...prevState, [data_name!]: title, location: marker.getPosition()
+                        }
+                    });
                 });
 
                 itemEl.onmouseover = function () {
@@ -120,7 +131,13 @@ export const Map= () => {
 
                 itemEl.onclick = function () {
                     placeNameInput.value = title;
-                    placeNameInput.dataset["location"] = marker.getPosition();
+                    placeNameInput.innerText = title;
+                    const data_name = placeNameInput.dataset["name"];
+                    setInputs((prevState: any) => {
+                        return {
+                            ...prevState, [data_name!]: title, location: marker.getPosition()
+                        }
+                    });
                 }
 
             })(marker, places[i].place_name);

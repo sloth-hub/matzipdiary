@@ -226,7 +226,7 @@ label {
   margin-bottom: 10px;
 }
 
-input, .selected-value, .food-category, textarea {
+input, .selected-value, .food-category, textarea, #placeName {
   border: 1px solid var(--L-gray);
   height: 48px;
   padding: 0 10px;
@@ -405,6 +405,11 @@ textarea {
   padding-top: 10px;
 }
 
+#placeName {
+  cursor: default;
+  text-align-last: left;
+}
+
 .menu-list li+li {
   margin-top: 10px;
 }
@@ -421,7 +426,7 @@ textarea {
   margin-right: 5px;
 }
 
-form button:not(.selected-value, .add-btn, .food-category button) {
+form button:not(.selected-value, .add-btn, .food-category button, #placeName) {
   height: 48px;
   padding: 15px;
   border-radius: 5px;

@@ -30,10 +30,6 @@ export const WriteNote = ({ userObj }: any) => {
         }
     });
 
-    const {
-        location
-    } = inputs;
-
     const navigate = useNavigate();
 
     const onSubmit = (e: any) => {
@@ -70,8 +66,15 @@ export const WriteNote = ({ userObj }: any) => {
     }
 
     const onChange = (e: any) => {
-        const data_name = e.target.dataset["name"];
-        const { value } = e.target;
+        let data_name;
+        let value;
+        if (e.type === "text") {
+            data_name = e.dataset["name"];
+            value = e.value;
+        } else {
+            data_name = e.target.dataset["name"];
+            value = e.target.value;
+        }
         setInputs({
             ...inputs, [data_name]: value
         });
@@ -102,9 +105,11 @@ export const WriteNote = ({ userObj }: any) => {
                 </div>
             </div>
             <div className="input-box">
-                <input type="text" data-name="placeName" id="placeName" placeholder="위치를 선택하면 가게명이 입력됩니다." data-location={location} readOnly />
+                <button type="button" id="placeName" data-name="placeName" >
+                    위치를 선택하면 가게명이 입력됩니다.
+                </button>
             </div>
-            <Map />
+            <Map inputs={inputs} setInputs={setInputs} />
             <div className="input-box">
                 <ul className="menu-list">
                     <li>
