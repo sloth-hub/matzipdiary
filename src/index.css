@@ -415,15 +415,18 @@ textarea {
 }
 
 .menu-list li input:first-of-type {
-  width: 269px;
+  width: 260px;
   margin-right: 10px;
 }
 
 .menu-list li input:last-of-type {
-  width: 200px;
+  width: 148px;
   text-align: right;
   letter-spacing: 5px;
   margin-right: 5px;
+}
+.menu-list li span {
+  margin-right: 10px;
 }
 
 form button:not(.selected-value, .add-btn, .food-category button, #placeName) {

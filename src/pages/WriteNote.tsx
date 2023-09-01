@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
-import { NoteInterface } from "../interfaces/note.interface";
+import { NoteInterface, Menu } from "../interfaces/note.interface";
 import Map from "../Components/Map";
 import { useNavigate } from "react-router";
 import { RiArrowDownSLine } from "react-icons/ri";
@@ -13,6 +13,14 @@ export const WriteNote = ({ userObj }: any) => {
         });
     }, []);
 
+    const [thisMenu, setThisMenu] = useState<Menu>({
+        menuName: "",
+        menuPrice: 0
+    });
+    const [menus, setMenus] = useState<any>([]);
+
+    const [isDisabled, setDisabled] = useState<Boolean>(false);
+
     const [inputs, setInputs] = useState<NoteInterface>({
         uid: userObj.uid,
         date_created: "",
@@ -21,30 +29,48 @@ export const WriteNote = ({ userObj }: any) => {
         location: "",
         text: "",
         placeName: "",
-        images: {
-            fileUrl: ""
-        },
-        menu: {
-            menuName: "",
-            menuPrice: 0,
-        }
+        images: [],
+        menu: []
     });
+
+    const { menu } = inputs;
+
+    const MenuTemplate = () => {
+        return <li>
+            <input type="text" name="menuName" id="menuName" placeholder="메뉴명" onChange={onMenuChange} disabled={isDisabled ? true : false} />
+            <input type="number" name="menuPrice" id="menuPrice" onChange={onMenuChange} disabled={isDisabled ? true : false} />
+            <span>원</span>
+            {isDisabled ?
+                <button onClick={editMenu} className="confirm-btn">수정</button>
+                : <button onClick={confirmMenu} className="confirm-btn">확인</button>
+            }
+        </li>;
+    }
 
     const navigate = useNavigate();
 
     const onSubmit = (e: any) => {
         e.preventDefault();
-        console.log(inputs);
-        // const test = (document.querySelector(".selected-value") as HTMLInputElement).value;
-        // console.log(test);
+        // console.log(inputs);
+        console.log(menus);
+    }
+
+    const confirmMenu = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        e.preventDefault();
+        setInputs({
+            ...inputs, menu: [thisMenu]
+        });
+        setDisabled(true);
+    }
+
+    const editMenu = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        e.preventDefault();
+        setDisabled(false);
     }
 
     const addMenu = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
-        const menuUl = document.querySelector(".menu-list");
-        const li = document.createElement("li");
-        li.innerHTML = `<li><input type="text" name="menuName" id="menuName" placeholder="메뉴명" /><input type="number" name="menuPrice" id="menuPrice" /><span>원</span></li>`;
-        menuUl!.appendChild(li);
+        setMenus((v: any) => [...v, thisMenu]);
     }
 
     const selectedToggle = () => {
@@ -80,6 +106,13 @@ export const WriteNote = ({ userObj }: any) => {
         });
     }
 
+    const onMenuChange = (e: any) => {
+        const { name, value } = e.target;
+        setThisMenu({
+            ...thisMenu, [name]: value
+        });
+    }
+
     return (
         <form className="note-form" onSubmit={onSubmit}>
             <div className="input-wrap">
@@ -112,11 +145,8 @@ export const WriteNote = ({ userObj }: any) => {
             <Map inputs={inputs} setInputs={setInputs} />
             <div className="input-box">
                 <ul className="menu-list">
-                    <li>
-                        <input type="text" name="menuName" id="menuName" placeholder="메뉴명" />
-                        <input type="number" name="menuPrice" id="menuPrice" />
-                        <span>원</span>
-                    </li>
+                    {MenuTemplate()}
+                    {menus.map((v: any, i: any) => <MenuTemplate key={i} />)}
                 </ul>
                 <button onClick={addMenu} className="add-btn">+</button>
             </div>

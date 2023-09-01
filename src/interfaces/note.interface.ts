@@ -6,15 +6,15 @@ export interface NoteInterface{
     placeName:string,
     location: string,
     text: string,
-    images: Images,
-    menu: Menu
+    images: Array<Images>,
+    menu: Array<Menu>
 }
 
 interface Images {
     fileUrl: string
 }
 
-interface Menu {
+export interface Menu {
     menuName: string,
     menuPrice: number
 }
