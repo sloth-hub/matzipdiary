@@ -8,7 +8,6 @@ export const Note = ({ note }: any) => {
         placeName,
         location,
         images,
-        menu,
         text } = note;
 
     return (
@@ -34,13 +33,8 @@ export const Note = ({ note }: any) => {
                 <p>{text}</p>
             </div>
             <div>
-                {menu ? menu.map((v: any, i: number) =>
-                (<div key={i}>
-                    <span className="">{v.menuName}</span>
-                    <span className="">{v.menuPrice}</span>
-                </div>
-                )
-                ) : <></>}
+                {images ? images[0]
+                    : <></>}
             </div>
         </div>
     )

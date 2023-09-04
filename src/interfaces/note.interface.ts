@@ -4,17 +4,11 @@ export interface NoteInterface{
     date_visited: string,
     foodCategory: string,
     placeName:string,
-    location: string,
+    location: object,
     text: string,
     images: Array<Images>,
-    menu: Array<Menu>
 }
 
 interface Images {
     fileUrl: string
-}
-
-export interface Menu {
-    menuName: string,
-    menuPrice: number
 }

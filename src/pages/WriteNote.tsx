@@ -1,5 +1,5 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
-import { NoteInterface, Menu } from "../interfaces/note.interface";
+import React, { ChangeEvent, Children, useEffect, useState } from "react";
+import { NoteInterface } from "../interfaces/note.interface";
 import Map from "../Components/Map";
 import { useNavigate } from "react-router";
 import { RiArrowDownSLine } from "react-icons/ri";
@@ -13,64 +13,24 @@ export const WriteNote = ({ userObj }: any) => {
         });
     }, []);
 
-    const [thisMenu, setThisMenu] = useState<Menu>({
-        menuName: "",
-        menuPrice: 0
-    });
-    const [menus, setMenus] = useState<any>([]);
-
-    const [isDisabled, setDisabled] = useState<Boolean>(false);
-
     const [inputs, setInputs] = useState<NoteInterface>({
         uid: userObj.uid,
         date_created: "",
         date_visited: "",
         foodCategory: "",
-        location: "",
+        location: {},
         text: "",
         placeName: "",
-        images: [],
-        menu: []
+        images: []
     });
 
-    const { menu } = inputs;
-
-    const MenuTemplate = () => {
-        return <li>
-            <input type="text" name="menuName" id="menuName" placeholder="메뉴명" onChange={onMenuChange} disabled={isDisabled ? true : false} />
-            <input type="number" name="menuPrice" id="menuPrice" onChange={onMenuChange} disabled={isDisabled ? true : false} />
-            <span>원</span>
-            {isDisabled ?
-                <button onClick={editMenu} className="confirm-btn">수정</button>
-                : <button onClick={confirmMenu} className="confirm-btn">확인</button>
-            }
-        </li>;
-    }
+    const [file, setFile] = useState<File>();
 
     const navigate = useNavigate();
 
     const onSubmit = (e: any) => {
         e.preventDefault();
-        // console.log(inputs);
-        console.log(menus);
-    }
-
-    const confirmMenu = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        e.preventDefault();
-        setInputs({
-            ...inputs, menu: [thisMenu]
-        });
-        setDisabled(true);
-    }
-
-    const editMenu = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        e.preventDefault();
-        setDisabled(false);
-    }
-
-    const addMenu = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        e.preventDefault();
-        setMenus((v: any) => [...v, thisMenu]);
+        console.log(file);
     }
 
     const selectedToggle = () => {
@@ -91,6 +51,22 @@ export const WriteNote = ({ userObj }: any) => {
         }
     }
 
+    const saveFileImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { target: { files } } = e;
+        const theFile = (files as FileList)[0];
+        const reader = new FileReader();
+        reader.onloadend = (finishedEvent:any) => {
+            const {
+                currentTarget: { result }
+            } = finishedEvent;
+            setFile(result);
+        }
+        reader.readAsDataURL(theFile);
+        // const formData = new FormData();
+        // formData.append("file", files);
+        // const axiosResponse = await axios
+    }
+
     const onChange = (e: any) => {
         let data_name;
         let value;
@@ -103,13 +79,6 @@ export const WriteNote = ({ userObj }: any) => {
         }
         setInputs({
             ...inputs, [data_name]: value
-        });
-    }
-
-    const onMenuChange = (e: any) => {
-        const { name, value } = e.target;
-        setThisMenu({
-            ...thisMenu, [name]: value
         });
     }
 
@@ -144,11 +113,7 @@ export const WriteNote = ({ userObj }: any) => {
             </div>
             <Map inputs={inputs} setInputs={setInputs} />
             <div className="input-box">
-                <ul className="menu-list">
-                    {MenuTemplate()}
-                    {menus.map((v: any, i: any) => <MenuTemplate key={i} />)}
-                </ul>
-                <button onClick={addMenu} className="add-btn">+</button>
+                <input type="file" accept="image/jpg, image/jpeg, image/png" data-name="images" id="images" onChange={saveFileImage} multiple />
             </div>
             <textarea name="text" id="text" data-name="text" placeholder="솔직한 후기를 남겨보세요!" onChange={onChange} />
             <div className="btn-wrap">
