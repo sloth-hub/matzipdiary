@@ -96,6 +96,8 @@ button {
   padding: 0;
   cursor: pointer;
   opacity: 1;
+  border-radius: 5px;
+  transition: all .05s linear;
 }
 
 button:hover {
@@ -226,7 +228,7 @@ label {
   margin-bottom: 10px;
 }
 
-input, .selected-value, .food-category, textarea, #placeName {
+input:not(#images), .selected-value, .food-category, textarea, #placeName, .file-box {
   border: 1px solid var(--L-gray);
   height: 48px;
   padding: 0 10px;
@@ -333,7 +335,7 @@ textarea {
 /* note form */
 
 .note-form {
-  width: 500px;
+  width: 600px;
 }
 
 .input-wrap {
@@ -341,7 +343,7 @@ textarea {
 }
 
 .input-wrap .input-box, .select-box {
-  width: 245px;
+  width: 50%
 }
 
 .select-box {
@@ -410,52 +412,95 @@ textarea {
   text-align-last: left;
 }
 
-.menu-list li+li {
-  margin-top: 10px;
-}
-
-.menu-list li input:first-of-type {
-  width: 260px;
-  margin-right: 10px;
-}
-
-.menu-list li input:last-of-type {
-  width: 148px;
-  text-align: right;
-  letter-spacing: 5px;
-  margin-right: 5px;
-}
-.menu-list li span {
-  margin-right: 10px;
-}
-
-form button:not(.selected-value, .add-btn, .food-category button, #placeName) {
+form button:not(.selected-value, .food-category button, #placeName) {
   height: 48px;
-  padding: 15px;
-  border-radius: 5px;
   color: var(--white);
   background-color: var(--main-color);
-  transition: all .05s linear;
+  padding: 15px;
   margin-top: 10px;
 }
 
-form .add-btn {
-  width: 30px;
-  height: 30px;
-  font-size: 18px;
-  line-height: 30px;
-  padding: 0;
-  margin-top: 10px;
-  border-radius: 25%;
-  align-self: flex-end;
-  cursor: pointer;
-  color: var(--white);
+input[type="file"] {
+  display: none;
+}
+
+.file-box {
+  margin-bottom: 20px;
+  padding: 40px 10px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.file-box label {
+  padding: 10px 15px;
   background-color: var(--main-color);
-  transition: all .05s linear;
+  color: var(--white);
+  border-radius: 5px;
+  margin-top: 10px;
+  margin-bottom: 0;
+  cursor: pointer;
+}
+
+.drag-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.drag-box svg, .drag-box span {
+  color: var(--D-gray);
+  margin-bottom: 5px;
+}
+
+.drag-box svg {
+  margin-bottom: 15px;
+}
+
+.drag-box .drag-text {
+  font-size: 18px;
+}
+
+.preview-box ul {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.preview-box ul li {
+  position: relative;
+  overflow: hidden;
+  width: 100px;
+  display: flex;
+  height: 100px;
+  border: 1px solid var(--L-gray);
+  align-items: center;
+}
+
+.preview-box ul li+li {
+  margin-left: 10px;
+}
+
+.preview-box ul li:first-of-type {
+  margin-bottom: 10px;
+}
+
+.preview-box .delete {
+  position: absolute;
+  right: 0;
+  top: 0;
+  opacity: .9;
+  cursor: pointer;
+  color: var(--black);
+}
+
+.btn-wrap {
+  display: flex;
 }
 
 .btn-wrap button {
-  width: 245px;
+  width: 50%;
 }
 
 .btn-wrap button+button {
@@ -489,20 +534,27 @@ footer span {
   font-weight: 500;
 }
 
-@media screen and (max-width:1024px) {
+@media screen and (max-width:1199.98px) {
   .inner {
     width: 90%;
   }
 }
 
-@media screen and (max-width:575.98px) {
-
+@media screen and (max-width:767.98px) {
   .note-form {
-    width: 320px;
+    width: 100%
   }
 
+  .preview-box ul {}
+
+  .preview-box ul li+li {
+
+  }
+}
+
+@media screen and (max-width:575.98px) {
+
   #map {
-    width: 320px !important;
     height: 250px !important;
   }
 }

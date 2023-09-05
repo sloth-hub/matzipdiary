@@ -258,7 +258,7 @@ export const Map: React.FC<Props> = ({ inputs, setInputs }) => {
     return (
         <div className="map_wrap">
             <div id="map" style={{
-                width: "500px",
+                width: "100%",
                 height: "400px"
             }}></div>
 
