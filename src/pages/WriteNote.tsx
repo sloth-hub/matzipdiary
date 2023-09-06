@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NoteInterface } from "../interfaces/note.interface";
 import Map from "../Components/Map";
 import { useNavigate } from "react-router";
@@ -27,7 +27,6 @@ export const WriteNote = ({ userObj }: any) => {
     });
 
     const [file, setFile] = useState<File[]>([]);
-    const dragRef = useRef();
     const navigate = useNavigate();
 
     const onSubmit = (e: any) => {
@@ -53,46 +52,60 @@ export const WriteNote = ({ userObj }: any) => {
         }
     }
 
-    const saveFileImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const saveFileImage = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { target: { files } } = e;
         let fileLists: any = [...file];
+        const maxSize = 5 * 1024 * 1024;
 
-        for (let i = 0; i < files!.length; i++) {
-            const currentUrl = URL.createObjectURL(files![i]);
-            fileLists.push(currentUrl);
-        }
-
+        // 파일 개수 체크
         if (fileLists.length > 10) {
             alert("파일은 10개까지만 첨부 가능합니다.");
             fileLists = fileLists.slice(0, 10);
         }
 
+        for (let i = 0; i < files!.length; i++) {
+            // 파일 용량 체크
+            if (files![i].size > maxSize) {
+                alert("파일첨부 사이즈는 5MB 이내로 가능합니다.");
+                e.target.value = "";
+            } else {
+                const currentUrl = URL.createObjectURL(files![i]);
+                fileLists.push(currentUrl);
+            }
+        }
         setFile(fileLists);
+    }
+
+    const dragEvent = (e: React.DragEvent<HTMLDivElement>, type: string) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (type === "drop") {
+
+            let thisFile = e.dataTransfer.files[0];
+            const maxSize = 5 * 1024 * 1024;
+            let fileLists: any = [...file];
+
+            // 파일 개수 체크
+            if (fileLists.length > 10) {
+                alert("파일은 10개까지만 첨부 가능합니다.");
+                fileLists = fileLists.slice(0, 10);
+            }
+            // 파일 용량 체크
+            if (thisFile.size > maxSize) {
+                alert("파일첨부 사이즈는 5MB 이내로 가능합니다.");
+                (e.target as HTMLInputElement).value = "";
+            } else {
+                const currentUrl = URL.createObjectURL(thisFile);
+                fileLists.push(currentUrl);
+                setFile(fileLists);
+            }
+
+        }
     }
 
     const deleteImage = (id: any) => {
         setFile(file.filter((_, index) => index !== id));
     };
-
-    const dragEvent = (e: React.DragEvent<HTMLDivElement>, type: string) => {
-        e.preventDefault();
-        e.stopPropagation();
-        const thisFile = e.dataTransfer.files[0];
-        let fileLists: any = [...file];
-
-        console.log(thisFile);
-        if (type === "drop") {
-            const currentUrl = URL.createObjectURL(thisFile);
-            fileLists.push(currentUrl);
-
-            if (fileLists.length > 10) {
-                alert("파일은 10개까지만 첨부 가능합니다.");
-                fileLists = fileLists.slice(0, 10);
-            }
-
-            setFile(fileLists);
-        }
-    }
 
     const onChange = (e: any) => {
         let data_name;
