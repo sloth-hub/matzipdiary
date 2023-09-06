@@ -9,6 +9,6 @@ export interface NoteInterface{
     images: Array<Images>,
 }
 
-interface Images {
+export interface Images {
     fileUrl: string
 }

@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { NoteInterface } from "../interfaces/note.interface";
+import { NoteInterface, Images } from "../interfaces/note.interface";
 import Map from "../Components/Map";
 import { useNavigate } from "react-router";
 import { RiArrowDownSLine } from "react-icons/ri";
 import { FaDownload } from "react-icons/fa";
 import { IoIosClose } from "react-icons/io";
+import { ref, getDownloadURL, uploadString } from "firebase/storage";
+import { collection, addDoc } from "firebase/firestore";
+import { storage, db } from "../Firebase";
+import { v4 as uuid4 } from "uuid";
+import moment from "moment";
 
 export const WriteNote = ({ userObj }: any) => {
 
@@ -26,12 +31,34 @@ export const WriteNote = ({ userObj }: any) => {
         images: []
     });
 
-    const [file, setFile] = useState<File[]>([]);
+    const { uid } = inputs;
+
+    const [file, setFile] = useState<Images[]>([]);
+    const [image, setImage] = useState<Images[]>([]);
     const navigate = useNavigate();
 
-    const onSubmit = (e: any) => {
+    const onSubmit = async(e: any) => {
         e.preventDefault();
-        console.log(file, file.length);
+        console.log(inputs);
+        if (file.length > 0) {
+            file.forEach(async (v, i) => {
+                const fileRef = ref(storage, `${uid}/${uuid4()}`);
+                await uploadString(fileRef, v.fileUrl).then((snapshot) => {
+                    getDownloadURL(snapshot.ref).then((url) => {
+                        setImage([...image, { fileUrl: url }]);
+                    });
+                });
+            });
+            setInputs({
+                ...inputs, images: image
+            });
+            await addDoc(collection(db, "notes"), {
+                ...inputs, 
+                date_created: moment().utc().format("YYYY-MM-DD HH:mm:ss")
+            });
+            // Function addDoc() called with invalid data. Unsupported field value: a custom qa object..
+            // loaction의 object 이름이 qa라서 그런듯 함
+        }
     }
 
     const selectedToggle = () => {
@@ -70,10 +97,17 @@ export const WriteNote = ({ userObj }: any) => {
                 e.target.value = "";
             } else {
                 const currentUrl = URL.createObjectURL(files![i]);
-                fileLists.push(currentUrl);
+                fileLists.push({ fileUrl: currentUrl });
             }
         }
         setFile(fileLists);
+        // setFileInInput();
+    }
+
+    const setFileInInput = () => {
+        setInputs({
+            ...inputs, images: file
+        });
     }
 
     const dragEvent = (e: React.DragEvent<HTMLDivElement>, type: string) => {
@@ -167,7 +201,7 @@ export const WriteNote = ({ userObj }: any) => {
                         {file && file.slice(0, 5).map((image, id) => (
                             <li key={id}>
                                 {/* @ts-ignore */}
-                                <img src={image} alt={`thumbnail-${id}`} />
+                                <img src={image.fileUrl} alt={`thumbnail-${id}`} />
                                 <span className="delete" onClick={() => deleteImage(id)}><IoIosClose size={"1.5em"} /></span>
                             </li>
                         ))}
@@ -176,7 +210,7 @@ export const WriteNote = ({ userObj }: any) => {
                         {file && file.slice(5, 10).map((image, id) => (
                             <li key={id}>
                                 {/* @ts-ignore */}
-                                <img src={image} alt={`thumbnail-${id}`} />
+                                <img src={image.fileUrl} alt={`thumbnail-${id}`} />
                                 <span className="delete" onClick={() => deleteImage(id)}><IoIosClose size={"1.5em"} /></span>
                             </li>
                         ))}
