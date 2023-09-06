@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { NoteInterface } from "../interfaces/note.interface";
 import Map from "../Components/Map";
 import { useNavigate } from "react-router";
 import { RiArrowDownSLine } from "react-icons/ri";
 import { FaDownload } from "react-icons/fa";
-import { IoCloseCircleSharp } from "react-icons/io5";
+import { IoIosClose } from "react-icons/io";
 
 export const WriteNote = ({ userObj }: any) => {
 
@@ -27,7 +27,7 @@ export const WriteNote = ({ userObj }: any) => {
     });
 
     const [file, setFile] = useState<File[]>([]);
-
+    const dragRef = useRef();
     const navigate = useNavigate();
 
     const onSubmit = (e: any) => {
@@ -68,23 +68,31 @@ export const WriteNote = ({ userObj }: any) => {
         }
 
         setFile(fileLists);
-
-        // const reader = new FileReader();
-        // reader.onloadend = (finishedEvent: any) => {
-        //     const {
-        //         currentTarget: { result }
-        //     } = finishedEvent;
-        //     setfile(result);
-        // }
-        // reader.readAsDataURL(theFile);
-        // const formData = new FormData();
-        // formData.append("file", file);
-        // const axiosResponse = await axios
     }
 
     const deleteImage = (id: any) => {
         setFile(file.filter((_, index) => index !== id));
     };
+
+    const dragEvent = (e: React.DragEvent<HTMLDivElement>, type: string) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const thisFile = e.dataTransfer.files[0];
+        let fileLists: any = [...file];
+
+        console.log(thisFile);
+        if (type === "drop") {
+            const currentUrl = URL.createObjectURL(thisFile);
+            fileLists.push(currentUrl);
+
+            if (fileLists.length > 10) {
+                alert("파일은 10개까지만 첨부 가능합니다.");
+                fileLists = fileLists.slice(0, 10);
+            }
+
+            setFile(fileLists);
+        }
+    }
 
     const onChange = (e: any) => {
         let data_name;
@@ -132,13 +140,22 @@ export const WriteNote = ({ userObj }: any) => {
             </div>
             <Map inputs={inputs} setInputs={setInputs} />
             <div className="file-box">
+                <div className="drag-box"
+                    onDrop={e => dragEvent(e, "drop")}
+                    onDragOver={e => dragEvent(e, "over")}>
+                    <FaDownload size={"3em"} />
+                    <span className="drag-text">이미지를 여기에 드래그 해보세요!</span>
+                    <span>5MB 이하, 10개 미만 첨부 가능</span>
+                    <label htmlFor="input-file">이미지 선택</label>
+                    <input type="file" id="input-file" accept="image/jpg, image/jpeg, image/png" onChange={saveFileImage} multiple />
+                </div>
                 <div className="preview-box">
                     <ul>
                         {file && file.slice(0, 5).map((image, id) => (
                             <li key={id}>
                                 {/* @ts-ignore */}
                                 <img src={image} alt={`thumbnail-${id}`} />
-                                <span className="delete" onClick={() => deleteImage(id)}><IoCloseCircleSharp size={"1.5em"} /></span>
+                                <span className="delete" onClick={() => deleteImage(id)}><IoIosClose size={"1.5em"} /></span>
                             </li>
                         ))}
                     </ul>
@@ -147,20 +164,10 @@ export const WriteNote = ({ userObj }: any) => {
                             <li key={id}>
                                 {/* @ts-ignore */}
                                 <img src={image} alt={`thumbnail-${id}`} />
-                                <span className="delete" onClick={() => deleteImage(id)}><IoCloseCircleSharp size={"1.5em"} /></span>
+                                <span className="delete" onClick={() => deleteImage(id)}><IoIosClose size={"1.5em"} /></span>
                             </li>
                         ))}
                     </ul>
-                </div>
-                <div className="drag-box">
-                    {file.length <= 0 && <>
-                        <FaDownload size={"3em"} />
-                        <span className="drag-text">이미지를 여기에 드래그 해보세요!</span>
-                    </>
-                    }
-                    <span>5MB 이하, 10개 미만 첨부 가능</span>
-                    <label htmlFor="input-file">이미지 선택</label>
-                    <input type="file" id="input-file" accept="image/jpg, image/jpeg, image/png" onChange={saveFileImage} multiple />
                 </div>
             </div>
             <textarea name="text" id="text" data-name="text" placeholder="솔직한 후기를 남겨보세요!" onChange={onChange} />
