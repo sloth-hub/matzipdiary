@@ -17,6 +17,11 @@
     width: 100%;
     margin-bottom: 20px;
   }
+
+  #map {
+    border: 1px solid var(--L-gray);
+    border-radius: 5px;
+  }
   
   #menu_wrap {
     position: relative;

@@ -6,7 +6,7 @@ type Props = {
     setInputs: (value: any) => void;
 }
 
-export const Map: React.FC<Props> = ({ inputs, setInputs }) => {
+export const Map = ({ inputs, setInputs }: Props) => {
 
     useEffect(() => {
         init();
