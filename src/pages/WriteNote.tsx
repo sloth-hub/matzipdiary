@@ -13,19 +13,12 @@ import moment from "moment";
 
 export const WriteNote = ({ userObj }: any) => {
 
-    useEffect(() => {
-        const categories = document.querySelector(".food-category");
-        categories!.addEventListener("click", (e: Event) => {
-            clickedMenu(e);
-        });
-    }, []);
-
     const [inputs, setInputs] = useState<NoteInterface>({
         uid: userObj.uid,
         date_created: "",
         date_visited: "",
         foodCategory: "",
-        location: {},
+        location: { lat: 0, lng: 0 },
         text: "",
         placeName: "",
         images: []
@@ -37,28 +30,57 @@ export const WriteNote = ({ userObj }: any) => {
     const [image, setImage] = useState<Images[]>([]);
     const navigate = useNavigate();
 
-    const onSubmit = async(e: any) => {
+    useEffect(() => {
+        const categories = document.querySelector(".food-category");
+        categories!.addEventListener("click", (e: Event) => {
+            clickedMenu(e);
+        });
+    }, []);
+
+    const onSubmit = async (e: any) => {
         e.preventDefault();
-        console.log(inputs);
         if (file.length > 0) {
+            const result = await Promise.all(
+                file.map(async(v, _) => {
+                    const fileRef = ref(storage, `${uid}/${uuid4()}`);
+                    uploadString(fileRef, v.fileUrl);
+                    console.log(fileRef);
+                    const resultUrl = await getDownloadURL(fileRef);
+                    // 여기서 fileRef 계속 오류 남
+                    return { fileUrl: resultUrl };
+                })
+            );
+            console.log(result);
+            // await addDoc(collection(db, "notes"), {
+            //     ...inputs,
+            //     images: fileUrls,
+            //     date_created: moment().utc().format("YYYY-MM-DD HH:mm:ss")
+            // });
+        }
+
+        // console.log(fileUrls);
+        // if (fileUrls.length > 0) {
+        //     await addDoc(collection(db, "notes"), {
+        //         ...inputs,
+        //         images: fileUrls,
+        //         date_created: moment().utc().format("YYYY-MM-DD HH:mm:ss")
+        //     });
+        // }
+    }
+
+    const getUrl = () => {
+        const fileUrls: Images[] = [];
+        return new Promise((resolve) => {
             file.forEach(async (v, i) => {
                 const fileRef = ref(storage, `${uid}/${uuid4()}`);
-                await uploadString(fileRef, v.fileUrl).then((snapshot) => {
-                    getDownloadURL(snapshot.ref).then((url) => {
-                        setImage([...image, { fileUrl: url }]);
-                    });
+                const response = await uploadString(fileRef, v.fileUrl);
+                await getDownloadURL(response.ref).then((url) => {
+                    fileUrls.push({ fileUrl: url });
+                    // setImage(() => [...image, { fileUrl: fileUrl }]);
                 });
             });
-            setInputs({
-                ...inputs, images: image
-            });
-            await addDoc(collection(db, "notes"), {
-                ...inputs, 
-                date_created: moment().utc().format("YYYY-MM-DD HH:mm:ss")
-            });
-            // Function addDoc() called with invalid data. Unsupported field value: a custom qa object..
-            // loaction의 object 이름이 qa라서 그런듯 함
-        }
+            resolve(fileUrls);
+        });
     }
 
     const selectedToggle = () => {
@@ -101,13 +123,6 @@ export const WriteNote = ({ userObj }: any) => {
             }
         }
         setFile(fileLists);
-        // setFileInInput();
-    }
-
-    const setFileInInput = () => {
-        setInputs({
-            ...inputs, images: file
-        });
     }
 
     const dragEvent = (e: React.DragEvent<HTMLDivElement>, type: string) => {

@@ -33,7 +33,7 @@ export const Note = ({ note }: any) => {
                 <p>{text}</p>
             </div>
             <div>
-                {images ? images[0]
+                {images ? images.map((image:any, i:number) => <img src={image.fileUrl} key={i} />)
                     : <></>}
             </div>
         </div>
