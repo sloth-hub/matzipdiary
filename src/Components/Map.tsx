@@ -116,7 +116,10 @@ export const Map = ({ inputs, setInputs }: Props) => {
                     const data_name = placeNameInput.dataset["name"];
                     setInputs((prevState: any) => {
                         return {
-                            ...prevState, [data_name!]: title, location: marker.getPosition()
+                            ...prevState, [data_name!]: title, location: {
+                                lat: marker.getPosition().getLat(),
+                                lng: marker.getPosition().getLng()
+                            }
                         }
                     });
                 });
@@ -135,7 +138,10 @@ export const Map = ({ inputs, setInputs }: Props) => {
                     const data_name = placeNameInput.dataset["name"];
                     setInputs((prevState: any) => {
                         return {
-                            ...prevState, [data_name!]: title, location: marker.getPosition()
+                            ...prevState, [data_name!]: title, location: {
+                                lat: marker.getPosition().getLat(),
+                                lng: marker.getPosition().getLng()
+                            }
                         }
                     });
                 }
