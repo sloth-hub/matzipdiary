@@ -5,13 +5,17 @@ import { useNavigate } from "react-router";
 import { RiArrowDownSLine } from "react-icons/ri";
 import { FaDownload } from "react-icons/fa";
 import { IoIosClose } from "react-icons/io";
-import { ref, getDownloadURL, uploadString } from "firebase/storage";
+import { ref, getDownloadURL, uploadString, updateMetadata, uploadBytes } from "firebase/storage";
 import { collection, addDoc } from "firebase/firestore";
 import { storage, db } from "../Firebase";
 import { v4 as uuid4 } from "uuid";
 import moment from "moment";
 
 export const WriteNote = ({ userObj }: any) => {
+
+    interface img {
+        fileUrl: File
+    }
 
     const [inputs, setInputs] = useState<NoteInterface>({
         uid: userObj.uid,
@@ -27,7 +31,7 @@ export const WriteNote = ({ userObj }: any) => {
     const { uid } = inputs;
 
     const [file, setFile] = useState<Images[]>([]);
-    const [image, setImage] = useState<Images[]>([]);
+    const [image, setImage] = useState<img[]>([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -41,46 +45,23 @@ export const WriteNote = ({ userObj }: any) => {
         e.preventDefault();
         if (file.length > 0) {
             const result = await Promise.all(
-                file.map(async(v, _) => {
+                image.map(async (v, _) => {
                     const fileRef = ref(storage, `${uid}/${uuid4()}`);
-                    uploadString(fileRef, v.fileUrl);
-                    console.log(fileRef);
+                    await uploadBytes(fileRef, v.fileUrl);
+                    const data = await updateMetadata(fileRef, { contentType: "image/jpeg" });
                     const resultUrl = await getDownloadURL(fileRef);
-                    // 여기서 fileRef 계속 오류 남
                     return { fileUrl: resultUrl };
                 })
             );
-            console.log(result);
-            // await addDoc(collection(db, "notes"), {
-            //     ...inputs,
-            //     images: fileUrls,
-            //     date_created: moment().utc().format("YYYY-MM-DD HH:mm:ss")
-            // });
+            await addDoc(collection(db, "notes"), {
+                ...inputs,
+                images: result,
+                date_created: moment().utc().format("YYYY-MM-DD HH:mm:ss")
+            }).then(() => {
+                alert("등록이 완료되었습니다.");
+                navigate("/");
+            }).catch(err => console.log(`${err.code} - ${err.message}`));
         }
-
-        // console.log(fileUrls);
-        // if (fileUrls.length > 0) {
-        //     await addDoc(collection(db, "notes"), {
-        //         ...inputs,
-        //         images: fileUrls,
-        //         date_created: moment().utc().format("YYYY-MM-DD HH:mm:ss")
-        //     });
-        // }
-    }
-
-    const getUrl = () => {
-        const fileUrls: Images[] = [];
-        return new Promise((resolve) => {
-            file.forEach(async (v, i) => {
-                const fileRef = ref(storage, `${uid}/${uuid4()}`);
-                const response = await uploadString(fileRef, v.fileUrl);
-                await getDownloadURL(response.ref).then((url) => {
-                    fileUrls.push({ fileUrl: url });
-                    // setImage(() => [...image, { fileUrl: fileUrl }]);
-                });
-            });
-            resolve(fileUrls);
-        });
     }
 
     const selectedToggle = () => {
@@ -103,13 +84,15 @@ export const WriteNote = ({ userObj }: any) => {
 
     const saveFileImage = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { target: { files } } = e;
-        let fileLists: any = [...file];
+        let fileLists: any = [...image];
+        let previewLists: any = [...file];
         const maxSize = 5 * 1024 * 1024;
 
-        // 파일 개수 체크
-        if (fileLists.length > 10) {
+        // 파일 개수 체크 (코드 수정 필요)
+        if (files!.length > 10 || fileLists.length > 10 || previewLists.length > 10) {
             alert("파일은 10개까지만 첨부 가능합니다.");
             fileLists = fileLists.slice(0, 10);
+            previewLists = previewLists.slice(0, 10);
         }
 
         for (let i = 0; i < files!.length; i++) {
@@ -119,10 +102,12 @@ export const WriteNote = ({ userObj }: any) => {
                 e.target.value = "";
             } else {
                 const currentUrl = URL.createObjectURL(files![i]);
-                fileLists.push({ fileUrl: currentUrl });
+                fileLists.push({ fileUrl: files![i] });
+                previewLists.push({ fileUrl: currentUrl });
             }
         }
-        setFile(fileLists);
+        setImage(fileLists); // db 저장용 파일(File)
+        setFile(previewLists); // 미리보기용 파일(string)
     }
 
     const dragEvent = (e: React.DragEvent<HTMLDivElement>, type: string) => {
@@ -207,7 +192,7 @@ export const WriteNote = ({ userObj }: any) => {
                     onDragOver={e => dragEvent(e, "over")}>
                     <FaDownload size={"3em"} />
                     <span className="drag-text">이미지를 여기에 드래그 해보세요!</span>
-                    <span>5MB 이하, 10개 미만 첨부 가능</span>
+                    <span>5MB 이하, 10개 이하 첨부 가능</span>
                     <label htmlFor="input-file">이미지 선택</label>
                     <input type="file" id="input-file" accept="image/jpg, image/jpeg, image/png" onChange={saveFileImage} multiple />
                 </div>
