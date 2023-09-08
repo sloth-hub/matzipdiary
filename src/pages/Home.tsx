@@ -9,6 +9,7 @@ import { PiWarningFill } from "react-icons/pi";
 export const Home = ({ userObj }: any) => {
 
     const [notes, setNotes] = useState<NoteInterface[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         getNotes();
@@ -26,6 +27,7 @@ export const Home = ({ userObj }: any) => {
         });
         // @ts-ignore
         setNotes(data);
+        setIsLoading(false);
     }
 
     const changeStyle = (e: React.MouseEvent) => {
@@ -34,7 +36,7 @@ export const Home = ({ userObj }: any) => {
         (target as HTMLElement).classList.add("active");
     }
 
-    const removeStyle = (e:React.MouseEvent) => {
+    const removeStyle = (e: React.MouseEvent) => {
         const target = e.target;
         (target as HTMLElement).innerText = "+";
         (target as HTMLElement).classList.remove("active");
@@ -42,19 +44,24 @@ export const Home = ({ userObj }: any) => {
 
     return (
         <>
-            <div className="notes">
-                {notes.length > 0 ?
-                    notes.map((note, index) =>
-                        <Note key={index} note={note} />
-                    )
-                    :
-                    <div className="warn">
-                        <PiWarningFill size={"2em"} />
-                        <p>일기가 없습니다.<br /> 우측 하단의 버튼을 눌러 일기를 써보세요!</p>
+            {isLoading ? <div className="loader">loading...</div>
+                :
+                <>
+                    <div className="notes">
+                        {notes.length > 0 ?
+                            notes.map((note, index) =>
+                                <Note key={index} note={note} />
+                            )
+                            :
+                            <div className="warn">
+                                <PiWarningFill size={"2em"} />
+                                <p>일기가 없습니다.<br /> 우측 하단의 버튼을 눌러 일기를 써보세요!</p>
+                            </div>
+                        }
                     </div>
-                }
-            </div>
-            <Link to="/write" className="write-btn" onMouseOver={changeStyle} onMouseOut={removeStyle}>+</Link>
+                    <Link to="/write" className="write-btn" onMouseOver={changeStyle} onMouseOut={removeStyle}>+</Link>
+                </>
+            }
         </>
     )
 }
