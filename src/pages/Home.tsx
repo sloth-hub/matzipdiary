@@ -1,34 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { db } from "../Firebase";
+import React from "react";
 import { Note } from "../Components/Note";
-import { collection, getDocs, query, where } from "firebase/firestore";
 import { NoteInterface } from "../interfaces/note.interface";
 import { Link } from "react-router-dom";
 import { PiWarningFill } from "react-icons/pi";
 
-export const Home = ({ userObj }: any) => {
+type RouterType = {
+    isLoading: boolean,
+    notes: NoteInterface[]
+}
 
-    const [notes, setNotes] = useState<NoteInterface[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
-
-    useEffect(() => {
-        getNotes();
-    }, []);
-
-    const getNotes = async () => {
-        const q = query(
-            collection(db, "notes"),
-            where("uid", "==", userObj.uid));
-        const querySnapshot = await getDocs(q);
-        const data = querySnapshot.docs.map((doc) => {
-            return {
-                ...doc.data(), id: doc.id
-            }
-        });
-        // @ts-ignore
-        setNotes(data);
-        setIsLoading(false);
-    }
+export const Home = ({ notes, isLoading }: RouterType) => {
 
     const changeStyle = (e: React.MouseEvent) => {
         const target = e.target;
@@ -44,7 +25,7 @@ export const Home = ({ userObj }: any) => {
 
     return (
         <>
-            {isLoading ? <div className="loader">loading...</div>
+            {isLoading ? <div className="loader">Loading...</div>
                 :
                 <>
                     <div className="notes">
