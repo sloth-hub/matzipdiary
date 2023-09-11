@@ -19,6 +19,7 @@ export const WriteNote = ({ userObj }: any) => {
 
     const [inputs, setInputs] = useState<NoteInterface>({
         uid: userObj.uid,
+        id:"",
         date_created: "",
         date_visited: "",
         foodCategory: "",

@@ -1,5 +1,6 @@
 export interface NoteInterface{
     uid: string,
+    id: string,
     date_created: string,
     date_visited: string,
     foodCategory: string,

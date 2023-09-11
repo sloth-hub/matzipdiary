@@ -20,9 +20,9 @@ export const Home = ({ userObj }: any) => {
             collection(db, "notes"),
             where("uid", "==", userObj.uid));
         const querySnapshot = await getDocs(q);
-        const data = querySnapshot.docs.map(doc => {
+        const data = querySnapshot.docs.map((doc) => {
             return {
-                ...doc.data()
+                ...doc.data(), id: doc.id
             }
         });
         // @ts-ignore

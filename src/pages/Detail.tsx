@@ -1,18 +1,19 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router";
 
-export const Note = ({ note }: any) => {
+export const Detail = () => {
 
+    const location = useLocation();
+    const navigate = useNavigate();
     const { date_created,
         date_visited,
         foodCategory,
         placeName,
         images,
-        text,
-        id } = note;
+        text } = location.state;
 
     return (
-        <div className="note">
+        <div className="detail">
             <div>
                 {images ? images.map((image: any, i: number) => <img src={image.fileUrl} key={i} />)
                     : <></>}
@@ -34,9 +35,7 @@ export const Note = ({ note }: any) => {
                 <span>{placeName}</span>
             </div>
             <p>{text}</p>
-            <Link to={`/note/${id}`} state={note} className="more">
-                more
-            </Link>
+            <button type="button" onClick={() => navigate("/")}>뒤로</button>
         </div>
     )
 }
