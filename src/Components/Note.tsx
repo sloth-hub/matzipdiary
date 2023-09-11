@@ -29,7 +29,7 @@ export const Note = ({ note }: any) => {
                     <span>{date_visited}</span>
                     <span>{foodCategory}</span>
                 </div>
-                <div>
+                <div className="place">
                     <HiLocationMarker />
                     <span>{placeName}</span>
                 </div>
