@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { BiChevronRight } from "react-icons/bi";
+import { HiLocationMarker } from "react-icons/hi";
 
 export const Note = ({ note }: any) => {
 
@@ -13,30 +15,33 @@ export const Note = ({ note }: any) => {
 
     return (
         <div className="note">
-            <div>
-                {images ? images.map((image: any, i: number) => <img src={image.fileUrl} key={i} />)
+            <div className="img-wrap">
+                {images ? images.length > 1 ? <>
+                    {images.slice(0,1).map((image: any, i: number) => <div className="img-box"><img src={image.fileUrl} key={i} /></div>)}
+                </> :
+                    <>
+                        {images.slice(0,1).map((image: any, i: number) => <div className="img-box only"><img src={image.fileUrl} key={i} /></div>)}
+                    </>
                     : <></>}
             </div>
-            <div>
-                <span>작성일</span>
-                <span>{date_created}</span>
+            <div className="content-wrap">
+                <div>
+                    <span>{date_visited}</span>
+                    <span>{foodCategory}</span>
+                </div>
+                <div>
+                    <HiLocationMarker />
+                    <span>{placeName}</span>
+                </div>
+                <p>{text}</p>
             </div>
-            <div>
-                <span >방문일자</span>
-                <span>{date_visited}</span>
+            <div className="bottom-wrap">
+                <span className="date">{date_created.slice(0, 10)}</span>
+                <Link to={`/note/${id}`} state={note} className="more">
+                    <span>more</span>
+                    <BiChevronRight size={"1.2em"} />
+                </Link>
             </div>
-            <div>
-                <span>카테고리</span>
-                <span>{foodCategory}</span>
-            </div>
-            <div>
-                <span>가게명</span>
-                <span>{placeName}</span>
-            </div>
-            <p>{text}</p>
-            <Link to={`/note/${id}`} state={note} className="more">
-                more
-            </Link>
         </div>
     )
 }

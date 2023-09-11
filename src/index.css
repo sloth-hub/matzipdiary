@@ -109,10 +109,15 @@ button:hover {
 }
 
 .loader {
-  height: 100vh;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  top: 0;
   display: flex;
   justify-content: center;
   align-items: center;
+  background: white;
 }
 
 .inner {
@@ -340,6 +345,17 @@ textarea {
 
 .note img {
   max-width: 150px;
+}
+
+/* detail */
+
+.detail #map {
+  width: 600px;
+  height: 400px;
+}
+
+.detail img {
+  max-width: 600px;
 }
 
 /* note form */
