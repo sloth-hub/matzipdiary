@@ -90,7 +90,7 @@ main {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-top: 50px;
+  padding-top: 80px;
   padding-bottom: 30px;
   min-height: 834px;
   background-color: #f1ede7;
@@ -150,7 +150,7 @@ nav {
   width: 100%;
   height: 50px;
   box-shadow: 0 2px 4px 0 hsla(0, 0%, 80.8%, .5);
- background-color: var(--white);
+  background-color: var(--white);
   z-index: 2;
 }
 
@@ -473,13 +473,55 @@ textarea {
 
 /* detail */
 
+.detail {
+  max-width: 690px;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #e2dddc;
+  background-color: var(--white);
+  box-shadow: 5px 5px 10px var(--S-L-gray);
+}
+
 .detail #map {
   width: 600px;
   height: 400px;
 }
 
+.detail span, .detail p {
+  font-size: 15px;
+}
+
+.detail .title {
+  font-weight: 700;
+  margin-right: 5px;
+}
+
 .detail img {
-  max-width: 600px;
+  width: 100%;
+}
+
+.detail .img-wrap {
+  display: flex;
+  flex-direction: row;
+  height: 500px;
+  overflow: hidden;
+}
+
+.detail .back {
+  position: relative;
+  left: -4px;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  background: transparent;
+}
+
+.detail .back:hover {
+  color: var(--main-color);
+}
+
+.detail .back span {
+  font-weight: 600;
 }
 
 /* note form */

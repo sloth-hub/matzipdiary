@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useLocation, useNavigate, } from "react-router";
+import { BiChevronLeft } from "react-icons/bi";
 
 export const Detail = () => {
 
@@ -40,10 +41,10 @@ export const Detail = () => {
         </div>`;
         const iwPosition = new kakao.maps.LatLng(location.lat, location.lng);
         const infowindow = new kakao.maps.InfoWindow({
-            position : iwPosition, 
-            content : iwContent 
+            position: iwPosition,
+            content: iwContent
         });
-        infowindow.open(map, marker); 
+        infowindow.open(map, marker);
     }
 
     const toggleMap = () => {
@@ -54,29 +55,32 @@ export const Detail = () => {
     return (
         <div className="detail">
             <div>
-                <span>작성일</span>
+                <span className="title">작성일</span>
                 <span>{date_created}</span>
             </div>
             <div>
-                <span >방문일자</span>
+                <span className="title">방문일자</span>
                 <span>{date_visited}</span>
             </div>
             <div>
-                <span>카테고리</span>
+                <span className="title">카테고리</span>
                 <span>{foodCategory}</span>
             </div>
             <div>
-                <span>가게명</span>
+                <span className="title">가게명</span>
                 <span>{placeName}</span>
             </div>
-            <button type="button"onClick={toggleMap}>지도 보기</button>
+            <button type="button" onClick={toggleMap}>지도 보기</button>
             <div id="map" className="map"></div>
-            <div>
+            <div className="img-wrap">
                 {images ? images.map((image: any, i: number) => <img src={image.fileUrl} key={i} />)
                     : <></>}
             </div>
             <p>{text}</p>
-            <button type="button" onClick={() => navigate("/")}>뒤로</button>
+            <button type="button" className="back" onClick={() => navigate("/")}>
+                <BiChevronLeft size={"1.5em"} />
+                <span>뒤로</span>
+            </button>
         </div>
     )
 }
