@@ -16,12 +16,9 @@ export const Note = ({ note }: any) => {
     return (
         <div className="note">
             <div className="img-wrap">
-                {images ? images.length > 1 ? <>
-                    {images.slice(0,1).map((image: any, i: number) => <div className="img-box"><img src={image.fileUrl} key={i} /></div>)}
-                </> :
-                    <>
-                        {images.slice(0,1).map((image: any, i: number) => <div className="img-box only"><img src={image.fileUrl} key={i} /></div>)}
-                    </>
+                {images ? images.length > 1 ?
+                    <div className="img-box" key={images[0].fileUrl.slice(-12)}><img src={images[0].fileUrl} loading="lazy" /><span className="imgcount">+{images.length-1}</span></div>
+                    : <div className="img-box only" key={images[0].fileUrl.slice(-12)}><img src={images[0].fileUrl} loading="lazy" /></div>
                     : <></>}
             </div>
             <div className="content-wrap">
