@@ -31,10 +31,12 @@ export const Detail = () => {
             position: markerPosition
         });
         marker.setMap(map);
-        const iwContent = `<div>
+        const iwContent = `<div class="info">
         <span>${placeName}</span>
+        <div>
         <a href="https://map.kakao.com/link/map/${placeName},${location.lat},${location.lng}" target="_blank">큰지도보기</a>
         <a href="https://map.kakao.com/link/to/${placeName},${location.lat},${location.lng}">길찾기</a>
+        </div>
         </div>`;
         const iwPosition = new kakao.maps.LatLng(location.lat, location.lng);
         const infowindow = new kakao.maps.InfoWindow({
@@ -42,6 +44,11 @@ export const Detail = () => {
             content : iwContent 
         });
         infowindow.open(map, marker); 
+    }
+
+    const toggleMap = () => {
+        const map = document.getElementById("map");
+        map!.classList.toggle("active");
     }
 
     return (
@@ -62,7 +69,8 @@ export const Detail = () => {
                 <span>가게명</span>
                 <span>{placeName}</span>
             </div>
-            <div id="map"></div>
+            <button type="button"onClick={toggleMap}>지도 보기</button>
+            <div id="map" className="map"></div>
             <div>
                 {images ? images.map((image: any, i: number) => <img src={image.fileUrl} key={i} />)
                     : <></>}
