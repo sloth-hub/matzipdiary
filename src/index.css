@@ -92,7 +92,8 @@ main {
   align-items: center;
   padding-top: 30px;
   padding-bottom: 30px;
-  min-height: 770px;
+  min-height: 834px;
+  background-color: #f1ede7;
 }
 
 button {
@@ -145,8 +146,12 @@ main .inner {
 /* nav */
 
 nav {
+  position: fixed;
+  width: 100%;
   height: 50px;
   box-shadow: 0 2px 4px 0 hsla(0, 0%, 80.8%, .5);
+ background-color: var(--white);
+  z-index: 2;
 }
 
 nav, nav .inner, nav ul {
@@ -346,56 +351,58 @@ textarea {
 
 .notes {
   display: flex;
+  flex-wrap: wrap;
+  width: 100%;
 }
 
-.note+.note {
-  margin-left: 30px;
+.note {
+  margin-right: 21.3px;
+}
+
+.note:nth-of-type(4n) {
+  margin-right: 0;
 }
 
 .note {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 300px;
-  height: 430px;
-  padding: 20px;
-  border: 1px solid var(--S-L-gray);
-  border-radius: 5px;
+  width: 240px;
+  height: 400px;
+  margin-bottom: 26px;
+  border: 1px solid #e2dddc;
+  border-radius: 8px;
+  background-color: var(--white);
   box-shadow: 5px 5px 10px var(--S-L-gray);
+  overflow: hidden;
 }
 
 .note .img-wrap {
   display: flex;
-  width: 100%;
-}
-
-.note .img-box {
-  display: flex;
   align-items: center;
   position: relative;
-  width: 100%;
-  height: 258px;
+  width: 240px;
+  height: 240px;
   overflow: hidden;
 }
 
-.note .img-box img {
+.note .img-wrap img {
   width: 100%;
 }
 
-.note .img-box:not(.only):last-of-type:after {
-  content: "+";
+.note .img-wrap .imgcount {
   display: flex;
+  justify-content: center;
+  align-items: center;
   position: absolute;
   width: 40px;
   height: 40px;
   right: 0;
   bottom: 0;
   font-weight: 500;
-  font-size: 18px;
   background-color: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(10px);
-  justify-content: center;
-  align-items: center;
+  cursor: default;
+  border-top-left-radius: 5px;
 }
 
 .note span {
@@ -405,28 +412,44 @@ textarea {
 .note .content-wrap {
   display: flex;
   flex-direction: column;
+  padding: 0 15px;
 }
 
-.note .content-wrap div:first-of-type span:first-of-type::after {
+.note .date svg {
+  margin-right: 5px;
+}
+
+.note .category::after {
   content: "";
-  margin: 0 10px;
+  margin: 0 8px;
+  font-size: 12px;
   border-right: 2px solid var(--L-gray);
 }
 
 .note .place {
   display: flex;
   margin-top: 5px;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 
-.note .place span {
-  margin-left: 5px;
+.note .place svg {
+  margin-right: 5px;
+}
+
+.note .content-wrap p {
+  overflow: hidden;
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
 }
 
 .note .bottom-wrap {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
+  padding: 0 15px 15px;
 }
 
 .note .more span {
@@ -438,6 +461,8 @@ textarea {
   display: flex;
   align-items: flex-end;
   align-self: flex-end;
+  margin-right: 10px;
+  margin-bottom: 15px;
   color: var(--black);
   transition: all .08s linear;
 }
