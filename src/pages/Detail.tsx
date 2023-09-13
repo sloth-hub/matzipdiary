@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, } from "react-router";
-import { BiChevronLeft } from "react-icons/bi";
+import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
 
 export const Detail = () => {
 
@@ -32,25 +32,30 @@ export const Detail = () => {
 
     return (
         <div className="detail">
-            <div className="date">
-                <div>
-                    <span className="title">작성일</span>
-                    <span>{date_created}</span>
+            <div className="info-wrap">
+                <div className="place">
+                    <div className="placename">
+                        <span className="title">{placeName}</span>
+                        <span>{foodCategory}</span>
+                    </div>
+                    <div className="address">
+                        <span>{address ? address.roadAddr : " "}</span>
+                        <span> 지번&#41; {address && address.lotAddr}</span>
+                        <a href={`https://map.kakao.com/link/map/${placeName},${location.lat},${location.lng}`} target="_blank">
+                            큰지도보기
+                        </a>
+                    </div>
                 </div>
-                <div>
-                    <span className="title">방문일자</span>
-                    <span>{date_visited}</span>
-                </div>
-            </div>
-            <div className="place">
-                <div className="placename">
-                    <span className="title">{placeName}</span>
-                    <span>{foodCategory}</span>
-                </div>
-                <div className="address">
-                    <span>{address && address.roadAddr}</span>
-                    <span>{address && address.lotAddr}</span>
-                    <a href={`https://map.kakao.com/link/map/${placeName},${location.lat},${location.lng}`} target="_blank">큰지도보기</a>
+                <div className="stroke"></div>
+                <div className="date">
+                    <div>
+                        <span className="title">작성일</span>
+                        <span>{date_created}</span>
+                    </div>
+                    <div>
+                        <span className="title">방문일자</span>
+                        <span>{date_visited}</span>
+                    </div>
                 </div>
             </div>
             <div className="img-wrap">

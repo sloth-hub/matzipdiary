@@ -66,8 +66,8 @@ a {
   --black: #181818;
   --white: #fff;
   --red: #dd0416;
-  --D-gray: #838385;
-  --M-gray: #c0c0c0;
+  --D-gray: #88888a;
+  --M-gray: #bbb9b9;
   --L-gray: #e4e4e4;
   --S-L-gray: rgba(219, 219, 218, 0.5);
 }
@@ -482,18 +482,93 @@ textarea {
   box-shadow: 5px 5px 10px var(--S-L-gray);
 }
 
-.detail #map {
-  width: 600px;
-  height: 400px;
-}
-
 .detail span, .detail p {
   font-size: 15px;
+}
+
+.detail .info-wrap {
+  position: relative;
+  display: flex;
+  margin-bottom: 15px;
+}
+
+.detail .info-wrap .stroke {
+  position: relative;
+  width: 1px;
+  height: auto;
+  background-color: var(--L-gray);
+  margin: 0 20px;
+}
+
+.detail .place, .detail .date {
+  padding: 10px 0;
 }
 
 .detail .title {
   font-weight: 700;
   margin-right: 5px;
+}
+
+.detail .place {
+  width: 55%;
+}
+
+.detail .place .placename {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.detail .place .placename .title {
+  font-size: 16px;
+}
+
+.detail .place .placename span:last-of-type {
+  margin-top: 1px;
+  font-weight: 600;
+}
+
+.detail .place .placename .title::after {
+  content: "";
+  font-size: 13px;
+  padding-top: 1px;
+  border-right: 2px solid var(--M-gray);
+  margin-left: 6px;
+}
+
+.detail .place .address {
+  display: flex;
+  flex-direction: column;
+}
+
+.detail .place .address>span {
+  font-weight: 500;
+}
+
+.detail .place .address>span:last-of-type {
+  color: var(--D-gray);
+  font-size: 14px;
+}
+
+.detail .place .address a {
+  margin-top: 3px;
+  font-weight: 600;
+  color: var(--D-gray);
+  transition: all .08s linear;
+}
+
+.detail .place .address a:hover {
+  color: var(--black);
+}
+
+.detail .date {
+  display: flex;
+  flex-direction: column;
+  width: 45%;
+}
+
+.detail .date>div+div {
+  margin-top: 5px;
 }
 
 .detail img {
@@ -505,6 +580,11 @@ textarea {
   flex-direction: row;
   height: 500px;
   overflow: hidden;
+}
+
+.detail p {
+  padding: 20px 0;
+  word-break: keep-all;
 }
 
 .detail .back {
@@ -521,7 +601,7 @@ textarea {
 }
 
 .detail .back span {
-  font-weight: 600;
+  font-weight: 700;
 }
 
 /* note form */
