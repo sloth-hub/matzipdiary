@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, } from "react-router";
 import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
+import { HiOutlineMap } from "react-icons/hi";
 
 export const Detail = () => {
 
@@ -32,41 +33,39 @@ export const Detail = () => {
 
     return (
         <div className="detail">
+            <div className="img-wrap">
+                <ul className="slider">
+                    {images ? images.map((image: any, i: number) =>
+                        <li key={i}><img src={image.fileUrl} /></li>)
+                        : <></>}
+                </ul>
+            </div>
             <div className="info-wrap">
                 <div className="place">
                     <div className="placename">
                         <span className="title">{placeName}</span>
-                        <span>{foodCategory}</span>
+                        <a href={`https://map.kakao.com/link/map/${placeName},${location.lat},${location.lng}`} target="_blank">
+                            <HiOutlineMap size={"1.5em"} />
+                        </a>
                     </div>
                     <div className="address">
                         <span>{address ? address.roadAddr : " "}</span>
                         <span> 지번&#41; {address && address.lotAddr}</span>
-                        <a href={`https://map.kakao.com/link/map/${placeName},${location.lat},${location.lng}`} target="_blank">
-                            큰지도보기
-                        </a>
+                    </div>
+                    <div className="date">
+                        <span>{foodCategory}</span>
+                        <span>{date_visited} 방문</span>
                     </div>
                 </div>
-                <div className="stroke"></div>
-                <div className="date">
-                    <div>
-                        <span className="title">작성일</span>
-                        <span>{date_created}</span>
-                    </div>
-                    <div>
-                        <span className="title">방문일자</span>
-                        <span>{date_visited}</span>
-                    </div>
-                </div>
-            </div>
-            <div className="img-wrap">
-                {images ? images.map((image: any, i: number) => <img src={image.fileUrl} key={i} />)
-                    : <></>}
             </div>
             <p>{text}</p>
-            <button type="button" className="back" onClick={() => navigate("/")}>
-                <BiChevronLeft size={"1.5em"} />
-                <span>뒤로</span>
-            </button>
+            <div className="bottom-wrap">
+                <button type="button" className="back" onClick={() => navigate("/")}>
+                    <BiChevronLeft size={"1.5em"} />
+                    <span>뒤로</span>
+                </button>
+                <span className="created-date">{date_created}</span>
+            </div>
         </div>
     )
 }

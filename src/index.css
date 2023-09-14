@@ -474,7 +474,7 @@ textarea {
 /* detail */
 
 .detail {
-  max-width: 690px;
+  width: 680px;
   padding: 20px;
   border-radius: 8px;
   border: 1px solid #e2dddc;
@@ -489,19 +489,8 @@ textarea {
 .detail .info-wrap {
   position: relative;
   display: flex;
-  margin-bottom: 15px;
-}
-
-.detail .info-wrap .stroke {
-  position: relative;
-  width: 1px;
-  height: auto;
-  background-color: var(--L-gray);
-  margin: 0 20px;
-}
-
-.detail .place, .detail .date {
-  padding: 10px 0;
+  flex-direction: column;
+  margin-top: 15px;
 }
 
 .detail .title {
@@ -510,30 +499,33 @@ textarea {
 }
 
 .detail .place {
-  width: 55%;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--L-gray);
 }
 
-.detail .place .placename {
+.detail .placename {
   display: flex;
   align-items: center;
   margin-bottom: 5px;
 }
 
-.detail .place .placename .title {
-  font-size: 16px;
+.detail .placename .title {
+  font-size: 18px;
 }
 
-.detail .place .placename span:last-of-type {
+.detail .placename span:last-of-type {
   margin-top: 1px;
   font-weight: 600;
 }
 
-.detail .place .placename .title::after {
-  content: "";
-  font-size: 13px;
-  padding-top: 1px;
-  border-right: 2px solid var(--M-gray);
-  margin-left: 6px;
+.detail .placename a {
+  height: 20px;
+  color: var(--D-gray);
+  transition: all .08s linear;
+}
+
+.detail .placename a:hover {
+  color: var(--black);
 }
 
 .detail .place .address {
@@ -550,47 +542,80 @@ textarea {
   font-size: 14px;
 }
 
-.detail .place .address a {
-  margin-top: 3px;
-  font-weight: 600;
-  color: var(--D-gray);
-  transition: all .08s linear;
-}
-
 .detail .place .address a:hover {
   color: var(--black);
 }
 
 .detail .date {
-  display: flex;
-  flex-direction: column;
-  width: 45%;
+  padding-top: 10px;
 }
 
-.detail .date>div+div {
-  margin-top: 5px;
-}
-
-.detail img {
-  width: 100%;
+.detail .date span:first-of-type::after {
+  content: "·";
+  font-weight: 700;
+  margin: 0 3px;
+  color: var(--M-gray);
 }
 
 .detail .img-wrap {
   display: flex;
-  flex-direction: row;
-  height: 500px;
+  height: 200px;
   overflow: hidden;
 }
 
+.detail .img-wrap ul {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.detail .img-wrap ul li {
+  position: relative;
+  width: auto;
+}
+
+.detail .img-wrap ul li img {
+  max-width: 200px;
+}
+
+.detail .img-wrap ul li::after {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  content: "크게보기";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  font-size: 15px;
+  font-weight: 600;
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(10px);
+  opacity: 0;
+  transition: all .08s linear;
+}
+
+.detail .img-wrap>ul>li:hover::after {
+  opacity: 1;
+  cursor: zoom-in;
+}
+
 .detail p {
-  padding: 20px 0;
+  padding-top: 15px;
+  margin-bottom: 30px;
   word-break: keep-all;
+}
+
+.detail .bottom-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .detail .back {
   position: relative;
   left: -4px;
-  margin-top: 10px;
   display: flex;
   align-items: center;
   background: transparent;
@@ -604,10 +629,19 @@ textarea {
   font-weight: 700;
 }
 
+.detail .created-date {
+  color: var(--M-gray);
+  font-size: 14px;
+}
+
 /* note form */
 
 .note-form {
-  width: 600px;
+  width: 680px;
+  padding: 20px;
+  background-color: var(--white);
+  border-radius: 8px;
+  box-shadow: 5px 5px 10px var(--S-L-gray);
 }
 
 .input-wrap {
@@ -684,12 +718,11 @@ textarea {
   text-align-last: left;
 }
 
-form button:not(.selected-value, .food-category button, #placeName) {
+form button:not(.selected-value, .food-category button, #placeName, .back) {
   height: 48px;
   color: var(--white);
   background-color: var(--main-color);
   padding: 15px;
-  margin-top: 10px;
 }
 
 input[type="file"] {
@@ -779,6 +812,7 @@ input[type="file"] {
 
 .btn-wrap {
   display: flex;
+  margin-top: 20px;
 }
 
 .btn-wrap button {
@@ -795,7 +829,7 @@ input[type="file"] {
 
 .back {
   background-color: var(--L-gray);
-  color: var(--black);
+  color: var(--D-gray);
   font-weight: 500;
 }
 
