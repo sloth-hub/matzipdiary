@@ -3,6 +3,7 @@ import { Note } from "../Components/Note";
 import { NoteInterface } from "../interfaces/note.interface";
 import { Link } from "react-router-dom";
 import { PiWarningFill } from "react-icons/pi";
+import { BiEditAlt } from "react-icons/bi";
 
 type RouterType = {
     isLoading: boolean,
@@ -10,16 +11,22 @@ type RouterType = {
 }
 
 export const Home = ({ notes, isLoading }: RouterType) => {
-
+    
     const changeStyle = (e: React.MouseEvent) => {
-        const target = e.target;
-        (target as HTMLElement).innerText = "일기쓰기";
+        const target = e.currentTarget;
+        const icon = document.querySelector(".write-icon");
+        const text = document.querySelector(".write-btn .text");
+        (icon as HTMLElement).style.display = "none";
+        (text as HTMLElement).style.display = "block";
         (target as HTMLElement).classList.add("active");
     }
 
     const removeStyle = (e: React.MouseEvent) => {
-        const target = e.target;
-        (target as HTMLElement).innerText = "+";
+        const target = e.currentTarget;
+        const icon = document.querySelector(".write-icon");
+        const text = document.querySelector(".write-btn .text");
+        (icon as HTMLElement).style.display = "block";
+        (text as HTMLElement).style.display = "none";
         (target as HTMLElement).classList.remove("active");
     }
 
@@ -40,7 +47,10 @@ export const Home = ({ notes, isLoading }: RouterType) => {
                             </div>
                         }
                     </div>
-                    <Link to="/write" className="write-btn" onMouseOver={changeStyle} onMouseOut={removeStyle}>+</Link>
+                    <Link to="/write" className="write-btn" onMouseOver={changeStyle} onMouseOut={removeStyle}>
+                        <BiEditAlt size={"1.4em"} className="write-icon" />
+                        <span className="text">일기쓰기</span>
+                    </Link>
                 </>
             }
         </>

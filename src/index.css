@@ -222,6 +222,13 @@ nav .login:hover {
   border-radius: 30px;
 }
 
+.write-btn .text {
+  display: none;
+}
+.write-btn .text.on {
+  display: block;
+}
+
 /* form */
 
 form {
