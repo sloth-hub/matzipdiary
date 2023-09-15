@@ -6,6 +6,7 @@ import { HiOutlineMap } from "react-icons/hi";
 export const Detail = () => {
 
     const [address, setAddress] = useState({ lotAddr: "", roadAddr: "" });
+    const [slideNum, setSlideNum] = useState<number>(0);
     const statedata = useLocation();
     const navigate = useNavigate();
     const { date_created,
@@ -31,14 +32,38 @@ export const Detail = () => {
         });
     }
 
+    const slideBtnHander = (e: React.MouseEvent) => {
+        e.preventDefault();
+        const target = e.currentTarget;
+        if (target.className === "prev") {
+            if (0 < slideNum) {
+                setSlideNum(slideNum - 319);
+            }
+        } else {
+            if ((images.length - 3) * 319 >= slideNum) {
+                setSlideNum(slideNum + 319);
+            }
+        }
+    }
+
     return (
         <div className="detail">
             <div className="img-wrap">
-                <ul className="slider">
+                <ul className="slider" style={{ transform: `translate(-${slideNum}px)` }}>
                     {images ? images.map((image: any, i: number) =>
-                        <li key={i}><img src={image.fileUrl} /></li>)
+                        <li key={i}><img src={image.fileUrl} className="only" /></li>)
                         : <></>}
                 </ul>
+                {images.length > 1 &&
+                    <div className="slide-btns">
+                        <button type="button" className={slideNum == 0 ? "prev hide" : "prev"} onClick={slideBtnHander}>
+                            &lt;
+                        </button>
+                        <button type="button" className={slideNum == 319 * (images.length - 2) ? "next hide" : "next"} onClick={slideBtnHander}>
+                            &gt;
+                        </button>
+                    </div>
+                }
             </div>
             <div className="info-wrap">
                 <div className="place">

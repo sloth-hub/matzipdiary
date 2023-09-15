@@ -1,4 +1,5 @@
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css");
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@800&display=swap');
 
 /*! minireset.css v0.0.6 | MIT License | github.com/jgthms/minireset.css */
 blockquote, body, dd, dl, dt, fieldset, figure, h1, h2, h3, h4, h5, h6, hr, html, iframe, legend, li, ol, p, pre, textarea, ul {
@@ -225,6 +226,7 @@ nav .login:hover {
 .write-btn .text {
   display: none;
 }
+
 .write-btn .text.on {
   display: block;
 }
@@ -555,6 +557,11 @@ textarea {
 
 .detail .date {
   padding-top: 10px;
+  color: var(--D-gray);
+}
+
+.detail .date span {
+  font-size: 14px;
 }
 
 .detail .date span:first-of-type::after {
@@ -565,9 +572,14 @@ textarea {
 }
 
 .detail .img-wrap {
+  position: relative;
   display: flex;
   height: 200px;
   overflow: hidden;
+}
+
+.detail .img-wrap .slider {
+  transition: all .5s ease;
 }
 
 .detail .img-wrap ul {
@@ -582,7 +594,8 @@ textarea {
 }
 
 .detail .img-wrap ul li img {
-  max-width: 200px;
+  max-width: 100%;
+  min-width: 319px;
 }
 
 .detail .img-wrap ul li::after {
@@ -606,6 +619,40 @@ textarea {
 .detail .img-wrap>ul>li:hover::after {
   opacity: 1;
   cursor: zoom-in;
+}
+
+.detail .slide-btns {
+  display: flex;
+  align-items: center;
+}
+
+.detail .slide-btns button {
+  display: block;
+  position: absolute;
+  height: min-content;
+  color: var(--white);
+  font-family: 'Nanum Myeongjo', serif;
+  text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.6);
+  opacity: 0.8;
+}
+
+.detail .slide-btns button:hover {
+  opacity: 1;
+}
+
+.detail .slide-btns .prev {
+  left: 5px;
+  padding-right: 5px;
+}
+
+.detail .slide-btns .next {
+  right: 5px;
+  padding-left: 5px;
+}
+
+.detail .slide-btns .prev.hide,
+.detail .slide-btns .next.hide {
+  display: none;
 }
 
 .detail p {
