@@ -9,6 +9,8 @@ export const Detail = () => {
     const [address, setAddress] = useState({ lotAddr: "", roadAddr: "" });
     const [slideNum, setSlideNum] = useState<number>(0);
     const [modalImg, setModalImg] = useState<string>("");
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+
     const statedata = useLocation();
     const navigate = useNavigate();
     const { date_created,
@@ -76,7 +78,10 @@ export const Detail = () => {
                 </div>
                 <ul className="slider" style={{ transform: `translate(-${slideNum}px)` }}>
                     {images ? images.map((image: any, i: number) =>
-                        <li key={i} onClick={clickedImage}><img src={image.fileUrl} className="only" /></li>)
+                        <li key={i} onClick={clickedImage}>
+                            <img src={image.fileUrl} className="only" onLoad={() => setIsLoading(false)} />
+                            <span className={isLoading ? "loadingimg loading" : "loadingimg"}></span>
+                        </li>)
                         : <></>}
                 </ul>
                 {images.length > 1 &&
