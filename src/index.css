@@ -621,6 +621,37 @@ textarea {
   cursor: zoom-in;
 }
 
+.detail .modal {
+  display: none;
+  width: 100%;
+  left: 0;
+  top: 0;
+  z-index: 2;
+  position: fixed;
+  height: 100%;
+  backdrop-filter: blur(10px);
+}
+
+.detail .modal.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.detail .modal img {
+  max-height: 800px;
+}
+
+.detail .modal .close {
+  position: absolute;
+  opacity: .7;
+  top: 20px;
+  right: 20px;
+}
+.detail .modal .close:hover {
+  opacity: 1;
+}
+
 .detail .slide-btns {
   display: flex;
   align-items: center;

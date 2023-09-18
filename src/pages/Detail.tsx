@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, } from "react-router";
-import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
+import { BiChevronLeft } from "react-icons/bi";
 import { HiOutlineMap } from "react-icons/hi";
+import { GrClose } from "react-icons/gr";
 
 export const Detail = () => {
 
     const [address, setAddress] = useState({ lotAddr: "", roadAddr: "" });
     const [slideNum, setSlideNum] = useState<number>(0);
+    const [modalImg, setModalImg] = useState<string>("");
     const statedata = useLocation();
     const navigate = useNavigate();
     const { date_created,
@@ -46,12 +48,35 @@ export const Detail = () => {
         }
     }
 
+    const clickedImage = (e: React.MouseEvent) => {
+        const body = document.querySelector("body");
+        const modal = document.querySelector(".modal");
+        const target = (e.target as HTMLElement);
+        const imgsrc = (target.children[0] as HTMLImageElement).src;
+        setModalImg(imgsrc);
+        modal!.classList.add("active");
+        body!.style.overflow = "hidden";
+    }
+
+    const modalBtnHandler = () => {
+        const body = document.querySelector("body");
+        const modal = document.querySelector(".modal");
+        modal!.classList.remove("active");
+        body!.style.overflow = "auto";
+    }
+
     return (
         <div className="detail">
             <div className="img-wrap">
+                <div className="modal">
+                    <img src={modalImg} alt="미리보기" />
+                    <button type="button" className="close" onClick={modalBtnHandler}>
+                        <GrClose size={"1.8em"} />
+                    </button>
+                </div>
                 <ul className="slider" style={{ transform: `translate(-${slideNum}px)` }}>
                     {images ? images.map((image: any, i: number) =>
-                        <li key={i}><img src={image.fileUrl} className="only" /></li>)
+                        <li key={i} onClick={clickedImage}><img src={image.fileUrl} className="only" /></li>)
                         : <></>}
                 </ul>
                 {images.length > 1 &&
