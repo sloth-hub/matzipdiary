@@ -9,7 +9,6 @@ export const Detail = () => {
     const [address, setAddress] = useState({ lotAddr: "", roadAddr: "" });
     const [slideNum, setSlideNum] = useState<number>(0);
     const [modalImg, setModalImg] = useState<string>("");
-    const [isLoading, setIsLoading] = useState<boolean>(true);
 
     const statedata = useLocation();
     const navigate = useNavigate();
@@ -67,6 +66,14 @@ export const Detail = () => {
         body!.style.overflow = "auto";
     }
 
+    const test = (e: React.SyntheticEvent) => {
+        const target = e.target as HTMLImageElement;
+        const loader = target.nextSibling as HTMLElement;
+        if (target.complete) {
+            loader.classList.add("false");
+        }
+    }
+
     return (
         <div className="detail">
             <div className="img-wrap">
@@ -79,8 +86,8 @@ export const Detail = () => {
                 <ul className="slider" style={{ transform: `translate(-${slideNum}px)` }}>
                     {images ? images.map((image: any, i: number) =>
                         <li key={i} onClick={clickedImage}>
-                            <img src={image.fileUrl} className="only" onLoad={() => setIsLoading(false)} />
-                            <span className={isLoading ? "loadingimg loading" : "loadingimg"}></span>
+                            <img src={image.fileUrl} className="only" onLoad={test} />
+                            <span className="loading"></span>
                         </li>)
                         : <></>}
                 </ul>

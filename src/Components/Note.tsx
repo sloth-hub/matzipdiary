@@ -5,7 +5,6 @@ import { HiLocationMarker } from "react-icons/hi";
 
 export const Note = ({ note }: any) => {
 
-    const [isLoading, setIsLoading] = useState<boolean>(true);
     const {
         date_visited,
         foodCategory,
@@ -14,18 +13,26 @@ export const Note = ({ note }: any) => {
         text,
         id } = note;
 
+    const test = (e: React.SyntheticEvent) => {
+        const target = e.target as HTMLImageElement;
+        const loader = target.nextSibling as HTMLElement;
+        if(target.complete) {
+            loader.classList.add("false");
+        }
+    }
+
     return (
         <div className="note">
             <div className="img-wrap">
                 {images ? images.length > 1 ?
                     <>
-                        <img src={images[0].fileUrl} key={images[0].fileUrl.slice(-12)} onLoad={()=>setIsLoading(false)} />
-                        <span className={isLoading ? "loadingimg loading" : "loadingimg"}></span>
+                        <img src={images[0].fileUrl} key={images[0].fileUrl.slice(-12)} onLoad={test} />
+                        <span className="loading"></span>
                         <span className="imgcount">+{images.length - 1}</span>
                     </>
                     : <>
-                        <img src={images[0].fileUrl} key={images[0].fileUrl.slice(-12)} onLoad={()=>setIsLoading(false)} />
-                        <span className={isLoading ? "loadingimg loading" : "loadingimg"}></span>
+                        <img src={images[0].fileUrl} key={images[0].fileUrl.slice(-12)} onLoad={test} />
+                        <span className="loading"></span>
                     </>
                     : <></>}
             </div>
