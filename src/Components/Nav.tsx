@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UserInterface } from "../interfaces/user.interface";
 import { firebaseAuth } from "../Firebase";
@@ -11,12 +11,15 @@ export const Nav = ({ userObj }: RouterType) => {
 
     const navigate = useNavigate();
     const logout = () => {
-        firebaseAuth.signOut()
-            .then(() => {
-                window.location.reload();
-            }).catch(err => {
-                console.log(`${err.code} - ${err.message}`);
-            });
+        const response = window.confirm("로그아웃 하시겠습니까?");
+        if (response) {
+            firebaseAuth.signOut()
+                .then(() => {
+                    window.location.reload();
+                }).catch(err => {
+                    console.log(`${err.code} - ${err.message}`);
+                });
+        }
     }
 
     return (
@@ -24,7 +27,7 @@ export const Nav = ({ userObj }: RouterType) => {
             <div className="inner">
                 <Link to="/" className="logo">맛집일기</Link>
                 <ul>
-                    <li>{userObj ? `HELLO, ${userObj.nickname}!` : ""}</li>
+                    <li>{userObj ? userObj.nickname : ""}</li>
                     <li>
                         {userObj ? <button onClick={logout} className="logout">로그아웃</button> :
                             <>
