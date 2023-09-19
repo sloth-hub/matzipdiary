@@ -23,7 +23,7 @@ export const AppRouter = ({ isLoggedIn, userObj}: RouterType) => {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        getNotes();
+        if(userObj) getNotes();
     }, []);
 
     const getNotes = async () => {
@@ -56,6 +56,7 @@ export const AppRouter = ({ isLoggedIn, userObj}: RouterType) => {
                             :
                             <>
                                 <Route path="/" element={<Login />} />
+                                <Route path="/login" element={<Login />} />
                                 <Route path="/signup" element={<SignUp />} />
                             </>
                         }

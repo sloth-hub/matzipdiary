@@ -1,5 +1,4 @@
 import React, { ChangeEvent, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { UserInputInterface } from "../interfaces/user.interface";
 import { GithubAuthProvider, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { db, firebaseAuth } from "../Firebase";
@@ -20,7 +19,6 @@ export const Login = () => {
     const [val_pass, setVal_pass] = useState<string>();
 
     const { email, password } = signupData;
-    const navigate = useNavigate();
 
     const onChange = (e: ChangeEvent<HTMLInputElement>) => {
         let { name, value } = e.target;
@@ -39,7 +37,7 @@ export const Login = () => {
         await signInWithEmailAndPassword(firebaseAuth, email, password)
             .then((userCredential) => {
                 const user = userCredential.user;
-                navigate("/");
+                window.location.reload();
             }).catch(err => {
                 if (err.code === "auth/user-not-found") {
                     alert("회원 정보가 없습니다.");
@@ -50,6 +48,7 @@ export const Login = () => {
                 }
             });
     }
+
     const snsLogin = async ({ target }: any) => {
         if (target.name === "google") {
             const provider = new GoogleAuthProvider;

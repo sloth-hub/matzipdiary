@@ -95,7 +95,7 @@ main {
   padding-top: 80px;
   padding-bottom: 30px;
   min-height: 834px;
-  background-color: #f1ede7;
+  /* background-color: #f1ede7; */
 }
 
 button {
@@ -137,10 +137,10 @@ main .inner {
 
 .warn {
   text-align: center;
+  width: 100%;
 }
 
 .warn p {
-  margin: 5px 0 40px;
   font-size: 18px;
   line-height: 1.8rem;
 }
@@ -336,7 +336,7 @@ textarea {
 }
 
 .sns-login button[name="google"] {
-  background-color: var(--white);
+  background-color: var(--white) !important;
   border: 1px solid var(--L-gray);
 }
 
@@ -345,7 +345,7 @@ textarea {
 }
 
 .sns-login button[name="github"] {
-  background-color: #1d1d1b;
+  background-color: #1d1d1b !important;
 }
 
 .sns-login button svg {
@@ -368,6 +368,7 @@ textarea {
   align-items: center;
   justify-content: center;
   margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .login-form .or span {
