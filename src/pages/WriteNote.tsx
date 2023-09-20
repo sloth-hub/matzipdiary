@@ -10,6 +10,7 @@ import { collection, addDoc } from "firebase/firestore";
 import { storage, db } from "../Firebase";
 import { v4 as uuid4 } from "uuid";
 import moment from "moment";
+import Editor from "../Components/Editor";
 
 export const WriteNote = ({ userObj }: any) => {
 
@@ -19,7 +20,7 @@ export const WriteNote = ({ userObj }: any) => {
 
     const [inputs, setInputs] = useState<NoteInterface>({
         uid: userObj.uid,
-        id:"",
+        id: "",
         date_created: "",
         date_visited: "",
         foodCategory: "",
@@ -218,7 +219,8 @@ export const WriteNote = ({ userObj }: any) => {
                     </ul>
                 </div>
             </div>
-            <textarea name="text" id="text" data-name="text" placeholder="솔직한 후기를 남겨보세요!" onChange={onChange} />
+            <Editor />
+            {/* <textarea name="text" id="text" data-name="text" placeholder="솔직한 후기를 남겨보세요!" onChange={onChange} /> */}
             <div className="btn-wrap">
                 <button type="button" onClick={() => navigate("/")} className="back">뒤로</button>
                 <button type="submit">완료</button>

@@ -839,7 +839,7 @@ textarea {
   text-align-last: left;
 }
 
-form button:not(.selected-value, .food-category button, #placeName, .back) {
+form button:not(.selected-value, .food-category button, #placeName, .back, .quill button) {
   height: 48px;
   color: var(--white);
   background-color: var(--main-color);
@@ -929,6 +929,10 @@ input[type="file"] {
   border-radius: 50%;
   width: 20px;
   height: 20px;
+}
+
+.ql-editor {
+  height: 200px !important;
 }
 
 .btn-wrap {
