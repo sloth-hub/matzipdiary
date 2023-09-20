@@ -11,7 +11,7 @@ export const Nav = ({ userObj }: RouterType) => {
 
     const navigate = useNavigate();
     const logout = () => {
-        const response = window.confirm("로그아웃 하시겠습니까?");
+        const response = window.confirm("정말로 로그아웃 하시겠습니까?");
         if (response) {
             firebaseAuth.signOut()
                 .then(() => {
