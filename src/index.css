@@ -56,6 +56,10 @@ a {
   text-decoration: none;
 }
 
+strong {
+  font-weight: bold !important;
+}
+
 /* global */
 
 #root {
@@ -524,7 +528,7 @@ textarea {
   box-shadow: 5px 5px 10px var(--S-L-gray);
 }
 
-.detail span, .detail p {
+.detail span, .detail .text p {
   font-size: 15px;
 }
 

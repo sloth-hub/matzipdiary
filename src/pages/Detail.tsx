@@ -120,7 +120,7 @@ export const Detail = () => {
                     </div>
                 </div>
             </div>
-            <p>{text}</p>
+            <div className="text" dangerouslySetInnerHTML={{__html: text}}></div>
             <div className="bottom-wrap">
                 <button type="button" className="back" onClick={() => navigate("/")}>
                     <BiChevronLeft size={"1.5em"} />

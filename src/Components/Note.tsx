@@ -46,7 +46,7 @@ export const Note = ({ note }: any) => {
                     <span className="category">{foodCategory}</span>
                     <span>{placeName}</span>
                 </div>
-                <p>{text}</p>
+                <p>{text.replace(/\<|\/|[a-z]|\>/g, "")}</p>
             </div>
             <Link to={`/note/${id}`} state={note} className="more">
                 <span>more</span>
