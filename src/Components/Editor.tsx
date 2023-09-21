@@ -1,12 +1,10 @@
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
-export const Editor = () => {
-
-    const onChangeContents = (e: string) => {
-
-        console.log(e);
-    }
+type Props = {
+    onChange: (value: any) => void;
+}
+export const Editor = ({ onChange }: Props) => {
 
     const modules = {
         toolbar: [
@@ -29,10 +27,11 @@ export const Editor = () => {
     return (
         <div>
             <ReactQuill
-                onChange={onChangeContents}
+                onChange={onChange}
                 placeholder="솔직한 후기를 남겨보세요!"
                 modules={modules}
                 formats={formats}
+                data-name="text"
             />
         </div>
     );

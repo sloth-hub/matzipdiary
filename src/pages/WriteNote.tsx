@@ -146,9 +146,9 @@ export const WriteNote = ({ userObj }: any) => {
     const onChange = (e: any) => {
         let data_name;
         let value;
-        if (e.type === "text") {
-            data_name = e.dataset["name"];
-            value = e.value;
+        if (typeof(e) === "string") {
+            data_name = "text";
+            value = e;
         } else {
             data_name = e.target.dataset["name"];
             value = e.target.value;
@@ -219,8 +219,7 @@ export const WriteNote = ({ userObj }: any) => {
                     </ul>
                 </div>
             </div>
-            <Editor />
-            {/* <textarea name="text" id="text" data-name="text" placeholder="솔직한 후기를 남겨보세요!" onChange={onChange} /> */}
+            <Editor onChange={onChange} />
             <div className="btn-wrap">
                 <button type="button" onClick={() => navigate("/")} className="back">뒤로</button>
                 <button type="submit">완료</button>
