@@ -172,14 +172,15 @@ export const WriteNote = ({ userObj }: any) => {
                         </button>
                         <div className="arrow" onClick={selectedToggle}><RiArrowDownSLine size={"1.5em"} /></div>
                     </div>
-                    <ul className="food-category" >
+                    <div className="food-category" >
                         <button type="button" data-name="foodCategory" value="한식" onClick={onChange}>한식</button>
                         <button type="button" data-name="foodCategory" value="양식" onClick={onChange}>양식</button>
                         <button type="button" data-name="foodCategory" value="중식" onClick={onChange}>중식</button>
                         <button type="button" data-name="foodCategory" value="일식" onClick={onChange}>일식</button>
                         <button type="button" data-name="foodCategory" value="아시아/퓨전" onClick={onChange}>아시아/퓨전</button>
                         <button type="button" data-name="foodCategory" value="카페" onClick={onChange}>카페</button>
-                    </ul>
+                        <button type="button" data-name="foodCategory" value="기타" onClick={onChange}>기타</button>
+                    </div>
                 </div>
             </div>
             <div className="input-box">

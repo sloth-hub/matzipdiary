@@ -262,6 +262,35 @@ nav .login:hover {
   display: block;
 }
 
+/* home */
+
+.search {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.search .category {
+  display: flex;
+  align-items: center;
+}
+
+.search .category li::before {
+  content: "#";
+  color: var(--M-gray);
+}
+
+.search .select-box {
+  margin: 0;
+  width: 150px;
+}
+
+.search .sort {
+  top: 48px;
+  border: 1px solid var(--L-gray);
+  border-radius: 5px;
+}
+
 /* form */
 
 form {
@@ -456,6 +485,7 @@ textarea {
   padding: 12.5px 15px 0;
   flex: auto;
 }
+
 .note .date {
   display: flex;
   align-items: center;
@@ -785,7 +815,6 @@ textarea {
 
 .select-box .selected, .food-category {
   height: 100%;
-
 }
 
 .select-box .selected {
@@ -810,7 +839,7 @@ textarea {
   color: var(--D-gray);
 }
 
-.food-category {
+.food-category, .sort {
   position: absolute;
   left: 0;
   top: 73px;
@@ -822,19 +851,20 @@ textarea {
   background-color: var(--white);
 }
 
-.food-category.active {
+.food-category.active, .sort.active {
   display: block;
 }
 
-.food-category button {
+.food-category button, .sort button {
   display: block;
 }
 
-.food-category button:hover {
+.food-category button:hover, .sort button:hover {
   color: var(--main-color);
 }
 
-.food-category button+button {
+.food-category button+button,
+.sort button+button {
   padding-top: 10px;
 }
 
