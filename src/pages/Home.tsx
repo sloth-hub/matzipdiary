@@ -59,13 +59,27 @@ export const Home = ({ notes, ogNotes, setNotes, isLoading }: RouterType) => {
                 setSortStatus(innerText);
                 break;
             case "cre_desc":
-                const newData = [...ogNotes].reverse();
-                setNotes(newData);
+                const cre_desc = [...ogNotes].reverse();
+                setNotes(cre_desc);
                 setSortStatus(innerText);
                 break;
             case "visit_asc":
+                const visit_asc = ogNotes.sort((a, b) => {
+                    if (a.date_visited < b.date_visited) return 1;
+                    else if (a.date_visited > b.date_visited) return -1;
+                    else return 0;
+                });
+                setNotes(visit_asc);
+                setSortStatus(innerText);
                 break;
             case "visit_desc":
+                const visit_desc = ogNotes.sort((a, b) => {
+                    if (a.date_visited > b.date_visited) return 1;
+                    else if (a.date_visited < b.date_visited) return -1;
+                    else return 0;
+                });
+                setNotes(visit_desc);
+                setSortStatus(innerText);
                 break;
         }
     }
