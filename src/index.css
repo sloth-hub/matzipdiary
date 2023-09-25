@@ -78,6 +78,10 @@ strong {
   --S-L-gray: rgba(219, 219, 218, 0.5);
 }
 
+::selection {
+  background-color: var(--main-color);
+}
+
 .hide {
   border: 0;
   clip: rect(0 0 0 0);
@@ -98,7 +102,6 @@ main {
   align-items: center;
   padding-top: 80px;
   padding-bottom: 30px;
-  min-height: 834px;
   /* background-color: #f1ede7; */
 }
 
@@ -136,7 +139,9 @@ button:hover {
 }
 
 main .inner {
+  position: relative;
   flex-direction: column;
+  min-height: 714px;
 }
 
 .warn {
@@ -229,8 +234,8 @@ nav .login:hover {
 
 .write-btn {
   position: absolute;
-  bottom: 140px;
-  right: 40px;
+  bottom: 0;
+  right: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -267,6 +272,8 @@ nav .login:hover {
 .search {
   display: flex;
   justify-content: space-between;
+  position: absolute;
+  top: 0;
   width: 100%;
 }
 
@@ -278,17 +285,45 @@ nav .login:hover {
 .search .category li::before {
   content: "#";
   color: var(--M-gray);
+  margin-right: 2px;
 }
+
+.search .category li {
+  border: 1px solid var(--L-gray);
+  border-radius: 20px;
+  padding: 8px 15px;
+  cursor: pointer;
+  transition: all .05s linear;
+}
+
+.search .category li+li {
+  margin-left: 10px;
+}
+
+.search .category li:hover, .search .category li.active {
+  border: 1px solid var(--M-gray);
+}
+
 
 .search .select-box {
   margin: 0;
   width: 150px;
 }
 
+.search .selected-value {
+  height: 35px;
+  font-size: 14px;
+}
+
 .search .sort {
-  top: 48px;
+  top: 34px;
   border: 1px solid var(--L-gray);
   border-radius: 5px;
+}
+
+.search .select-box .selected .arrow {
+  right: 5px;
+  bottom: 2px;
 }
 
 /* form */
@@ -833,6 +868,7 @@ textarea {
   right: 10px;
   bottom: 10px;
   color: var(--M-gray);
+  cursor: pointer;
 }
 
 .select-box .selected .arrow:hover {

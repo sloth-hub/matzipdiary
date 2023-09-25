@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Note } from "../Components/Note";
 import { NoteInterface } from "../interfaces/note.interface";
 import { Link } from "react-router-dom";
@@ -7,11 +7,15 @@ import { BiEditAlt } from "react-icons/bi";
 import { RiArrowDownSLine } from "react-icons/ri";
 
 type RouterType = {
+    notes: NoteInterface[],
+    ogNotes: NoteInterface[]
     isLoading: boolean,
-    notes: NoteInterface[]
+    setNotes: (value: any) => void,
 }
 
-export const Home = ({ notes, isLoading }: RouterType) => {
+export const Home = ({ notes, ogNotes, setNotes, isLoading }: RouterType) => {
+
+    const [sortStatus, setSortStatus] = useState<string>("작성일 최신순");
 
     const changeStyle = (e: React.MouseEvent) => {
         const target = e.currentTarget;
@@ -41,6 +45,31 @@ export const Home = ({ notes, isLoading }: RouterType) => {
         sort!.classList.remove("active");
     }
 
+    const clickedSortBtn = (e: React.MouseEvent) => {
+        const sort = document.querySelector(".sort");
+        const target = (e.target as HTMLInputElement);
+        sort!.classList.remove("active");
+        sortBy(target.value, target.innerText);
+    }
+
+    const sortBy = (value: string, innerText: string) => {
+        switch (value) {
+            case "cre_asc":
+                setNotes(ogNotes);
+                setSortStatus(innerText);
+                break;
+            case "cre_desc":
+                const newData = [...ogNotes].reverse();
+                setNotes(newData);
+                setSortStatus(innerText);
+                break;
+            case "visit_asc":
+                break;
+            case "visit_desc":
+                break;
+        }
+    }
+
     return (
         <>
             {isLoading ? <div className="loader">Loading...</div>
@@ -59,14 +88,15 @@ export const Home = ({ notes, isLoading }: RouterType) => {
                         <div className="select-box" onMouseLeave={selectedHover}>
                             <div className="selected">
                                 <button type="button" name="foodCategory" className="selected-value" onClick={selectedToggle}>
+                                    {sortStatus}
                                 </button>
                                 <div className="arrow" onClick={selectedToggle}><RiArrowDownSLine size={"1.5em"} /></div>
                             </div>
                             <div className="sort">
-                                <button type="button">방문일 오름차순</button>
-                                <button type="button">방문일 내림차순</button>
-                                <button type="button">글등록일 오름차순</button>
-                                <button type="button">글등록일 내림차순</button>
+                                <button type="button" onClick={clickedSortBtn} value="cre_asc">작성일 최신순</button>
+                                <button type="button" onClick={clickedSortBtn} value="cre_desc">작성일 오래된순</button>
+                                <button type="button" onClick={clickedSortBtn} value="visit_asc">방문일 최신순</button>
+                                <button type="button" onClick={clickedSortBtn} value="visit_desc">방문일 오래된순</button>
                             </div>
                         </div>
                     </div>
