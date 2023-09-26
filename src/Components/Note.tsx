@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { BiChevronRight, BiCalendar } from "react-icons/bi";
 import { HiLocationMarker } from "react-icons/hi";
 
-export const Note = ({ note }: any) => {
+export const Note = ({ note, sortStatus }: any) => {
 
     const {
         date_visited,
@@ -48,7 +48,7 @@ export const Note = ({ note }: any) => {
                 </div>
                 <p>{text.replace(/\<|\/|[a-z]|\>/g, "")}</p>
             </div>
-            <Link to={`/note/${id}`} state={note} className="more">
+            <Link to={`/note/${id}`} state={{note, sortStatus}} className="more">
                 <span>more</span>
                 <BiChevronRight size={"1.2em"} />
             </Link>

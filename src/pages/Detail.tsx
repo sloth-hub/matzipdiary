@@ -18,10 +18,13 @@ export const Detail = () => {
         placeName,
         images,
         location,
-        text } = statedata.state;
+        text } = statedata.state.note;
+
+    const sortStatus = statedata.state.sortStatus;
 
     useEffect(() => {
         mapInit();
+        console.log(sortStatus);
     }, []);
 
     const mapInit = async () => {
@@ -120,9 +123,9 @@ export const Detail = () => {
                     </div>
                 </div>
             </div>
-            <div className="text" dangerouslySetInnerHTML={{__html: text}}></div>
+            <div className="text" dangerouslySetInnerHTML={{ __html: text }}></div>
             <div className="bottom-wrap">
-                <button type="button" className="back" onClick={() => navigate("/")}>
+                <button type="button" className="back" onClick={() => navigate("/", { state: sortStatus })}>
                     <BiChevronLeft size={"1.5em"} />
                     <span>뒤로</span>
                 </button>

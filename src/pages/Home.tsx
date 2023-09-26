@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Note } from "../Components/Note";
 import { NoteInterface } from "../interfaces/note.interface";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { PiWarningFill } from "react-icons/pi";
 import { BiEditAlt } from "react-icons/bi";
 import { RiArrowDownSLine } from "react-icons/ri";
@@ -15,7 +15,9 @@ type RouterType = {
 
 export const Home = ({ notes, ogNotes, setNotes, isLoading }: RouterType) => {
 
-    const [sortStatus, setSortStatus] = useState<string>("정렬");
+    const location = useLocation();
+    const prevSortStatus = location.state;
+    const [sortStatus, setSortStatus] = useState<string>(prevSortStatus ? prevSortStatus : "정렬");
 
     const changeStyle = (e: React.MouseEvent) => {
         const target = e.currentTarget;
@@ -145,7 +147,7 @@ export const Home = ({ notes, ogNotes, setNotes, isLoading }: RouterType) => {
                     <div className="notes">
                         {notes.length > 0 ?
                             notes.map((note, index) =>
-                                <Note key={index} note={note} />
+                                <Note key={index} note={note} sortStatus={sortStatus} />
                             )
                             :
                             <div className="warn">
