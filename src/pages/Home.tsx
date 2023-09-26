@@ -15,7 +15,7 @@ type RouterType = {
 
 export const Home = ({ notes, ogNotes, setNotes, isLoading }: RouterType) => {
 
-    const [sortStatus, setSortStatus] = useState<string>("작성일 최신순");
+    const [sortStatus, setSortStatus] = useState<string>("정렬");
 
     const changeStyle = (e: React.MouseEvent) => {
         const target = e.currentTarget;
@@ -47,7 +47,7 @@ export const Home = ({ notes, ogNotes, setNotes, isLoading }: RouterType) => {
 
     const clickedSortBtn = (e: React.MouseEvent) => {
         const sort = document.querySelector(".sort");
-        const target = (e.target as HTMLInputElement);
+        const target = e.target as HTMLInputElement;
         sort!.classList.remove("active");
         sortBy(target.value, target.innerText);
     }
@@ -55,16 +55,25 @@ export const Home = ({ notes, ogNotes, setNotes, isLoading }: RouterType) => {
     const sortBy = (value: string, innerText: string) => {
         switch (value) {
             case "cre_asc":
-                setNotes(ogNotes);
+                const cre_asc = notes.sort((a, b) => {
+                    if (a.date_created < b.date_created) return 1;
+                    else if (a.date_created > b.date_created) return -1;
+                    else return 0;
+                });
+                setNotes(cre_asc);
                 setSortStatus(innerText);
                 break;
             case "cre_desc":
-                const cre_desc = [...ogNotes].reverse();
+                const cre_desc = notes.sort((a, b) => {
+                    if (a.date_created > b.date_created) return 1;
+                    else if (a.date_created < b.date_created) return -1;
+                    else return 0;
+                });
                 setNotes(cre_desc);
                 setSortStatus(innerText);
                 break;
             case "visit_asc":
-                const visit_asc = ogNotes.sort((a, b) => {
+                const visit_asc = notes.sort((a, b) => {
                     if (a.date_visited < b.date_visited) return 1;
                     else if (a.date_visited > b.date_visited) return -1;
                     else return 0;
@@ -73,7 +82,7 @@ export const Home = ({ notes, ogNotes, setNotes, isLoading }: RouterType) => {
                 setSortStatus(innerText);
                 break;
             case "visit_desc":
-                const visit_desc = ogNotes.sort((a, b) => {
+                const visit_desc = notes.sort((a, b) => {
                     if (a.date_visited > b.date_visited) return 1;
                     else if (a.date_visited < b.date_visited) return -1;
                     else return 0;
@@ -84,13 +93,32 @@ export const Home = ({ notes, ogNotes, setNotes, isLoading }: RouterType) => {
         }
     }
 
+    const clickedCategory = (e: React.MouseEvent) => {
+        const target = e.target as HTMLElement;
+        const catName = target.innerText;
+        const lists = (target.parentNode as HTMLElement).children;
+        if (target.tagName === "LI") {
+            if (target.classList.contains("active")) {
+                setNotes(ogNotes);
+                target.classList.remove("active");
+            } else {
+                const result = ogNotes.filter(note => note.foodCategory === catName);
+                setNotes(result);
+                for (let i = 0; i < lists.length; i++) {
+                    lists[i].classList.remove("active");
+                }
+                target.classList.add("active");
+            }
+        }
+    }
+
     return (
         <>
             {isLoading ? <div className="loader">Loading...</div>
                 :
                 <>
                     <div className="search">
-                        <ul className="category">
+                        <ul className="category" onClick={clickedCategory}>
                             <li>한식</li>
                             <li>양식</li>
                             <li>중식</li>
