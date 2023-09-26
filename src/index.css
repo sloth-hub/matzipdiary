@@ -304,10 +304,10 @@ nav .login:hover {
   border: 1px solid var(--M-gray);
 }
 
-
 .search .select-box {
   margin: 0;
   width: 150px;
+  height: 100%;
 }
 
 .search .selected-value {
@@ -456,7 +456,7 @@ textarea {
 
 .notes {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   width: 100%;
 }
 
@@ -1051,9 +1051,44 @@ footer span {
   }
 }
 
+/* 타블렛  */
+@media screen and (max-width:991.98px) {
+
+  .search .category {
+    flex-wrap: wrap;
+
+  }
+
+  .search .category li+li {
+    margin-left: 0;
+  }
+
+  .search .category li {
+    margin-right: 5px;
+    margin-bottom: 5px;
+  }
+
+}
+
+/* 스마트폰 가로 */
 @media screen and (max-width:767.98px) {
+
   .note-form {
     width: 100%
+  }
+
+  .search .select-box {
+    width: auto;
+  }
+
+  .search .selected-value, .sort button {
+    font-size: 13px;
+    width: 125px;
+  }
+
+  .sort button {
+    text-align: left;
+    width: auto;
   }
 
   .preview-box ul {}
