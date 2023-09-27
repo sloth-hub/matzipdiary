@@ -140,6 +140,7 @@ button:hover {
 
 main .inner {
   position: relative;
+  justify-content: flex-start;
   flex-direction: column;
   min-height: 714px;
 }
@@ -272,8 +273,7 @@ nav .login:hover {
 .search {
   display: flex;
   justify-content: space-between;
-  position: absolute;
-  top: 0;
+  margin-bottom: 50px;
   width: 100%;
 }
 
@@ -456,7 +456,7 @@ textarea {
 
 .notes {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   width: 100%;
 }
 
@@ -470,6 +470,7 @@ textarea {
 
 .note {
   display: flex;
+  position: relative;
   flex-direction: column;
   justify-content: space-between;
   width: 240px;
@@ -485,6 +486,7 @@ textarea {
 .note .img-wrap {
   display: flex;
   align-items: center;
+  align-self: center;
   position: relative;
   width: 240px;
   height: 240px;
@@ -495,7 +497,7 @@ textarea {
   width: 100%;
 }
 
-.note .img-wrap .imgcount {
+.note .imgcount {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -514,6 +516,12 @@ textarea {
   font-weight: 500;
 }
 
+.note span:nth-of-type(2) {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 .note .content-wrap {
   display: flex;
   flex-direction: column;
@@ -530,20 +538,22 @@ textarea {
   margin-right: 5px;
 }
 
-.note .category::after {
-  content: "";
-  margin: 0 8px;
-  font-size: 12px;
+.note .category {
   border-right: 2px solid var(--L-gray);
+  padding-right: 5px;
+  margin-right: 5px;
 }
 
 .note .place {
   display: flex;
   margin-top: 5px;
   margin-bottom: 15px;
+  text-wrap: nowrap;
+  align-items: center;
 }
 
 .note .place svg {
+  min-width: 14px;
   margin-right: 5px;
 }
 
@@ -1048,6 +1058,32 @@ footer span {
 @media screen and (max-width:1199.98px) {
   .inner {
     width: 90%;
+  }
+
+  .notes {
+    flex-wrap: wrap;
+    align-self: flex-start;
+  }
+
+  .note {
+    width: 25%;
+    /* flex: 1 1 0%; */
+    flex-direction: column;
+    max-width: 240px;
+    margin-right: 0;
+    margin: 0.75rem;
+  }
+
+  .note:nth-of-type(4n) {
+    margin: 0.75rem;
+  }
+
+  .note .img-wrap {
+    height: 60%;
+  }
+
+  .note .content-wrap {
+    height: 35%;
   }
 }
 

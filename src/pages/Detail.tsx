@@ -24,7 +24,6 @@ export const Detail = () => {
 
     useEffect(() => {
         mapInit();
-        console.log(sortStatus);
     }, []);
 
     const mapInit = async () => {
