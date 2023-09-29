@@ -13,11 +13,13 @@ export const Note = ({ note, sortStatus }: any) => {
         text,
         id } = note;
 
-    const test = (e: React.SyntheticEvent) => {
+    const imgLazyLoading = (e: React.SyntheticEvent) => {
         const target = e.target as HTMLImageElement;
         const loader = target.nextSibling as HTMLElement;
+        const div = document.querySelectorAll(".note .img-wrap>div");
         if (target.complete) {
             loader.classList.add("false");
+            div.forEach((v) => (v as HTMLElement).style.minWidth = "188px");
         }
     }
 
@@ -27,14 +29,14 @@ export const Note = ({ note, sortStatus }: any) => {
                 {images ? images.length > 1 ?
                     <>
                         <div>
-                            <img src={images[0].fileUrl} key={images[0].fileUrl.slice(-12)} onLoad={test} />
+                            <img src={images[0].fileUrl} key={images[0].fileUrl.slice(-12)} onLoad={imgLazyLoading} />
                             <span className="loading"></span>
                         </div>
                         <span className="imgcount">+{images.length - 1}</span>
                     </>
                     : <>
                         <div>
-                            <img src={images[0].fileUrl} key={images[0].fileUrl.slice(-12)} onLoad={test} />
+                            <img src={images[0].fileUrl} key={images[0].fileUrl.slice(-12)} onLoad={imgLazyLoading} />
                             <span className="loading"></span>
                         </div>
                     </>

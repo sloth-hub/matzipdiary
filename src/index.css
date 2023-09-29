@@ -1090,10 +1090,7 @@ footer span {
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-
-  .note .img-wrap img {
-    min-width: 120%;
+    min-width: 240px;
   }
 
   .note .content-wrap {
