@@ -1193,9 +1193,35 @@ footer span {
   .search .category li, .search .category li::before {
     font-size: 13px;
   }
-  
 
   #map {
     height: 250px !important;
+  }
+
+  input:not(#images), .selected-value, .food-category, textarea, #placeName {
+    height: 40px;
+    font-size: 14px;
+  }
+
+  .food-category, .sort {
+    height: fit-content;
+  }
+
+  .food-category {
+    top: 65px;
+  }
+
+  .select-box .selected .arrow {
+    bottom: 5px;
+  }
+
+  .drag-box .drag-text {
+    text-align: center;
+    font-size: 16px;
+  }
+
+  .drag-box svg {
+    width: 2.5rem;
+    height: 2.5rem;
   }
 }
