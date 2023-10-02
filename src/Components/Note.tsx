@@ -19,7 +19,7 @@ export const Note = ({ note, sortStatus }: any) => {
         const div = document.querySelectorAll(".note .img-wrap>div");
         if (target.complete) {
             loader.classList.add("false");
-            div.forEach((v) => (v as HTMLElement).style.minWidth = "188px");
+            div.forEach((v) => (v as HTMLElement).style.minWidth = "200px");
         }
     }
 

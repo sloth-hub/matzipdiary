@@ -8,6 +8,7 @@ export const Detail = () => {
 
     const [address, setAddress] = useState({ lotAddr: "", roadAddr: "" });
     const [slideNum, setSlideNum] = useState<number>(0);
+    const [slideWidth, setSlideWidth] = useState<number>(0);
     const [modalImg, setModalImg] = useState<string>("");
 
     const statedata = useLocation();
@@ -24,6 +25,7 @@ export const Detail = () => {
 
     useEffect(() => {
         mapInit();
+        resizedImgWrap();
     }, []);
 
     const mapInit = async () => {
@@ -42,11 +44,11 @@ export const Detail = () => {
         const target = e.currentTarget;
         if (target.className === "prev") {
             if (0 < slideNum) {
-                setSlideNum(slideNum - 319);
+                setSlideNum(slideNum - slideWidth);
             }
         } else {
-            if ((images.length - 3) * 319 >= slideNum) {
-                setSlideNum(slideNum + 319);
+            if ((images.length - 3) * slideWidth >= slideNum) {
+                setSlideNum(slideNum + slideWidth);
             }
         }
     }
@@ -74,6 +76,26 @@ export const Detail = () => {
         if (target.complete) {
             loader.classList.add("false");
         }
+    }
+
+    const resizedImgWrap = () => {
+        const imgWrap = document.querySelector(".img-wrap") as HTMLElement;
+        const imgs = document.querySelectorAll(".detail .img-wrap ul li img");
+        window.addEventListener("resize", ({ target }) => {
+            const tgt = target as Window;
+            if (tgt.innerWidth > 768.98) {
+                imgs.forEach((v) => {
+                    (v as HTMLElement).style.minWidth = "319px";
+                });
+                setSlideWidth(319);
+            } else {
+                const offsetWidth = imgWrap.offsetWidth;
+                imgs.forEach((v) => {
+                    (v as HTMLElement).style.minWidth = `${imgWrap.offsetWidth}px`;
+                });
+                setSlideWidth(offsetWidth);
+            }
+        });
     }
 
     return (

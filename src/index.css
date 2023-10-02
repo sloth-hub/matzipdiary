@@ -85,6 +85,7 @@ strong {
 ::-webkit-scrollbar {
   width: 10px;
   height: 5px;
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -94,6 +95,7 @@ strong {
 
 ::-webkit-scrollbar-track {
   background-color: var(--S-L-gray);
+  border-radius: 10px;
 }
 
 .hide {
@@ -821,7 +823,6 @@ textarea {
 .detail p {
   padding-top: 15px;
   margin-bottom: 30px;
-  word-break: keep-all;
 }
 
 .detail .bottom-wrap {
@@ -1176,9 +1177,18 @@ footer span {
     height: 55%;
   }
 
-  .preview-box ul {}
+  .detail {
+    width: 100%;
+  }
 
-  .preview-box ul li+li {}
+  .detail .img-wrap {
+    height: 60vw;
+  }
+
+  .detail .img-wrap ul li img {
+    min-width: 83.2vw;
+  }
+
 }
 
 @media screen and (max-width:575.98px) {
