@@ -49,7 +49,8 @@ export const Login = () => {
             });
     }
 
-    const snsLogin = async ({ target }: any) => {
+    const snsLogin = async ({ currentTarget }: any) => {
+        const target = currentTarget;
         if (target.name === "google") {
             const provider = new GoogleAuthProvider;
             addUserInfo(provider);
@@ -110,7 +111,7 @@ export const Login = () => {
                 </div>
                 <div className="sns-login">
                     <button type="button" name="google" onClick={snsLogin}><FcGoogle size={"2em"} /><span className="hide">구글 로그인</span></button>
-                    <button type="button" name="github" onClick={snsLogin}><FaGithub size={"1.8em"} /><span className="hide">구글 로그인</span></button>
+                    <button type="button" name="github" onClick={snsLogin}><FaGithub size={"1.8em"} /><span className="hide">깃허브 로그인</span></button>
                 </div>
                 <Link to="/signup" className="signup">회원가입</Link>
             </form>

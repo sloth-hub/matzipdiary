@@ -26,6 +26,7 @@ const App = () => {
                         email: data.email,
                         nickname: data.nickname,
                         date_created: data.date_created,
+                        pfp:user.photoURL!
                     });
                 });
                 setIsLoggedIn(true);

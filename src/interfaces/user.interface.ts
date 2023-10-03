@@ -3,6 +3,7 @@ export interface UserInterface {
     email: string,
     nickname: string,
     date_created: string,
+    pfp:string
 }
 
 export interface UserInputInterface {
