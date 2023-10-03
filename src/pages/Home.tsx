@@ -119,31 +119,36 @@ export const Home = ({ notes, ogNotes, setNotes, isLoading }: RouterType) => {
             {isLoading ? <div className="loader">Loading...</div>
                 :
                 <>
-                    <div className="search">
-                        <ul className="category" onClick={clickedCategory}>
-                            <li>한식</li>
-                            <li>양식</li>
-                            <li>중식</li>
-                            <li>일식</li>
-                            <li>아시아/퓨전</li>
-                            <li>카페</li>
-                            <li>기타</li>
-                        </ul>
-                        <div className="select-box" onMouseLeave={selectedHover}>
-                            <div className="selected">
-                                <button type="button" name="foodCategory" className="selected-value" onClick={selectedToggle}>
-                                    {sortStatus}
-                                </button>
-                                <div className="arrow" onClick={selectedToggle}><RiArrowDownSLine size={"1.5em"} /></div>
-                            </div>
-                            <div className="sort">
-                                <button type="button" onClick={clickedSortBtn} value="cre_asc">작성일 최신순</button>
-                                <button type="button" onClick={clickedSortBtn} value="cre_desc">작성일 오래된순</button>
-                                <button type="button" onClick={clickedSortBtn} value="visit_asc">방문일 최신순</button>
-                                <button type="button" onClick={clickedSortBtn} value="visit_desc">방문일 오래된순</button>
+                    {notes.length > 0 ?
+                        <div className="search">
+                            <ul className="category" onClick={clickedCategory}>
+                                <li>한식</li>
+                                <li>양식</li>
+                                <li>중식</li>
+                                <li>일식</li>
+                                <li>아시아/퓨전</li>
+                                <li>카페</li>
+                                <li>기타</li>
+                            </ul>
+                            <div className="select-box" onMouseLeave={selectedHover}>
+                                <div className="selected">
+                                    <button type="button" name="foodCategory" className="selected-value" onClick={selectedToggle}>
+                                        {sortStatus}
+                                    </button>
+                                    <div className="arrow" onClick={selectedToggle}><RiArrowDownSLine size={"1.5em"} /></div>
+                                </div>
+                                <div className="sort">
+                                    <button type="button" onClick={clickedSortBtn} value="cre_asc">작성일 최신순</button>
+                                    <button type="button" onClick={clickedSortBtn} value="cre_desc">작성일 오래된순</button>
+                                    <button type="button" onClick={clickedSortBtn} value="visit_asc">방문일 최신순</button>
+                                    <button type="button" onClick={clickedSortBtn} value="visit_desc">방문일 오래된순</button>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                        :
+                        <></>
+                    }
+
                     <div className="notes-wrap">
                         <div className="notes">
                             {notes.length > 0 ?
