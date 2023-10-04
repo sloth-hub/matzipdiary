@@ -860,6 +860,7 @@ textarea {
   font-family: 'Nanum Myeongjo', serif;
   text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.6);
   opacity: 0.8;
+  border-radius: 0;
 }
 
 .detail .slide-btns button:hover {
@@ -867,13 +868,27 @@ textarea {
 }
 
 .detail .slide-btns .prev {
-  left: 5px;
-  padding-right: 5px;
+  left: 0;
+  padding: 5px 8px;
+
+}
+
+.detail .slide-btns .prev:hover {
+  height: 100%;
+  background: linear-gradient(270deg, transparent 0, rgba(255, 255, 255, 0.5) 100%);
+  transition: background 1s linear;
 }
 
 .detail .slide-btns .next {
-  right: 5px;
-  padding-left: 5px;
+  right: 0;
+  padding: 5px 8px;
+
+}
+
+.detail .slide-btns .next:hover {
+  height: 100%;
+  background: linear-gradient(90deg, transparent 0, rgba(255, 255, 255, 0.5) 100%);
+  transition: background 1s linear;
 }
 
 .detail .slide-btns .prev.hide,
@@ -1261,6 +1276,11 @@ footer span {
 
   .detail .img-wrap ul li img {
     min-width: 83.2vw;
+  }
+
+  .detail .slide-btns .prev, .detail .slide-btns .next {
+    font-size: 18px;
+    padding: 8px 10px;
   }
 
 }
