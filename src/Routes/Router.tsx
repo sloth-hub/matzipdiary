@@ -48,7 +48,7 @@ export const AppRouter = ({ isLoggedIn, userObj }: RouterType) => {
         <BrowserRouter>
             <Nav userObj={userObj} />
             <main id="main">
-                <div className="inner">
+                <div className={isLoggedIn? "inner" : "inner center"}>
                     <Routes>
                         {isLoggedIn ?
                             <>
