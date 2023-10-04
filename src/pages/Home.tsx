@@ -119,7 +119,7 @@ export const Home = ({ notes, ogNotes, setNotes, isLoading }: RouterType) => {
             {isLoading ? <div className="loader">Loading...</div>
                 :
                 <>
-                    {notes.length > 0 ?
+                    {ogNotes.length > 0 ?
                         <div className="search">
                             <ul className="category" onClick={clickedCategory}>
                                 <li>한식</li>

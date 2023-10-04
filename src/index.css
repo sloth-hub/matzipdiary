@@ -165,7 +165,7 @@ main .inner {
   text-align: center;
   place-self: center;
   position: absolute;
-  top: 50%;
+  top: 45%;
 }
 
 .warn p {
@@ -250,7 +250,7 @@ nav .pfp-popup.on {
   text-align: center;
   background-color: var(--white);
   border: 1px solid var(--L-gray);
-  border-radius: 5px;
+  border-radius: 8px;
 }
 
 nav .pfp-popup.on::after {
@@ -1206,6 +1206,14 @@ footer span {
 /* 스마트폰 가로 */
 @media screen and (max-width:767.98px) {
 
+  nav .pfp-popup.on {
+    right: -20px;
+  }
+
+  nav .pfp-popup.on::after {
+    right: 31px;
+  }
+
   .note-form {
     width: 100%
   }
@@ -1251,6 +1259,14 @@ footer span {
 }
 
 @media screen and (max-width:575.98px) {
+
+  nav .pfp-popup.on {
+    right: 0;
+  }
+
+  nav .pfp-popup.on::after {
+    right: 12px;
+  }
 
   .notes {
     grid-template-columns: repeat(2, 1fr);
