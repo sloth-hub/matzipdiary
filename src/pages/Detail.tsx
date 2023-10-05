@@ -72,13 +72,17 @@ export const Detail = () => {
     }
 
     const imgLazyLoading = (e: React.SyntheticEvent) => {
-        const target = e.target as HTMLImageElement;
+        const target = e.currentTarget as HTMLImageElement;
         const loader = target.nextSibling as HTMLElement;
         const imgWrap = document.querySelector(".img-wrap") as HTMLElement;
         if (target.complete) {
             loader.classList.add("false");
             if (window.innerWidth < 768.98) {
                 setSlideWidth(imgWrap.offsetWidth);
+                target.style.minWidth = `${imgWrap.offsetWidth}px`;
+                setSlideCount(1);
+            } else {
+                setSlideCount(0);
             }
         }
     }
@@ -101,6 +105,7 @@ export const Detail = () => {
                     (v as HTMLElement).style.minWidth = `${imgWrap.offsetWidth}px`;
                 });
                 setSlideWidth(offsetWidth);
+                setSlideNum(0);
                 setSlideCount(1);
             }
         });
@@ -108,7 +113,7 @@ export const Detail = () => {
 
     return (
         <div className="detail">
-            <div className="img-wrap">
+            <div className={images.length == 1 ? "img-wrap only" : "img-wrap"}>
                 <div className="modal">
                     <img src={modalImg} alt="미리보기" />
                     <button type="button" className="close" onClick={modalBtnHandler}>
@@ -118,7 +123,7 @@ export const Detail = () => {
                 <ul className="slider" style={{ transform: `translate(-${slideNum}px)` }}>
                     {images ? images.map((image: any, i: number) =>
                         <li key={i} onClick={clickedImage}>
-                            <img src={image.fileUrl} className="only" onLoad={imgLazyLoading} />
+                            <img src={image.fileUrl} onLoad={imgLazyLoading} />
                             <span className="loading"></span>
                         </li>)
                         : <></>}
