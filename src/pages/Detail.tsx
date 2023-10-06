@@ -21,13 +21,12 @@ export const Detail = () => {
         images,
         location,
         text } = statedata.state.note;
-
     const sortStatus = statedata.state.sortStatus;
 
     useEffect(() => {
         mapInit();
         resizedImgWrap();
-    }, []);
+    }, [slideNum]);
 
     const mapInit = async () => {
         const kakao = (window as any).kakao;
@@ -44,13 +43,11 @@ export const Detail = () => {
         e.preventDefault();
         const target = e.currentTarget;
         if (target.className === "prev") {
-            if (0 < slideNum) {
+            if (0 < slideNum)
                 setSlideNum(slideNum - slideWidth);
-            }
         } else {
-            if ((images.length - (3 - slideCount)) * slideWidth >= slideNum) {
+            if (slideWidth * images.length >= slideNum)
                 setSlideNum(slideNum + slideWidth);
-            }
         }
     }
 
@@ -90,22 +87,28 @@ export const Detail = () => {
     const resizedImgWrap = () => {
         const imgWrap = document.querySelector(".img-wrap") as HTMLElement;
         const imgs = document.querySelectorAll(".detail .img-wrap ul li img");
+        const slider = document.querySelector(".slider") as HTMLElement;
         window.addEventListener("resize", ({ target }) => {
             const tgt = target as Window;
+            // 슬라이드 2개씩일 때
             if (tgt.innerWidth > 768.98) {
                 imgs.forEach((v) => {
                     (v as HTMLElement).style.minWidth = "319px";
                 });
                 setSlideWidth(319);
-                setSlideNum(0);
+                if (slideNum > 319 * (images.length - 2)) {
+                    // const count = Math.floor(Number(slider.dataset.num));
+                    // 수정 필요
+                }
                 setSlideCount(0);
             } else {
+                // 슬라이드 1개씩일 때
                 const offsetWidth = imgWrap.offsetWidth;
                 imgs.forEach((v) => {
-                    (v as HTMLElement).style.minWidth = `${imgWrap.offsetWidth}px`;
+                    (v as HTMLElement).style.minWidth = `${offsetWidth}px`;
                 });
                 setSlideWidth(offsetWidth);
-                setSlideNum(0);
+                setSlideNum(offsetWidth * Number(slider.dataset.num));
                 setSlideCount(1);
             }
         });
@@ -120,7 +123,7 @@ export const Detail = () => {
                         <GrClose size={"1.8em"} />
                     </button>
                 </div>
-                <ul className="slider" style={{ transform: `translate(-${slideNum}px)` }}>
+                <ul className="slider" style={{ transform: `translate(-${slideNum}px)` }} data-num={slideNum / slideWidth}>
                     {images ? images.map((image: any, i: number) =>
                         <li key={i} onClick={clickedImage}>
                             <img src={image.fileUrl} onLoad={imgLazyLoading} />
@@ -142,7 +145,7 @@ export const Detail = () => {
             <div className="info-wrap">
                 <div className="place">
                     <div className="placename">
-                        <span className="title">{placeName}</span>
+                        <span className="title">{placeName} {`slideWidth: ${slideWidth} / slideNum: ${slideNum}`}</span>
                         <a href={`https://map.kakao.com/link/map/${placeName},${location.lat},${location.lng}`} target="_blank">
                             <HiOutlineMap size={"1.5em"} />
                         </a>
