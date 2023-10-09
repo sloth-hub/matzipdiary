@@ -166,7 +166,7 @@ export const WriteNote = ({ userObj }: any) => {
                     <input type="date" name="date_visited" data-name="date_visited" onChange={onChange} />
                 </div>
                 <div className="select-box" onMouseLeave={selectedHover}>
-                    <label htmlFor="foodCategory">음식 카테고리</label>
+                    <label htmlFor="foodCategory">카테고리</label>
                     <div className="selected">
                         <button type="button" name="foodCategory" className="selected-value" onClick={selectedToggle}>
                         </button>

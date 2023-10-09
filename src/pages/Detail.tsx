@@ -145,7 +145,7 @@ export const Detail = () => {
             <div className="info-wrap">
                 <div className="place">
                     <div className="placename">
-                        <span className="title">{placeName} {`slideWidth: ${slideWidth} / slideNum: ${slideNum}`}</span>
+                        <span className="title">{placeName}</span>
                         <a href={`https://map.kakao.com/link/map/${placeName},${location.lat},${location.lng}`} target="_blank">
                             <HiOutlineMap size={"1.5em"} />
                         </a>
