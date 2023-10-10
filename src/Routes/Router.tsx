@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route, HashRouter } from "react-router-dom";
 import { SignUp } from "../pages/SignUp";
 import { Login } from "../pages/Login"
 import { Home } from "../pages/Home";
@@ -45,10 +45,10 @@ export const AppRouter = ({ isLoggedIn, userObj }: RouterType) => {
     }
 
     return (
-        <BrowserRouter>
+        <HashRouter>
             <Nav userObj={userObj} />
             <main id="main">
-                <div className={isLoggedIn? "inner" : "inner center"}>
+                <div className={isLoggedIn ? "inner" : "inner center"}>
                     <Routes>
                         {isLoggedIn ?
                             <>
@@ -71,6 +71,6 @@ export const AppRouter = ({ isLoggedIn, userObj }: RouterType) => {
                     &copy; 2023 <span>matzipdiary.</span> All rights reserved.
                 </div>
             </footer>
-        </BrowserRouter>
+        </HashRouter>
     )
 }
