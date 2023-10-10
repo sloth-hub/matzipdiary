@@ -48,9 +48,6 @@ export const Nav = ({ userObj }: RouterType) => {
                         </>
                     }
                 </div>
-
-
-
             </div>
         </nav>
     );

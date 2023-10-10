@@ -902,7 +902,7 @@ textarea {
   display: none;
 }
 
-.detail p {
+.detail .text {
   padding-top: 15px;
   margin-bottom: 30px;
 }
