@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/matzipdiary/static/css/main.12633a26.css",
+    "main.js": "/matzipdiary/static/js/main.fe4dcd6f.js",
+    "index.html": "/matzipdiary/index.html",
+    "main.12633a26.css.map": "/matzipdiary/static/css/main.12633a26.css.map",
+    "main.fe4dcd6f.js.map": "/matzipdiary/static/js/main.fe4dcd6f.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.12633a26.css",
+    "static/js/main.fe4dcd6f.js"
+  ]
+}
