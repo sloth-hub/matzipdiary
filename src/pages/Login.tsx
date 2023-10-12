@@ -77,6 +77,7 @@ export const Login = () => {
                         date_created: moment().utc().format("YYYY-MM-DD HH:mm:ss")
                     });
                 }
+                window.location.reload();
             }).catch(err => {
                 console.log(`${err.code} - ${err.message}`);
             });
