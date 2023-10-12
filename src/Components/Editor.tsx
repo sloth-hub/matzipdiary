@@ -3,8 +3,9 @@ import "react-quill/dist/quill.snow.css";
 
 type Props = {
     onChange: (value: any) => void;
+    prevData: any;
 }
-export const Editor = ({ onChange }: Props) => {
+export const Editor = ({ onChange, prevData }: Props) => {
 
     const modules = {
         toolbar: [

@@ -761,7 +761,17 @@ textarea {
   font-size: 14px;
 }
 
-.detail .date span:first-of-type::after {
+.detail .date .modify span {
+  color: var(--D-gray);
+  font-weight: 700;
+  transition: color .08s linear;
+}
+
+.detail .date .modify:hover span {
+  color: var(--main-color);
+}
+
+.detail .date span:first-of-type:not(.modify>span)::after {
   content: "·";
   font-weight: 700;
   margin: 0 3px;

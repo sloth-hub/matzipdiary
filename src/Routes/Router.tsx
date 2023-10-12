@@ -55,6 +55,7 @@ export const AppRouter = ({ isLoggedIn, userObj }: RouterType) => {
                                 <Route path="/" element={<Home notes={notes} ogNotes={ogNotes} setNotes={setNotes} isLoading={isLoading} />} />
                                 <Route path="/write" element={<WriteNote userObj={userObj} />} />
                                 <Route path="/note/:id" element={<Detail />} />
+                                <Route path="/note/:id/write" element={<WriteNote userObj={userObj} />} />
                             </>
                             :
                             <>

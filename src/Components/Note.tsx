@@ -54,7 +54,7 @@ export const Note = ({ note, sortStatus }: any) => {
                 </div>
                 <p>{text.replace(/(<([^>]+)>)/ig, "").replaceAll("&amp;", "")}</p>
             </div>
-            <Link to={`/note/${id}`} state={{ note, sortStatus }} className="more">
+            <Link to={`/note/${id}`} state={{ note, id, sortStatus }} className="more">
                 <span>more</span>
                 <BiChevronRight size={"1.2em"} />
             </Link>

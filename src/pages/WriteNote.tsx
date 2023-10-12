@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { NoteInterface, Images } from "../interfaces/note.interface";
 import Map from "../Components/Map";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { RiArrowDownSLine } from "react-icons/ri";
 import { FaDownload } from "react-icons/fa";
 import { IoIosClose } from "react-icons/io";
-import { ref, getDownloadURL, uploadString, updateMetadata, uploadBytes } from "firebase/storage";
+import { ref, getDownloadURL, updateMetadata, uploadBytes } from "firebase/storage";
 import { collection, addDoc } from "firebase/firestore";
 import { storage, db } from "../Firebase";
 import { v4 as uuid4 } from "uuid";
@@ -31,9 +31,12 @@ export const WriteNote = ({ userObj }: any) => {
     });
 
     const { uid } = inputs;
+    const statedata = useLocation();
 
     const [file, setFile] = useState<Images[]>([]);
     const [image, setImage] = useState<img[]>([]);
+    const [prevData, setPrevData] = useState(null);
+    const [isModify, setIsModify] = useState<boolean>(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -41,6 +44,10 @@ export const WriteNote = ({ userObj }: any) => {
         categories!.addEventListener("click", (e: Event) => {
             clickedMenu(e);
         });
+        if (statedata.state) {
+            setIsModify(true);
+            setPrevData(statedata.state);
+        }
     }, []);
 
     const onSubmit = async (e: any) => {
@@ -146,7 +153,7 @@ export const WriteNote = ({ userObj }: any) => {
     const onChange = (e: any) => {
         let data_name;
         let value;
-        if (typeof(e) === "string") {
+        if (typeof (e) === "string") {
             data_name = "text";
             value = e;
         } else {
@@ -220,9 +227,9 @@ export const WriteNote = ({ userObj }: any) => {
                     </ul>
                 </div>
             </div>
-            <Editor onChange={onChange} />
+            <Editor onChange={onChange} prevData={prevData} />
             <div className="btn-wrap">
-                <button type="button" onClick={() => navigate("/")} className="back">뒤로</button>
+                <button type="button" onClick={() => navigate(-1)} className="back">뒤로</button>
                 <button type="submit">완료</button>
             </div>
         </form>

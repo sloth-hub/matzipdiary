@@ -3,6 +3,7 @@ import { useLocation, useNavigate, } from "react-router";
 import { BiChevronLeft } from "react-icons/bi";
 import { HiOutlineMap } from "react-icons/hi";
 import { GrClose } from "react-icons/gr";
+import { Link } from "react-router-dom";
 
 export const Detail = () => {
 
@@ -21,6 +22,7 @@ export const Detail = () => {
         images,
         location,
         text } = statedata.state.note;
+    const id = statedata.state.id;
     const sortStatus = statedata.state.sortStatus;
 
     useEffect(() => {
@@ -166,7 +168,12 @@ export const Detail = () => {
                     <BiChevronLeft size={"1.5em"} />
                     <span>뒤로</span>
                 </button>
-                <span className="created-date">{date_created}</span>
+                <div className="date">
+                    <span className="created-date">{date_created}</span>
+                    <Link to={`/note/${id}/write`} state={statedata.state.note} className="modify" >
+                        <span>수정</span>
+                    </Link>
+                </div>
             </div>
         </div>
     )
