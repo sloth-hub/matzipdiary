@@ -52,7 +52,7 @@ export const Note = ({ note, sortStatus }: any) => {
                     <span className="category">{foodCategory}</span>
                     <span>{placeName}</span>
                 </div>
-                <p>{text.replace(/\<|\/|[a-z]|\>/g, "")}</p>
+                <p>{text.replace(/(<([^>]+)>)/ig, "").replaceAll("&amp;", "")}</p>
             </div>
             <Link to={`/note/${id}`} state={{ note, sortStatus }} className="more">
                 <span>more</span>
