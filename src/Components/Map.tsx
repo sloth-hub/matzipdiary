@@ -2,11 +2,12 @@ import React, { useEffect } from "react";
 import "./kakaomap.css";
 
 type Props = {
-    inputs: {},
-    setInputs: (value: any) => void;
+    setInputs: (value: any) => void,
+    id: string,
+    location: { lat: number, lng: number }
 }
 
-export const Map = ({ inputs, setInputs }: Props) => {
+export const Map = ({ setInputs, id, location }: Props) => {
 
     useEffect(() => {
         init();
@@ -30,6 +31,19 @@ export const Map = ({ inputs, setInputs }: Props) => {
         ps = new kakao.maps.services.Places();
         // 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성합니다
         infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
+
+        if (id) {
+            setCenter();
+        }
+    }
+
+    const setCenter = () => {
+        var moveLatLon = new kakao.maps.LatLng(location.lat, location.lng);
+        map.setCenter(moveLatLon); 
+        var marker = new kakao.maps.Marker({
+            position: moveLatLon
+        });
+        marker.setMap(map);
     }
 
     const searchPlaces = (e: React.MouseEvent) => {

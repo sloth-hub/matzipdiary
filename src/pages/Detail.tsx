@@ -170,7 +170,7 @@ export const Detail = () => {
                 </button>
                 <div className="date">
                     <span className="created-date">{date_created}</span>
-                    <Link to={`/note/${id}/write`} state={statedata.state.note} className="modify" >
+                    <Link to={`/note/${id}/write`} state={{data: statedata.state.note, id:id }} className="modify" >
                         <span>수정</span>
                     </Link>
                 </div>

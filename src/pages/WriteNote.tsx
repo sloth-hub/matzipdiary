@@ -30,12 +30,21 @@ export const WriteNote = ({ userObj }: any) => {
         images: []
     });
 
-    const { uid } = inputs;
     const statedata = useLocation();
 
     const [file, setFile] = useState<Images[]>([]);
     const [image, setImage] = useState<img[]>([]);
-    const [prevData, setPrevData] = useState(null);
+    const [prevData, setPrevData] = useState<NoteInterface>({
+        uid: userObj.uid,
+        id: "",
+        date_created: "",
+        date_visited: "",
+        foodCategory: "",
+        location: { lat: 0, lng: 0 },
+        text: "",
+        placeName: "",
+        images: []
+    });
     const [isModify, setIsModify] = useState<boolean>(false);
     const navigate = useNavigate();
 
@@ -45,31 +54,49 @@ export const WriteNote = ({ userObj }: any) => {
             clickedMenu(e);
         });
         if (statedata.state) {
+            setPrevData(statedata.state.data);
+            setInputs({
+                uid: userObj.uid,
+                id: statedata.state.id,
+                date_created: "",
+                date_visited: statedata.state.data.date_visited,
+                foodCategory: statedata.state.data.foodCategory,
+                location: statedata.state.data.location,
+                text: statedata.state.data.text,
+                placeName: statedata.state.data.placeName,
+                images: []
+            });
             setIsModify(true);
-            setPrevData(statedata.state);
         }
     }, []);
 
     const onSubmit = async (e: any) => {
         e.preventDefault();
+        console.log(inputs);
         if (file.length > 0) {
-            const result = await Promise.all(
-                image.map(async (v, _) => {
-                    const fileRef = ref(storage, `${uid}/${uuid4()}`);
-                    await uploadBytes(fileRef, v.fileUrl);
-                    const data = await updateMetadata(fileRef, { contentType: "image/jpeg" });
-                    const resultUrl = await getDownloadURL(fileRef);
-                    return { fileUrl: resultUrl };
-                })
-            );
-            await addDoc(collection(db, "notes"), {
-                ...inputs,
-                images: result,
-                date_created: moment().utc().format("YYYY-MM-DD HH:mm:ss")
-            }).then(() => {
-                alert("등록이 완료되었습니다.");
-                navigate("/");
-            }).catch(err => console.log(`${err.code} - ${err.message}`));
+            if (isModify) {
+                // 수정
+
+            } else {
+                // 새로 글쓰기
+                const result = await Promise.all(
+                    image.map(async (v, _) => {
+                        const fileRef = ref(storage, `${userObj.uid}/${uuid4()}`);
+                        await uploadBytes(fileRef, v.fileUrl);
+                        const data = await updateMetadata(fileRef, { contentType: "image/jpeg" });
+                        const resultUrl = await getDownloadURL(fileRef);
+                        return { fileUrl: resultUrl };
+                    })
+                );
+                await addDoc(collection(db, "notes"), {
+                    ...inputs,
+                    images: result,
+                    date_created: moment().utc().format("YYYY-MM-DD HH:mm:ss")
+                }).then(() => {
+                    alert("등록이 완료되었습니다.");
+                    navigate("/");
+                }).catch(err => console.log(`${err.code} - ${err.message}`));
+            }
         }
     }
 
@@ -170,12 +197,17 @@ export const WriteNote = ({ userObj }: any) => {
             <div className="input-wrap">
                 <div className="input-box">
                     <label htmlFor="date_visited">방문일자</label>
-                    <input type="date" name="date_visited" data-name="date_visited" onChange={onChange} />
+                    <input type="date" name="date_visited" data-name="date_visited" onChange={onChange} value={isModify ? prevData!.date_visited : ""} />
                 </div>
                 <div className="select-box" onMouseLeave={selectedHover}>
                     <label htmlFor="foodCategory">카테고리</label>
                     <div className="selected">
-                        <button type="button" name="foodCategory" className="selected-value" onClick={selectedToggle}>
+                        <button type="button"
+                            name="foodCategory"
+                            className="selected-value"
+                            onClick={selectedToggle}
+                            value={isModify ? prevData!.foodCategory : ""}>
+                            {isModify ? prevData!.foodCategory : ""}
                         </button>
                         <div className="arrow" onClick={selectedToggle}><RiArrowDownSLine size={"1.5em"} /></div>
                     </div>
@@ -191,11 +223,11 @@ export const WriteNote = ({ userObj }: any) => {
                 </div>
             </div>
             <div className="input-box">
-                <button type="button" id="placeName" data-name="placeName" >
-                    위치를 선택하면 가게명이 입력됩니다.
+                <button type="button" id="placeName" data-name="placeName" value={isModify ? prevData.placeName : ""} >
+                    {isModify ? prevData.placeName : "위치를 선택하면 가게명이 입력됩니다."}
                 </button>
             </div>
-            <Map inputs={inputs} setInputs={setInputs} />
+            <Map setInputs={setInputs} id={statedata.state.id} location={statedata.state.data.location} />
             <div className="file-box">
                 <div className="drag-box"
                     onDrop={e => dragEvent(e, "drop")}
