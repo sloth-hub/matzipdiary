@@ -685,7 +685,8 @@ textarea {
   box-shadow: 5px 5px 10px var(--S-L-gray);
 }
 
-.detail span, .detail .text p {
+.detail span, .detail .text p, .detail .text p u, 
+.detail .text p strong, .detail .text p em, .detail .text p s{
   font-size: 15px;
 }
 
