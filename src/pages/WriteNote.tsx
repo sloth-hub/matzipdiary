@@ -5,8 +5,8 @@ import { useLocation, useNavigate } from "react-router";
 import { RiArrowDownSLine } from "react-icons/ri";
 import { FaDownload } from "react-icons/fa";
 import { IoIosClose } from "react-icons/io";
-import { ref, getDownloadURL, updateMetadata, uploadBytes } from "firebase/storage";
-import { collection, addDoc } from "firebase/firestore";
+import { ref, getDownloadURL, updateMetadata, uploadBytes, deleteObject } from "firebase/storage";
+import { collection, addDoc, updateDoc, doc } from "firebase/firestore";
 import { storage, db } from "../Firebase";
 import { v4 as uuid4 } from "uuid";
 import moment from "moment";
@@ -32,7 +32,8 @@ export const WriteNote = ({ userObj }: any) => {
 
     const statedata = useLocation();
 
-    const [file, setFile] = useState<Images[]>([]);
+    const [deleteImages, setDeleteImages] = useState<Images[]>([]);
+    const [thumbnail, setThumbnail] = useState<Images[]>([]);
     const [image, setImage] = useState<img[]>([]);
     const [prevData, setPrevData] = useState<NoteInterface>({
         uid: userObj.uid,
@@ -64,19 +65,49 @@ export const WriteNote = ({ userObj }: any) => {
                 location: statedata.state.data.location,
                 text: statedata.state.data.text,
                 placeName: statedata.state.data.placeName,
-                images: []
+                images: statedata.state.data.images
             });
+            setThumbnail(statedata.state.data.images);
             setIsModify(true);
         }
     }, []);
 
     const onSubmit = async (e: any) => {
         e.preventDefault();
-        console.log(inputs);
-        if (file.length > 0) {
+        if (thumbnail.length > 0) {
             if (isModify) {
-                // 수정
-
+                // 글 수정
+                // thumbnail에서 firestore에 업로드된 이미지만 필터링
+                const prevImages = thumbnail.filter((v, _) => v.fileUrl.includes("firebase"));
+                // 새 이미지들을 firestore에 업로드
+                const result = await Promise.all(
+                    image.map(async (v, _) => {
+                        const fileRef = ref(storage, `${userObj.uid}/${uuid4()}`);
+                        await uploadBytes(fileRef, v.fileUrl);
+                        const data = await updateMetadata(fileRef, { contentType: "image/jpeg" });
+                        const resultUrl = await getDownloadURL(fileRef);
+                        return { fileUrl: resultUrl };
+                    })
+                );
+                // 업로드 된 새 이미지들을 newImages에 넣기
+                const newImages = [...prevImages, ...result];
+                const updateRef = doc(db, "notes", `${prevData.id}`);
+                await updateDoc(updateRef, {
+                    ...inputs,
+                    images: newImages,
+                    date_created: moment().utc().format("YYYY-MM-DD HH:mm:ss")
+                }).then(() => {
+                    // firestore에서 삭제할 이미지 데이터들 삭제
+                    deleteImages.forEach((imgs, _) => {
+                        // ref 주소 수정 필요
+                        const imgRef = ref(storage, `${userObj.uid}/${imgs.fileUrl}`);
+                        deleteObject(imgRef).then(() => {
+                            console.log("이미지 삭제 완료");
+                        }).catch(err => console.log(`${err.code} - ${err.message}`));
+                    });
+                    alert("등록이 완료되었습니다.");
+                    navigate(-1);
+                }).catch(err => console.log(`${err.code} - ${err.message}`));
             } else {
                 // 새로 글쓰기
                 const result = await Promise.all(
@@ -121,7 +152,7 @@ export const WriteNote = ({ userObj }: any) => {
     const saveFileImage = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { target: { files } } = e;
         let fileLists: any = [...image];
-        let previewLists: any = [...file];
+        let previewLists: any = [...thumbnail];
         const maxSize = 5 * 1024 * 1024;
 
         // 파일 개수 체크 (코드 수정 필요)
@@ -143,7 +174,7 @@ export const WriteNote = ({ userObj }: any) => {
             }
         }
         setImage(fileLists); // db 저장용 파일(File)
-        setFile(previewLists); // 미리보기용 파일(string)
+        setThumbnail(previewLists); // 미리보기용 파일(string)
     }
 
     const dragEvent = (e: React.DragEvent<HTMLDivElement>, type: string) => {
@@ -153,7 +184,7 @@ export const WriteNote = ({ userObj }: any) => {
 
             let thisFile = e.dataTransfer.files[0];
             const maxSize = 5 * 1024 * 1024;
-            let fileLists: any = [...file];
+            let fileLists: any = [...thumbnail];
 
             // 파일 개수 체크
             if (fileLists.length > 10) {
@@ -167,14 +198,15 @@ export const WriteNote = ({ userObj }: any) => {
             } else {
                 const currentUrl = URL.createObjectURL(thisFile);
                 fileLists.push(currentUrl);
-                setFile(fileLists);
+                setThumbnail(fileLists);
             }
 
         }
     }
 
     const deleteImage = (id: any) => {
-        setFile(file.filter((_, index) => index !== id));
+        setDeleteImages([...deleteImages, thumbnail[id]]);
+        setThumbnail(thumbnail.filter((_, index) => index !== id));
     };
 
     const onChange = (e: any) => {
@@ -227,7 +259,7 @@ export const WriteNote = ({ userObj }: any) => {
                     {isModify ? prevData.placeName : "위치를 선택하면 가게명이 입력됩니다."}
                 </button>
             </div>
-            <Map setInputs={setInputs} id={statedata.state.id} location={statedata.state.data.location} />
+            <Map setInputs={setInputs} id={statedata.state ? statedata.state.id : ""} location={statedata.state ? statedata.state.data.location : {}} />
             <div className="file-box">
                 <div className="drag-box"
                     onDrop={e => dragEvent(e, "drop")}
@@ -240,7 +272,7 @@ export const WriteNote = ({ userObj }: any) => {
                 </div>
                 <div className="preview-box">
                     <ul>
-                        {file && file.slice(0, 5).map((image, id) => (
+                        {thumbnail && thumbnail.slice(0, 5).map((image, id) => (
                             <li key={id}>
                                 {/* @ts-ignore */}
                                 <img src={image.fileUrl} alt={`thumbnail-${id}`} />
@@ -249,7 +281,7 @@ export const WriteNote = ({ userObj }: any) => {
                         ))}
                     </ul>
                     <ul>
-                        {file && file.slice(5, 10).map((image, id) => (
+                        {thumbnail && thumbnail.slice(5, 10).map((image, id) => (
                             <li key={id}>
                                 {/* @ts-ignore */}
                                 <img src={image.fileUrl} alt={`thumbnail-${id}`} />
