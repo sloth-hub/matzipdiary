@@ -685,8 +685,8 @@ textarea {
   box-shadow: 5px 5px 10px var(--S-L-gray);
 }
 
-.detail span, .detail .text p, .detail .text p u, 
-.detail .text p strong, .detail .text p em, .detail .text p s{
+.detail span, .detail .text p, .detail .text p u,
+.detail .text p strong, .detail .text p em, .detail .text p s {
   font-size: 15px;
 }
 
@@ -753,26 +753,26 @@ textarea {
   color: var(--black);
 }
 
-.detail .date {
+.detail .right-wrap {
   padding-top: 10px;
   color: var(--D-gray);
 }
 
-.detail .date span {
+.detail .right-wrap span {
   font-size: 14px;
 }
 
-.detail .date .modify span {
+.detail .right-wrap .modify span, .detail .right-wrap .delete span {
   color: var(--D-gray);
   font-weight: 700;
   transition: color .08s linear;
 }
 
-.detail .date .modify:hover span {
+.detail .right-wrap .modify:hover span, .detail .right-wrap .delete:hover span {
   color: var(--main-color);
 }
 
-.detail .date span:first-of-type:not(.modify>span)::after {
+.detail .right-wrap span:first-of-type:not(.delete>span)::after {
   content: "·";
   font-weight: 700;
   margin: 0 3px;

@@ -4,6 +4,8 @@ import { BiChevronLeft } from "react-icons/bi";
 import { HiOutlineMap } from "react-icons/hi";
 import { GrClose } from "react-icons/gr";
 import { Link } from "react-router-dom";
+import { doc, deleteDoc } from "firebase/firestore";
+import { storage, db } from "../Firebase";
 
 export const Detail = () => {
 
@@ -116,6 +118,18 @@ export const Detail = () => {
         });
     }
 
+    const deleteNote = (e: React.MouseEvent) => {
+        e.preventDefault();
+        const response = window.confirm("정말로 삭제하시겠습니까?");
+        if (response) {
+            // 두번 클릭해야 뜸. 수정 필요
+            console.log("삭제");
+            // await deleteDoc(doc(db, "notes", id)).then(() => {
+            //     navigate("/");
+            // }).catch(err => console.log(`${err.code} - ${err.message}`));
+        }
+    }
+
     return (
         <div className="detail">
             <div className={images.length == 1 ? "img-wrap only" : "img-wrap"}>
@@ -168,11 +182,14 @@ export const Detail = () => {
                     <BiChevronLeft size={"1.5em"} />
                     <span>뒤로</span>
                 </button>
-                <div className="date">
+                <div className="right-wrap">
                     <span className="created-date">{date_created}</span>
-                    <Link to={`/note/${id}/write`} state={{data: statedata.state.note, id:id }} className="modify" >
+                    <Link to={`/note/${id}/write`} state={{ data: statedata.state.note, id: id }} className="modify" >
                         <span>수정</span>
                     </Link>
+                    <button type="button" className="delete" onClick={deleteNote} >
+                        <span>삭제</span>
+                    </button>
                 </div>
             </div>
         </div>
