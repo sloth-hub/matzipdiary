@@ -67,6 +67,7 @@ export const WriteNote = ({ userObj }: any) => {
                 placeName: statedata.state.data.placeName,
                 images: statedata.state.data.images
             });
+            (document.querySelector("input[type='date']") as HTMLInputElement)!.value = statedata.state.data.date_visited;
             setThumbnail(statedata.state.data.images);
             setIsModify(true);
         }
@@ -98,15 +99,16 @@ export const WriteNote = ({ userObj }: any) => {
                     date_created: moment().utc().format("YYYY-MM-DD HH:mm:ss")
                 }).then(() => {
                     // firestore에서 삭제할 이미지 데이터들 삭제
-                    deleteImages.forEach((imgs, _) => {
-                        // ref 주소 수정 필요
-                        const imgRef = ref(storage, `${userObj.uid}/${imgs.fileUrl}`);
+                    deleteImages.forEach((imgs) => {
+                        const imgRef = ref(storage, imgs.fileUrl);
                         deleteObject(imgRef).then(() => {
                             console.log("이미지 삭제 완료");
                         }).catch(err => console.log(`${err.code} - ${err.message}`));
                     });
-                    alert("등록이 완료되었습니다.");
+                    alert("수정이 완료되었습니다.");
+                    // 이전 화면 + 새로고침
                     navigate(-1);
+                    navigate(0);
                 }).catch(err => console.log(`${err.code} - ${err.message}`));
             } else {
                 // 새로 글쓰기
@@ -126,6 +128,7 @@ export const WriteNote = ({ userObj }: any) => {
                 }).then(() => {
                     alert("등록이 완료되었습니다.");
                     navigate("/");
+                    navigate(0);
                 }).catch(err => console.log(`${err.code} - ${err.message}`));
             }
         }
@@ -229,7 +232,7 @@ export const WriteNote = ({ userObj }: any) => {
             <div className="input-wrap">
                 <div className="input-box">
                     <label htmlFor="date_visited">방문일자</label>
-                    <input type="date" name="date_visited" data-name="date_visited" onChange={onChange} value={isModify ? prevData!.date_visited : ""} />
+                    <input type="date" name="date_visited" data-name="date_visited" onChange={onChange} />
                 </div>
                 <div className="select-box" onMouseLeave={selectedHover}>
                     <label htmlFor="foodCategory">카테고리</label>

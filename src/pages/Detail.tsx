@@ -5,6 +5,7 @@ import { HiOutlineMap } from "react-icons/hi";
 import { GrClose } from "react-icons/gr";
 import { Link } from "react-router-dom";
 import { doc, deleteDoc } from "firebase/firestore";
+import { ref, deleteObject } from "firebase/storage"
 import { storage, db } from "../Firebase";
 
 export const Detail = () => {
@@ -118,15 +119,23 @@ export const Detail = () => {
         });
     }
 
-    const deleteNote = (e: React.MouseEvent) => {
+    const deleteNote = async (e: React.MouseEvent) => {
         e.preventDefault();
         const response = window.confirm("정말로 삭제하시겠습니까?");
+        // 두번 클릭해야 뜸. 수정 필요
         if (response) {
-            // 두번 클릭해야 뜸. 수정 필요
-            console.log("삭제");
-            // await deleteDoc(doc(db, "notes", id)).then(() => {
-            //     navigate("/");
-            // }).catch(err => console.log(`${err.code} - ${err.message}`));
+            await deleteDoc(doc(db, "notes", id)).then(() => {
+                // 이미지 데이터 삭제
+                images.forEach((img: { fileUrl: string }) => {
+                    const imgRef = ref(storage, img.fileUrl);
+                    deleteObject(imgRef).then(() => {
+                        console.log("이미지 삭제 완료");
+                    }).catch(err => console.log(`${err.code} - ${err.message}`));
+                });
+                // 첫화면으로+새로고침
+                navigate("/");
+                navigate(0);
+            }).catch(err => console.log(`${err.code} - ${err.message}`));
         }
     }
 
