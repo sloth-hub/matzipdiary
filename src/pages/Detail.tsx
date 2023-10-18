@@ -141,66 +141,74 @@ export const Detail = () => {
 
     return (
         <div className="detail">
-            <div className={images.length == 1 ? "img-wrap only" : "img-wrap"}>
-                <div className="modal">
-                    <img src={modalImg} alt="미리보기" />
-                    <button type="button" className="close" onClick={modalBtnHandler}>
-                        <GrClose size={"1.8em"} />
-                    </button>
-                </div>
-                <ul className="slider" style={{ transform: `translate(-${slideNum}px)` }} data-num={slideNum / slideWidth}>
-                    {images ? images.map((image: any, i: number) =>
-                        <li key={i} onClick={clickedImage}>
-                            <img src={image.fileUrl} onLoad={imgLazyLoading} />
-                            <span className="loading"></span>
-                        </li>)
-                        : <></>}
-                </ul>
-                {images.length > 1 &&
-                    <div className="slide-btns">
-                        <button type="button" className={slideNum == 0 ? "prev hide" : "prev"} onClick={slideBtnHander}>
-                            &lt;
+            {address.lotAddr ?
+                <>
+                    <div className={images.length == 1 ? "img-wrap only" : "img-wrap"}>
+                        <div className="modal">
+                            <img src={modalImg} alt="미리보기" />
+                            <button type="button" className="close" onClick={modalBtnHandler}>
+                                <GrClose size={"1.8em"} />
+                            </button>
+                        </div>
+                        <ul className="slider" style={{ transform: `translate(-${slideNum}px)` }} data-num={slideNum / slideWidth}>
+                            {images ? images.map((image: any, i: number) =>
+                                <li key={i} onClick={clickedImage}>
+                                    <img src={image.fileUrl} onLoad={imgLazyLoading} />
+                                    <span className="loading"></span>
+                                </li>)
+                                : <></>}
+                        </ul>
+                        {images.length > 1 &&
+                            <div className="slide-btns">
+                                <button type="button" className={slideNum == 0 ? "prev hide" : "prev"} onClick={slideBtnHander}>
+                                    &lt;
+                                </button>
+                                <button type="button" className={slideNum == slideWidth * (images.length - (2 - slideCount)) ? "next hide" : "next"} onClick={slideBtnHander}>
+                                    &gt;
+                                </button>
+                            </div>
+                        }
+                    </div>
+                    <div className="info-wrap">
+                        <div className="place">
+                            <div className="placename">
+                                <span className="title">{placeName}</span>
+                                <a href={`https://map.kakao.com/link/map/${placeName},${location.lat},${location.lng}`} target="_blank">
+                                    <HiOutlineMap size={"1.5em"} />
+                                </a>
+                            </div>
+                            <div className="address">
+                                <span>{address.roadAddr}</span>
+                                <span> 지번&#41; {address.lotAddr}</span>
+                            </div>
+                            <div className="date">
+                                <span>{foodCategory}</span>
+                                <span>{date_visited} 방문</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="text" dangerouslySetInnerHTML={{ __html: text }}></div>
+                    <div className="bottom-wrap">
+                        <button type="button" className="back" onClick={() => navigate("/", { state: sortStatus })}>
+                            <BiChevronLeft size={"1.5em"} />
+                            <span>뒤로</span>
                         </button>
-                        <button type="button" className={slideNum == slideWidth * (images.length - (2 - slideCount)) ? "next hide" : "next"} onClick={slideBtnHander}>
-                            &gt;
-                        </button>
+                        <div className="right-wrap">
+                            <span className="created-date">{date_created}</span>
+                            <Link to={`/note/${id}/write`} state={{ data: statedata.state.note, id: id }} className="modify" >
+                                <span>수정</span>
+                            </Link>
+                            <button type="button" className="delete" onClick={deleteNote} >
+                                <span>삭제</span>
+                            </button>
+                        </div>
                     </div>
-                }
-            </div>
-            <div className="info-wrap">
-                <div className="place">
-                    <div className="placename">
-                        <span className="title">{placeName}</span>
-                        <a href={`https://map.kakao.com/link/map/${placeName},${location.lat},${location.lng}`} target="_blank">
-                            <HiOutlineMap size={"1.5em"} />
-                        </a>
-                    </div>
-                    <div className="address">
-                        <span>{address ? address.roadAddr : " "}</span>
-                        <span> 지번&#41; {address && address.lotAddr}</span>
-                    </div>
-                    <div className="date">
-                        <span>{foodCategory}</span>
-                        <span>{date_visited} 방문</span>
-                    </div>
+                </>
+                :
+                <div className="loader">
+                    Loading...
                 </div>
-            </div>
-            <div className="text" dangerouslySetInnerHTML={{ __html: text }}></div>
-            <div className="bottom-wrap">
-                <button type="button" className="back" onClick={() => navigate("/", { state: sortStatus })}>
-                    <BiChevronLeft size={"1.5em"} />
-                    <span>뒤로</span>
-                </button>
-                <div className="right-wrap">
-                    <span className="created-date">{date_created}</span>
-                    <Link to={`/note/${id}/write`} state={{ data: statedata.state.note, id: id }} className="modify" >
-                        <span>수정</span>
-                    </Link>
-                    <button type="button" className="delete" onClick={deleteNote} >
-                        <span>삭제</span>
-                    </button>
-                </div>
-            </div>
+            }
         </div>
     )
 }
