@@ -201,6 +201,11 @@ main .inner.center {
   animation: shine 1.5s ease infinite;
 }
 
+.detail .loading {
+  height: 100vw;
+  margin-top: -25vw;
+}
+
 @keyframes shine {
   to {
     background-position-x: -200%;
@@ -753,6 +758,15 @@ textarea {
   color: var(--black);
 }
 
+.detail .date {
+  margin-top: 3px;
+}
+
+.detail .date span {
+  font-size: 14px;
+  color: var(--D-gray);
+}
+
 .detail .right-wrap {
   padding-top: 10px;
   color: var(--D-gray);
@@ -772,7 +786,8 @@ textarea {
   color: var(--main-color);
 }
 
-.detail .right-wrap span:first-of-type:not(.delete>span)::after {
+.detail .right-wrap span:first-of-type:not(.delete>span)::after,
+.detail .date span:not(:nth-of-type(2))::after {
   content: "·";
   font-weight: 700;
   margin: 0 3px;

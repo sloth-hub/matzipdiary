@@ -46,6 +46,7 @@ export const WriteNote = ({ userObj }: any) => {
         placeName: "",
         images: []
     });
+    const [quillText, setQuillText] = useState<string>("");
     const [isModify, setIsModify] = useState<boolean>(false);
     const navigate = useNavigate();
 
@@ -55,21 +56,15 @@ export const WriteNote = ({ userObj }: any) => {
             clickedMenu(e);
         });
         if (statedata.state) {
+            setIsModify(true);
             setPrevData(statedata.state.data);
             setInputs({
                 uid: userObj.uid,
-                id: statedata.state.id,
                 date_created: "",
-                date_visited: statedata.state.data.date_visited,
-                foodCategory: statedata.state.data.foodCategory,
-                location: statedata.state.data.location,
-                text: statedata.state.data.text,
-                placeName: statedata.state.data.placeName,
-                images: statedata.state.data.images
+                ...statedata.state.data
             });
             (document.querySelector("input[type='date']") as HTMLInputElement)!.value = statedata.state.data.date_visited;
             setThumbnail(statedata.state.data.images);
-            setIsModify(true);
         }
     }, []);
 
@@ -95,6 +90,7 @@ export const WriteNote = ({ userObj }: any) => {
                 const updateRef = doc(db, "notes", `${prevData.id}`);
                 await updateDoc(updateRef, {
                     ...inputs,
+                    text: quillText,
                     images: newImages,
                     date_created: moment().utc().format("YYYY-MM-DD HH:mm:ss")
                 }).then(() => {
@@ -106,8 +102,8 @@ export const WriteNote = ({ userObj }: any) => {
                         }).catch(err => console.log(`${err.code} - ${err.message}`));
                     });
                     alert("수정이 완료되었습니다.");
-                    // 이전 화면 + 새로고침
-                    navigate(-1);
+                    // 첫화면 + 새로고침
+                    navigate("/");
                     navigate(0);
                 }).catch(err => console.log(`${err.code} - ${err.message}`));
             } else {
@@ -294,7 +290,8 @@ export const WriteNote = ({ userObj }: any) => {
                     </ul>
                 </div>
             </div>
-            <Editor onChange={onChange} prevData={prevData} />
+            <Editor quillText={quillText} setQuillText={setQuillText}
+            prevData={statedata.state ? statedata.state.data : ""} />
             <div className="btn-wrap">
                 <button type="button" onClick={() => navigate(-1)} className="back">뒤로</button>
                 <button type="submit">완료</button>

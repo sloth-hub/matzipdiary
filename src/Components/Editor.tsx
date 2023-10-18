@@ -1,11 +1,20 @@
 import ReactQuill from "react-quill";
+import { useEffect, useRef, useState } from "react";
 import "react-quill/dist/quill.snow.css";
+import { NoteInterface } from "../interfaces/note.interface";
 
 type Props = {
-    onChange: (value: any) => void;
+    quillText: any;
+    setQuillText: (value: any) => void;
     prevData: any;
 }
-export const Editor = ({ onChange, prevData }: Props) => {
+export const Editor = ({ quillText, setQuillText, prevData }: Props) => {
+
+    useEffect(() => {
+        if (prevData) {
+            setQuillText(prevData.text);
+        }
+    }, []);
 
     const modules = {
         toolbar: [
@@ -42,15 +51,14 @@ export const Editor = ({ onChange, prevData }: Props) => {
     ]
 
     return (
-        <div>
-            <ReactQuill
-                onChange={onChange}
-                placeholder="솔직한 후기를 남겨보세요!"
-                modules={modules}
-                formats={formats}
-                data-name="text"
-            />
-        </div>
+        <ReactQuill
+            onChange={(e)=> setQuillText(e)}
+            placeholder="솔직한 후기를 남겨보세요!"
+            modules={modules}
+            formats={formats}
+            data-name="text"
+            value={quillText}
+        />
     );
 }
 
