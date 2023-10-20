@@ -454,6 +454,7 @@ input:focus {
 .input-error {
   color: var(--red);
   font-size: 14px;
+  margin-top: 5px;
 }
 
 input::placeholder {
