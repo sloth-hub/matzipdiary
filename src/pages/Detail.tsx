@@ -90,10 +90,10 @@ export const Detail = () => {
     }
 
     const resizedImgWrap = () => {
-        const imgWrap = document.querySelector(".img-wrap") as HTMLElement;
-        const imgs = document.querySelectorAll(".detail .img-wrap ul li img");
-        const slider = document.querySelector(".slider") as HTMLElement;
         window.addEventListener("resize", ({ target }) => {
+            const imgWrap = document.querySelector(".img-wrap") as HTMLElement;
+            const imgs = document.querySelectorAll(".detail .img-wrap ul li img");
+            const slider = document.querySelector(".slider") as HTMLElement;
             const tgt = target as Window;
             // 슬라이드 2개씩일 때
             if (tgt.innerWidth > 768.98) {
