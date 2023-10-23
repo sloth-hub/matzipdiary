@@ -91,30 +91,32 @@ export const Detail = () => {
 
     const resizedImgWrap = () => {
         window.addEventListener("resize", ({ target }) => {
-            const imgWrap = document.querySelector(".img-wrap") as HTMLElement;
-            const imgs = document.querySelectorAll(".detail .img-wrap ul li img");
-            const slider = document.querySelector(".slider") as HTMLElement;
-            const tgt = target as Window;
-            // 슬라이드 2개씩일 때
-            if (tgt.innerWidth > 768.98) {
-                imgs.forEach((v) => {
-                    (v as HTMLElement).style.minWidth = "319px";
-                });
-                setSlideWidth(319);
-                if (slideNum > 319 * (images.length - 2)) {
-                    // const count = Math.floor(Number(slider.dataset.num));
-                    // 수정 필요
+            if (window.location.href.includes("note")) {
+                const imgWrap = document.querySelector(".img-wrap") as HTMLElement;
+                const imgs = document.querySelectorAll(".detail .img-wrap ul li img");
+                const slider = document.querySelector(".slider") as HTMLElement;
+                const tgt = target as Window;
+                // 슬라이드 2개씩일 때
+                if (tgt.innerWidth > 768.98) {
+                    imgs.forEach((v) => {
+                        (v as HTMLElement).style.minWidth = "319px";
+                    });
+                    setSlideWidth(319);
+                    if (slideNum > 319 * (images.length - 2)) {
+                        // const count = Math.floor(Number(slider.dataset.num));
+                        // 수정 필요
+                    }
+                    setSlideCount(0);
+                } else {
+                    // 슬라이드 1개씩일 때
+                    const offsetWidth = imgWrap.offsetWidth;
+                    imgs.forEach((v) => {
+                        (v as HTMLElement).style.minWidth = `${offsetWidth}px`;
+                    });
+                    setSlideWidth(offsetWidth);
+                    setSlideNum(offsetWidth * Number(slider.dataset.num));
+                    setSlideCount(1);
                 }
-                setSlideCount(0);
-            } else {
-                // 슬라이드 1개씩일 때
-                const offsetWidth = imgWrap.offsetWidth;
-                imgs.forEach((v) => {
-                    (v as HTMLElement).style.minWidth = `${offsetWidth}px`;
-                });
-                setSlideWidth(offsetWidth);
-                setSlideNum(offsetWidth * Number(slider.dataset.num));
-                setSlideCount(1);
             }
         });
     }
