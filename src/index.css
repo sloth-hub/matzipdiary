@@ -798,7 +798,7 @@ textarea {
 .detail .img-wrap {
   position: relative;
   display: flex;
-  height: 200px;
+  height: 374px;
   overflow: hidden;
 }
 
@@ -824,7 +824,6 @@ textarea {
 
 .detail .img-wrap ul li img {
   max-width: 100%;
-  min-width: 319px;
 }
 
 .detail .img-wrap ul li::after {
@@ -905,7 +904,6 @@ textarea {
 .detail .slide-btns .prev {
   left: 0;
   padding: 5px 8px;
-
 }
 
 .detail .slide-btns .prev:hover {
@@ -916,7 +914,6 @@ textarea {
 .detail .slide-btns .next {
   right: 0;
   padding: 5px 8px;
-
 }
 
 .detail .slide-btns .next:hover {
@@ -927,6 +924,20 @@ textarea {
 .detail .slide-btns .prev.hide,
 .detail .slide-btns .next.hide {
   display: none;
+}
+
+.detail .count {
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  border-radius: 15px;
+  background-color: var(--S-L-gray);
+  padding: 4px 10px;
+  font-weight: 600;
+}
+.detail .count > span {
+  font-weight: 700;
+  font-size: 14px;
 }
 
 .detail .text {
@@ -1313,10 +1324,6 @@ footer span {
 
   .detail .img-wrap.only {
     height: 100%;
-  }
-
-  .detail .img-wrap ul li img {
-    min-width: 83.5vw;
   }
 
   .detail .slide-btns .prev, .detail .slide-btns .next {

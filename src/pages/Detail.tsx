@@ -12,8 +12,8 @@ export const Detail = () => {
 
     const [address, setAddress] = useState({ lotAddr: "", roadAddr: "" });
     const [slideNum, setSlideNum] = useState<number>(0);
-    const [slideWidth, setSlideWidth] = useState<number>(319);
-    const [slideCount, setSlideCount] = useState<number>(0);
+    const [slideWidth, setSlideWidth] = useState<number>(0);
+    const [count, setCount] = useState<number>(1);
     const [modalImg, setModalImg] = useState<string>("");
 
     const statedata = useLocation();
@@ -48,11 +48,15 @@ export const Detail = () => {
         e.preventDefault();
         const target = e.currentTarget;
         if (target.className === "prev") {
-            if (0 < slideNum)
+            if (0 < slideNum) {
+                setCount(count - 1);
                 setSlideNum(slideNum - slideWidth);
+            }
         } else {
-            if (slideWidth * images.length >= slideNum)
+            if (slideWidth * images.length >= slideNum) {
+                setCount(count + 1);
                 setSlideNum(slideNum + slideWidth);
+            }
         }
     }
 
@@ -79,44 +83,23 @@ export const Detail = () => {
         const imgWrap = document.querySelector(".img-wrap") as HTMLElement;
         if (target.complete) {
             loader.classList.add("false");
-            if (window.innerWidth < 768.98) {
-                setSlideWidth(imgWrap.offsetWidth);
-                target.style.minWidth = `${imgWrap.offsetWidth}px`;
-                setSlideCount(1);
-            } else {
-                setSlideCount(0);
-            }
+            setSlideWidth(imgWrap.offsetWidth);
+            target.style.minWidth = `${imgWrap.offsetWidth}px`;
         }
     }
 
     const resizedImgWrap = () => {
-        window.addEventListener("resize", ({ target }) => {
+        window.addEventListener("resize", () => {
             if (window.location.href.includes("note")) {
                 const imgWrap = document.querySelector(".img-wrap") as HTMLElement;
                 const imgs = document.querySelectorAll(".detail .img-wrap ul li img");
-                const slider = document.querySelector(".slider") as HTMLElement;
-                const tgt = target as Window;
-                // 슬라이드 2개씩일 때
-                if (tgt.innerWidth > 768.98) {
-                    imgs.forEach((v) => {
-                        (v as HTMLElement).style.minWidth = "319px";
-                    });
-                    setSlideWidth(319);
-                    if (slideNum > 319 * (images.length - 2)) {
-                        // const count = Math.floor(Number(slider.dataset.num));
-                        // 수정 필요
-                    }
-                    setSlideCount(0);
-                } else {
-                    // 슬라이드 1개씩일 때
-                    const offsetWidth = imgWrap.offsetWidth;
-                    imgs.forEach((v) => {
-                        (v as HTMLElement).style.minWidth = `${offsetWidth}px`;
-                    });
-                    setSlideWidth(offsetWidth);
-                    setSlideNum(offsetWidth * Number(slider.dataset.num));
-                    setSlideCount(1);
-                }
+                const offsetWidth = imgWrap.offsetWidth;
+
+                imgs.forEach((v) => {
+                    (v as HTMLElement).style.minWidth = `${offsetWidth}px`;
+                });
+                setSlideWidth(offsetWidth);
+                setSlideNum(offsetWidth * (count - 1));
             }
         });
     }
@@ -152,7 +135,7 @@ export const Detail = () => {
                                 <GrClose size={"1.8em"} />
                             </button>
                         </div>
-                        <ul className="slider" style={{ transform: `translate(-${slideNum}px)` }} data-num={slideNum / slideWidth}>
+                        <ul className="slider" style={{ transform: `translate(-${slideNum}px)` }} >
                             {images ? images.map((image: any, i: number) =>
                                 <li key={i} onClick={clickedImage}>
                                     <img src={image.fileUrl} onLoad={imgLazyLoading} />
@@ -161,14 +144,17 @@ export const Detail = () => {
                                 : <></>}
                         </ul>
                         {images.length > 1 &&
-                            <div className="slide-btns">
-                                <button type="button" className={slideNum == 0 ? "prev hide" : "prev"} onClick={slideBtnHander}>
-                                    &lt;
-                                </button>
-                                <button type="button" className={slideNum == slideWidth * (images.length - (2 - slideCount)) ? "next hide" : "next"} onClick={slideBtnHander}>
-                                    &gt;
-                                </button>
-                            </div>
+                            <>
+                                <div className="slide-btns">
+                                    <button type="button" className={count === 1 ? "prev hide" : "prev"} onClick={slideBtnHander}>
+                                        &lt;
+                                    </button>
+                                    <button type="button" className={count === images.length ? "next hide" : "next"} onClick={slideBtnHander}>
+                                        &gt;
+                                    </button>
+                                </div>
+                                <div className="count"><span>{count}</span>/{images.length}</div>
+                            </>
                         }
                     </div>
                     <div className="info-wrap">
