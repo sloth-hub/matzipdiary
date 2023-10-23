@@ -1,7 +1,6 @@
 import ReactQuill from "react-quill";
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import "react-quill/dist/quill.snow.css";
-import { NoteInterface } from "../interfaces/note.interface";
 
 type Props = {
     quillText: any;
@@ -52,7 +51,7 @@ export const Editor = ({ quillText, setQuillText, prevData }: Props) => {
 
     return (
         <ReactQuill
-            onChange={(e)=> setQuillText(e)}
+            onChange={(e) => setQuillText(e)}
             placeholder="솔직한 후기를 남겨보세요!"
             modules={modules}
             formats={formats}

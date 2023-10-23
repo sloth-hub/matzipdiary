@@ -18,7 +18,6 @@ export const SignUp = () => {
     const [nicknameMsg, setNicknameMsg] = useState<string>("");
     const [pwMsg, setPwMsg] = useState<string>("");
     const [pwCfmMsg, setPwCfmMsg] = useState<string>("");
-    const [isChecked, setIsChecked] = useState<boolean[]>([]);
 
     const { email, nickname, password, psConfirm } = signupData;
     const navigate = useNavigate();

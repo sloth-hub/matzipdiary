@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Note } from "../Components/Note";
 import { NoteInterface } from "../interfaces/note.interface";
 import { Link, useLocation } from "react-router-dom";

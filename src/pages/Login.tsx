@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { UserInputInterface } from "../interfaces/user.interface";
 import { GithubAuthProvider, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { db, firebaseAuth } from "../Firebase";
