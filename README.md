@@ -12,6 +12,7 @@ https://sloth-hub.github.io/matzipdiary/
     - 작성일순, 방문일순 정렬
     - 업종 카테고리 정렬
     - 이미지 레이지 로딩 구현
+    - 디바이스에 따른 일기 표시 수와 페이징 (예정)
 
 - ### /login - 로그인 페이지
   - Firebase 이메일 로그인, sns 로그인 (구글, 깃허브)
@@ -22,9 +23,9 @@ https://sloth-hub.github.io/matzipdiary/
   - Firebase Database에 유저정보 저장
 
 - ### /detail - 상세 페이지
-  - 이미지 슬라이드 구현
+  - 이미지 슬라이드 및 크게보기 구현
   - 이미지 레이지 로딩 구현
-  - 글 수정, 삭제 기능 구현
+  - 글 수정, 삭제 기능
 
 - ### /write - 일기 작성 페이지
   - 카카오맵을 이용한 위치 검색 및 위치 정보 저장
