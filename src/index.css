@@ -940,7 +940,8 @@ textarea {
   padding: 4px 10px;
   font-weight: 600;
 }
-.detail .count > span {
+
+.detail .count>span {
   font-weight: 700;
   font-size: 14px;
 }
@@ -1060,11 +1061,23 @@ textarea {
   text-align-last: left;
 }
 
-form button:not(.selected-value, .food-category button, #placeName, .back, .quill button) {
+form button:not(.selected-value, .food-category button, #placeName, .back, .quill button, .self-input button) {
   height: 48px;
   color: var(--white);
   background-color: var(--main-color);
   padding: 15px;
+}
+
+.self-input {
+  color: var(--D-gray);
+}
+.self-input button {
+  margin: 10px 0 20px;
+  font-weight: 600;
+}
+
+.self-input button:hover {
+  color: var(--main-color);
 }
 
 input[type="file"] {

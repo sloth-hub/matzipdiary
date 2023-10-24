@@ -48,6 +48,7 @@ export const WriteNote = ({ userObj }: any) => {
     });
     const [quillText, setQuillText] = useState<string>("");
     const [isModify, setIsModify] = useState<boolean>(false);
+    const [isNoAdd, setIsNoAdd] = useState<boolean>(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -70,65 +71,66 @@ export const WriteNote = ({ userObj }: any) => {
 
     const onSubmit = async (e: any) => {
         e.preventDefault();
-        if (thumbnail.length > 0) {
-            if (isModify) {
-                // 글 수정
-                // thumbnail에서 firestore에 업로드된 이미지만 필터링
-                const prevImages = thumbnail.filter((v, _) => v.fileUrl.includes("firebase"));
-                // 새 이미지들을 firestore에 업로드
-                const result = await Promise.all(
-                    image.map(async (v, _) => {
-                        const fileRef = ref(storage, `${userObj.uid}/${uuid4()}`);
-                        await uploadBytes(fileRef, v.fileUrl);
-                        const data = await updateMetadata(fileRef, { contentType: "image/jpeg" });
-                        const resultUrl = await getDownloadURL(fileRef);
-                        return { fileUrl: resultUrl };
-                    })
-                );
-                // 업로드 된 새 이미지들을 newImages에 넣기
-                const newImages = [...prevImages, ...result];
-                const updateRef = doc(db, "notes", `${prevData.id}`);
-                await updateDoc(updateRef, {
-                    ...inputs,
-                    text: quillText,
-                    images: newImages,
-                    date_created: moment().utc().format("YYYY-MM-DD HH:mm:ss")
-                }).then(() => {
-                    // firestore에서 삭제할 이미지 데이터들 삭제
-                    deleteImages.forEach((imgs) => {
-                        const imgRef = ref(storage, imgs.fileUrl);
-                        deleteObject(imgRef).then(() => {
-                            console.log("이미지 삭제 완료");
-                        }).catch(err => console.log(`${err.code} - ${err.message}`));
-                    });
-                    alert("수정이 완료되었습니다.");
-                    // 첫화면 + 새로고침
-                    navigate("/");
-                    navigate(0);
-                }).catch(err => console.log(`${err.code} - ${err.message}`));
-            } else {
-                // 새로 글쓰기
-                const result = await Promise.all(
-                    image.map(async (v, _) => {
-                        const fileRef = ref(storage, `${userObj.uid}/${uuid4()}`);
-                        await uploadBytes(fileRef, v.fileUrl);
-                        const data = await updateMetadata(fileRef, { contentType: "image/jpeg" });
-                        const resultUrl = await getDownloadURL(fileRef);
-                        return { fileUrl: resultUrl };
-                    })
-                );
-                await addDoc(collection(db, "notes"), {
-                    ...inputs,
-                    text: quillText,
-                    images: result,
-                    date_created: moment().utc().format("YYYY-MM-DD HH:mm:ss")
-                }).then(() => {
-                    alert("등록이 완료되었습니다.");
-                    navigate("/");
-                    navigate(0);
-                }).catch(err => console.log(`${err.code} - ${err.message}`));
-            }
-        }
+        console.log(inputs);
+        // if (thumbnail.length > 0) {
+        //     if (isModify) {
+        //         // 글 수정
+        //         // thumbnail에서 firestore에 업로드된 이미지만 필터링
+        //         const prevImages = thumbnail.filter((v, _) => v.fileUrl.includes("firebase"));
+        //         // 새 이미지들을 firestore에 업로드
+        //         const result = await Promise.all(
+        //             image.map(async (v, _) => {
+        //                 const fileRef = ref(storage, `${userObj.uid}/${uuid4()}`);
+        //                 await uploadBytes(fileRef, v.fileUrl);
+        //                 const data = await updateMetadata(fileRef, { contentType: "image/jpeg" });
+        //                 const resultUrl = await getDownloadURL(fileRef);
+        //                 return { fileUrl: resultUrl };
+        //             })
+        //         );
+        //         // 업로드 된 새 이미지들을 newImages에 넣기
+        //         const newImages = [...prevImages, ...result];
+        //         const updateRef = doc(db, "notes", `${prevData.id}`);
+        //         await updateDoc(updateRef, {
+        //             ...inputs,
+        //             text: quillText,
+        //             images: newImages,
+        //             date_created: moment().utc().format("YYYY-MM-DD HH:mm:ss")
+        //         }).then(() => {
+        //             // firestore에서 삭제할 이미지 데이터들 삭제
+        //             deleteImages.forEach((imgs) => {
+        //                 const imgRef = ref(storage, imgs.fileUrl);
+        //                 deleteObject(imgRef).then(() => {
+        //                     console.log("이미지 삭제 완료");
+        //                 }).catch(err => console.log(`${err.code} - ${err.message}`));
+        //             });
+        //             alert("수정이 완료되었습니다.");
+        //             // 첫화면 + 새로고침
+        //             navigate("/");
+        //             navigate(0);
+        //         }).catch(err => console.log(`${err.code} - ${err.message}`));
+        //     } else {
+        //         // 새로 글쓰기
+        //         const result = await Promise.all(
+        //             image.map(async (v, _) => {
+        //                 const fileRef = ref(storage, `${userObj.uid}/${uuid4()}`);
+        //                 await uploadBytes(fileRef, v.fileUrl);
+        //                 const data = await updateMetadata(fileRef, { contentType: "image/jpeg" });
+        //                 const resultUrl = await getDownloadURL(fileRef);
+        //                 return { fileUrl: resultUrl };
+        //             })
+        //         );
+        //         await addDoc(collection(db, "notes"), {
+        //             ...inputs,
+        //             text: quillText,
+        //             images: result,
+        //             date_created: moment().utc().format("YYYY-MM-DD HH:mm:ss")
+        //         }).then(() => {
+        //             alert("등록이 완료되었습니다.");
+        //             navigate("/");
+        //             navigate(0);
+        //         }).catch(err => console.log(`${err.code} - ${err.message}`));
+        //     }
+        // }
     }
 
     const selectedToggle = () => {
@@ -224,6 +226,14 @@ export const WriteNote = ({ userObj }: any) => {
         });
     }
 
+    const setPlaceName = (e: React.MouseEvent) => {
+        e.preventDefault();
+        const input = (document.querySelector("#placeName") as HTMLInputElement);
+        setIsNoAdd(true);
+        input.focus();
+        console.log("??");
+    }
+
     return (
         <form className="note-form" onSubmit={onSubmit}>
             <div className="input-wrap">
@@ -255,11 +265,17 @@ export const WriteNote = ({ userObj }: any) => {
                 </div>
             </div>
             <div className="input-box">
-                <button type="button" id="placeName" data-name="placeName" value={isModify ? prevData.placeName : ""} >
-                    {isModify ? prevData.placeName : "위치를 선택하면 가게명이 입력됩니다."}
-                </button>
+                {isNoAdd ?
+                    <input type="text" id="placeName" data-name="placeName" onChange={onChange}
+                    placeholder="가게명을 직접 입력해주세요." />
+                    :
+                    <button type="button" id="placeName" data-name="placeName" value={isModify ? prevData.placeName : ""} >
+                        {isModify ? prevData.placeName : "위치를 선택하면 가게명이 입력됩니다."}
+                    </button>
+                }
             </div>
             <Map setInputs={setInputs} id={statedata.state ? statedata.state.id : ""} location={statedata.state ? statedata.state.data.location : {}} />
+            <span className="self-input">※ 주소 검색 결과가 없을 경우 <button type="button" onClick={setPlaceName}>여기</button>를 눌러주세요.</span>
             <div className="file-box">
                 <div className="drag-box"
                     onDrop={e => dragEvent(e, "drop")}
@@ -292,7 +308,7 @@ export const WriteNote = ({ userObj }: any) => {
                 </div>
             </div>
             <Editor quillText={quillText} setQuillText={setQuillText}
-            prevData={statedata.state ? statedata.state.data : ""} />
+                prevData={statedata.state ? statedata.state.data : ""} />
             <div className="btn-wrap">
                 <button type="button" onClick={() => navigate(-1)} className="back">뒤로</button>
                 <button type="submit">완료</button>
