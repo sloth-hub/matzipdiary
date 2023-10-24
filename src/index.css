@@ -169,7 +169,7 @@ main .inner.center {
   place-content: center;
 }
 
-.warn {
+.warn:not(.detail .warn) {
   text-align: center;
   place-self: center;
   position: absolute;
@@ -757,6 +757,11 @@ textarea {
 
 .detail .place .address a:hover {
   color: var(--black);
+}
+
+.detail .place .address .warn {
+  color: var(--red) !important;
+  opacity: 0.8;
 }
 
 .detail .date {
