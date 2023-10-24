@@ -119,6 +119,7 @@ export const WriteNote = ({ userObj }: any) => {
                 );
                 await addDoc(collection(db, "notes"), {
                     ...inputs,
+                    text: quillText,
                     images: result,
                     date_created: moment().utc().format("YYYY-MM-DD HH:mm:ss")
                 }).then(() => {
