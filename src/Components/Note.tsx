@@ -26,7 +26,7 @@ export const Note = ({ note, sortStatus }: any) => {
     return (
         <div className="note">
             <div className="img-wrap">
-                {images ? images.length > 1 ?
+                {images.length > 0 ? images.length > 1 ?
                     <>
                         <div>
                             <img src={images[0].fileUrl} key={images[0].fileUrl.slice(-12)} onLoad={imgLazyLoading} />
@@ -40,7 +40,7 @@ export const Note = ({ note, sortStatus }: any) => {
                             <span className="loading"></span>
                         </div>
                     </>
-                    : <></>}
+                    : <img src={`${process.env.PUBLIC_URL}/images/empty.png`} alt="이미지가 없음"/>}
             </div>
             <div className="content-wrap">
                 <div className="date">

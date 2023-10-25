@@ -743,7 +743,6 @@ textarea {
   flex-direction: column;
   position: relative;
   width: max-content;
-  height: 34px;
 }
 
 .detail .place .address>span {

@@ -128,35 +128,37 @@ export const Detail = () => {
 
     return (
         <div className="detail">
-            <div className={images.length == 1 ? "img-wrap only" : "img-wrap"}>
-                <div className="modal">
-                    <img src={modalImg} alt="미리보기" />
-                    <button type="button" className="close" onClick={modalBtnHandler}>
-                        <GrClose size={"1.8em"} />
-                    </button>
+            {images.length > 0 &&
+                <div className={images.length == 1 ? "img-wrap only" : "img-wrap"}>
+                    <div className="modal">
+                        <img src={modalImg} alt="미리보기" />
+                        <button type="button" className="close" onClick={modalBtnHandler}>
+                            <GrClose size={"1.8em"} />
+                        </button>
+                    </div>
+                    <ul className="slider" style={{ transform: `translate(-${slideNum}px)` }} >
+                        {images ? images.map((image: any, i: number) =>
+                            <li key={i} onClick={clickedImage}>
+                                <img src={image.fileUrl} onLoad={imgLazyLoading} />
+                                <span className="loading"></span>
+                            </li>)
+                            : <></>}
+                    </ul>
+                    {images.length > 1 &&
+                        <>
+                            <div className="slide-btns">
+                                <button type="button" className={count === 1 ? "prev hide" : "prev"} onClick={slideBtnHander}>
+                                    &lt;
+                                </button>
+                                <button type="button" className={count === images.length ? "next hide" : "next"} onClick={slideBtnHander}>
+                                    &gt;
+                                </button>
+                            </div>
+                            <div className="count"><span>{count}</span>/{images.length}</div>
+                        </>
+                    }
                 </div>
-                <ul className="slider" style={{ transform: `translate(-${slideNum}px)` }} >
-                    {images ? images.map((image: any, i: number) =>
-                        <li key={i} onClick={clickedImage}>
-                            <img src={image.fileUrl} onLoad={imgLazyLoading} />
-                            <span className="loading"></span>
-                        </li>)
-                        : <></>}
-                </ul>
-                {images.length > 1 &&
-                    <>
-                        <div className="slide-btns">
-                            <button type="button" className={count === 1 ? "prev hide" : "prev"} onClick={slideBtnHander}>
-                                &lt;
-                            </button>
-                            <button type="button" className={count === images.length ? "next hide" : "next"} onClick={slideBtnHander}>
-                                &gt;
-                            </button>
-                        </div>
-                        <div className="count"><span>{count}</span>/{images.length}</div>
-                    </>
-                }
-            </div>
+            }
             <div className="info-wrap">
                 <div className="place">
                     <div className="placename">
