@@ -1,13 +1,16 @@
 import ReactQuill from "react-quill";
 import { useEffect } from "react";
 import "react-quill/dist/quill.snow.css";
+import { NoteInterface } from "../interfaces/note.interface";
 
 type Props = {
-    quillText: any;
-    setQuillText: (value: any) => void;
-    prevData: any;
+    quillText: any,
+    setQuillText: (value: any) => void,
+    prevData: any,
+    setInputs: (value: any) => void,
+    inputs: NoteInterface
 }
-export const Editor = ({ quillText, setQuillText, prevData }: Props) => {
+export const Editor = ({ quillText, setQuillText, prevData, setInputs, inputs }: Props) => {
 
     useEffect(() => {
         if (prevData) {
@@ -51,8 +54,8 @@ export const Editor = ({ quillText, setQuillText, prevData }: Props) => {
 
     return (
         <ReactQuill
-            onChange={(e) => setQuillText(e)}
-            placeholder="솔직한 후기를 남겨보세요!"
+            onChange={(e) => { setQuillText(e); setInputs({...inputs, text: e})}}
+            placeholder="솔직한 후기를 남겨보세요! *필수입력사항"
             modules={modules}
             formats={formats}
             data-name="text"

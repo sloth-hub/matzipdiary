@@ -8,6 +8,7 @@ export interface NoteInterface{
     location: Locations,
     text: string,
     images: Array<Images>,
+    [prop: string]: any
 }
 
 export interface Locations {

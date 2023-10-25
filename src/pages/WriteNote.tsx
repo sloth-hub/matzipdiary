@@ -29,12 +29,7 @@ export const WriteNote = ({ userObj }: any) => {
         placeName: "",
         images: []
     });
-
-    const statedata = useLocation();
-
-    const [deleteImages, setDeleteImages] = useState<Images[]>([]);
-    const [thumbnail, setThumbnail] = useState<Images[]>([]);
-    const [image, setImage] = useState<img[]>([]);
+    
     const [prevData, setPrevData] = useState<NoteInterface>({
         uid: userObj.uid,
         id: "",
@@ -46,9 +41,15 @@ export const WriteNote = ({ userObj }: any) => {
         placeName: "",
         images: []
     });
+    
+    const [deleteImages, setDeleteImages] = useState<Images[]>([]);
+    const [thumbnail, setThumbnail] = useState<Images[]>([]);
+    const [image, setImage] = useState<img[]>([]);
     const [quillText, setQuillText] = useState<string>("");
     const [isModify, setIsModify] = useState<boolean>(false);
     const [isNoAdd, setIsNoAdd] = useState<boolean>(false);
+
+    const statedata = useLocation();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -71,66 +72,78 @@ export const WriteNote = ({ userObj }: any) => {
 
     const onSubmit = async (e: any) => {
         e.preventDefault();
-        console.log(inputs);
-        if (thumbnail.length > 0) {
+        const requiredInputs = [
+            inputs["foodCategory"], inputs["date_visited"], inputs["placeName"], inputs["text"]
+        ];
+        if (requiredInputs.includes("")) {
+            alert("필수 항목을 입력하세요.");
+        } else {
             if (isModify) {
                 // 글 수정
-                // thumbnail에서 firestore에 업로드된 이미지만 필터링
-                const prevImages = thumbnail.filter((v, _) => v.fileUrl.includes("firebase"));
-                // 새 이미지들을 firestore에 업로드
-                const result = await Promise.all(
-                    image.map(async (v, _) => {
-                        const fileRef = ref(storage, `${userObj.uid}/${uuid4()}`);
-                        await uploadBytes(fileRef, v.fileUrl);
-                        const data = await updateMetadata(fileRef, { contentType: "image/jpeg" });
-                        const resultUrl = await getDownloadURL(fileRef);
-                        return { fileUrl: resultUrl };
-                    })
-                );
-                // 업로드 된 새 이미지들을 newImages에 넣기
-                const newImages = [...prevImages, ...result];
-                const updateRef = doc(db, "notes", `${prevData.id}`);
-                await updateDoc(updateRef, {
-                    ...inputs,
-                    text: quillText,
-                    images: newImages,
-                    date_created: moment().utc().format("YYYY-MM-DD HH:mm:ss")
-                }).then(() => {
-                    // firestore에서 삭제할 이미지 데이터들 삭제
-                    deleteImages.forEach((imgs) => {
-                        const imgRef = ref(storage, imgs.fileUrl);
-                        deleteObject(imgRef).then(() => {
-                            console.log("이미지 삭제 완료");
-                        }).catch(err => console.log(`${err.code} - ${err.message}`));
-                    });
-                    alert("수정이 완료되었습니다.");
-                    // 첫화면 + 새로고침
-                    navigate("/");
-                    navigate(0);
-                }).catch(err => console.log(`${err.code} - ${err.message}`));
+                modifyNote();
             } else {
                 // 새로 글쓰기
-                const result = await Promise.all(
-                    image.map(async (v, _) => {
-                        const fileRef = ref(storage, `${userObj.uid}/${uuid4()}`);
-                        await uploadBytes(fileRef, v.fileUrl);
-                        const data = await updateMetadata(fileRef, { contentType: "image/jpeg" });
-                        const resultUrl = await getDownloadURL(fileRef);
-                        return { fileUrl: resultUrl };
-                    })
-                );
-                await addDoc(collection(db, "notes"), {
-                    ...inputs,
-                    text: quillText,
-                    images: result,
-                    date_created: moment().utc().format("YYYY-MM-DD HH:mm:ss")
-                }).then(() => {
-                    alert("등록이 완료되었습니다.");
-                    navigate("/");
-                    navigate(0);
-                }).catch(err => console.log(`${err.code} - ${err.message}`));
+                newNote();
             }
         }
+    }
+
+    const newNote = async () => {
+        // 이미지 첨부 없을시 코드 추가 필요
+        const result = await Promise.all(
+            image.map(async (v, _) => {
+                const fileRef = ref(storage, `${userObj.uid}/${uuid4()}`);
+                await uploadBytes(fileRef, v.fileUrl);
+                const data = await updateMetadata(fileRef, { contentType: "image/jpeg" });
+                const resultUrl = await getDownloadURL(fileRef);
+                return { fileUrl: resultUrl };
+            })
+        );
+        await addDoc(collection(db, "notes"), {
+            ...inputs,
+            images: result,
+            date_created: moment().utc().format("YYYY-MM-DD HH:mm:ss")
+        }).then(() => {
+            alert("등록이 완료되었습니다.");
+            navigate("/");
+            navigate(0);
+        }).catch(err => console.log(`${err.code} - ${err.message}`));
+    }
+
+    const modifyNote = async () => {
+        // 이미지 첨부 없을시 코드 추가 필요
+        // thumbnail에서 firestore에 업로드된 이미지만 필터링
+        const prevImages = thumbnail.filter((v, _) => v.fileUrl.includes("firebase"));
+        // 새 이미지들을 firestore에 업로드
+        const result = await Promise.all(
+            image.map(async (v, _) => {
+                const fileRef = ref(storage, `${userObj.uid}/${uuid4()}`);
+                await uploadBytes(fileRef, v.fileUrl);
+                const data = await updateMetadata(fileRef, { contentType: "image/jpeg" });
+                const resultUrl = await getDownloadURL(fileRef);
+                return { fileUrl: resultUrl };
+            })
+        );
+        // 업로드 된 새 이미지들을 newImages에 넣기
+        const newImages = [...prevImages, ...result];
+        const updateRef = doc(db, "notes", `${prevData.id}`);
+        await updateDoc(updateRef, {
+            ...inputs,
+            images: newImages,
+            date_created: moment().utc().format("YYYY-MM-DD HH:mm:ss")
+        }).then(() => {
+            // firestore에서 삭제할 이미지 데이터들 삭제
+            deleteImages.forEach((imgs) => {
+                const imgRef = ref(storage, imgs.fileUrl);
+                deleteObject(imgRef).then(() => {
+                    console.log("이미지 삭제 완료");
+                }).catch(err => console.log(`${err.code} - ${err.message}`));
+            });
+            alert("수정이 완료되었습니다.");
+            // 첫화면 + 새로고침
+            navigate("/");
+            navigate(0);
+        }).catch(err => console.log(`${err.code} - ${err.message}`));
     }
 
     const selectedToggle = () => {
@@ -139,7 +152,7 @@ export const WriteNote = ({ userObj }: any) => {
     }
 
     const selectedHover = () => {
-        document.querySelector(".food-category")?.classList.remove("active");
+        document.querySelector(".food-category")!.classList.remove("active");
     }
 
     const clickedMenu = (e: Event) => {
@@ -237,11 +250,11 @@ export const WriteNote = ({ userObj }: any) => {
         <form className="note-form" onSubmit={onSubmit}>
             <div className="input-wrap">
                 <div className="input-box">
-                    <label htmlFor="date_visited">방문일자</label>
+                    <label htmlFor="date_visited">방문일자<span className="required">*</span></label>
                     <input type="date" name="date_visited" data-name="date_visited" onChange={onChange} />
                 </div>
                 <div className="select-box" onMouseLeave={selectedHover}>
-                    <label htmlFor="foodCategory">카테고리</label>
+                    <label htmlFor="foodCategory">카테고리<span className="required">*</span></label>
                     <div className="selected">
                         <button type="button"
                             name="foodCategory"
@@ -264,9 +277,10 @@ export const WriteNote = ({ userObj }: any) => {
                 </div>
             </div>
             <div className="input-box">
+                <label htmlFor="placeName">가게명<span className="required">*</span></label>
                 {isNoAdd ?
                     <input type="text" id="placeName" data-name="placeName" onChange={onChange}
-                    placeholder="가게명을 직접 입력해주세요." />
+                        placeholder="가게명을 직접 입력해주세요." />
                     :
                     <button type="button" id="placeName" data-name="placeName" value={isModify ? prevData.placeName : ""} >
                         {isModify ? prevData.placeName : "위치를 선택하면 가게명이 입력됩니다."}
@@ -307,7 +321,8 @@ export const WriteNote = ({ userObj }: any) => {
                 </div>
             </div>
             <Editor quillText={quillText} setQuillText={setQuillText}
-                prevData={statedata.state ? statedata.state.data : ""} />
+                prevData={statedata.state ? statedata.state.data : ""}
+                setInputs={setInputs} inputs={inputs} />
             <div className="btn-wrap">
                 <button type="button" onClick={() => navigate(-1)} className="back">뒤로</button>
                 <button type="submit">완료</button>
