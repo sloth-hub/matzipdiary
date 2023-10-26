@@ -263,6 +263,7 @@ nav .pfp-popup.on {
   text-align: center;
   background-color: var(--white);
   border: 1px solid var(--L-gray);
+  box-shadow: 5px 5px 10px var(--S-L-gray);
   border-radius: 8px;
 }
 
@@ -338,6 +339,7 @@ nav .login:hover {
   font-weight: 700;
   opacity: 1;
   background-color: var(--main-color);
+  box-shadow: 5px 5px 10px 5px rgba(255, 189, 46, 0.2);
   transition: all .08s linear;
 }
 
@@ -562,7 +564,7 @@ textarea {
   justify-content: space-between;
   height: 400px;
   margin-bottom: 26px;
-  border: 1px solid #e2dddc;
+  border: 1px solid var(--S-L-gray);
   border-radius: 8px;
   background-color: var(--white);
   box-shadow: 5px 5px 10px var(--S-L-gray);
@@ -683,12 +685,16 @@ textarea {
 /* detail */
 
 .detail {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   width: 680px;
+  min-height: 300px;
   padding: 20px;
   border-radius: 8px;
-  border: 1px solid #e2dddc;
+  border: 1px solid var(--S-L-gray);
   background-color: var(--white);
-  box-shadow: 5px 5px 10px var(--S-L-gray);
+  box-shadow: 8px 8px 15px var(--S-L-gray);
 }
 
 .detail span, .detail .text p, .detail .text p u,
@@ -721,11 +727,6 @@ textarea {
 
 .detail .placename .title {
   font-size: 18px;
-}
-
-.detail .placename span:last-of-type {
-  margin-top: 1px;
-  font-weight: 600;
 }
 
 .detail .placename a {
@@ -773,7 +774,6 @@ textarea {
 }
 
 .detail .right-wrap {
-  padding-top: 10px;
   color: var(--D-gray);
 }
 
@@ -1225,7 +1225,7 @@ footer span {
   }
 
   .note {
-    height: 360px;
+    height: 35vw;
     margin-right: 0;
     margin: 0.75rem;
   }
@@ -1272,7 +1272,7 @@ footer span {
   }
 
   .note {
-    height: 340px;
+    height: 38vw;
   }
 
   .note * {
@@ -1330,11 +1330,15 @@ footer span {
   }
 
   .note {
-    height: 340px;
+    height: 48vw;
   }
 
   .note .img-wrap {
     height: 55%;
+  }
+
+  .note .place {
+    margin-bottom: 10px;
   }
 
   .detail {
@@ -1369,6 +1373,18 @@ footer span {
 
   .notes {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .note {
+    height: 70vw;
+  }
+
+  .note .img-wrap {
+    height: 65%;
+  }
+
+  .note .content-wrap p {
+    -webkit-line-clamp: 2;
   }
 
   .search .category li, .search .category li::before {
