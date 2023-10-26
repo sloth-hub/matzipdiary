@@ -40,7 +40,10 @@ export const Note = ({ note, sortStatus }: any) => {
                             <span className="loading"></span>
                         </div>
                     </>
-                    : <img src={`${process.env.PUBLIC_URL}/images/empty.png`} alt="이미지가 없음"/>}
+                    : <div>
+                        <img src={`${process.env.PUBLIC_URL}/images/empty.png`} alt="이미지가 없음" />
+                    </div>
+                }
             </div>
             <div className="content-wrap">
                 <div className="date">

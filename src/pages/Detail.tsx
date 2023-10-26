@@ -92,8 +92,8 @@ export const Detail = () => {
 
     const resizedImgWrap = () => {
         window.addEventListener("resize", () => {
-            if (window.location.href.includes("note")) {
-                const imgWrap = document.querySelector(".img-wrap") as HTMLElement;
+            const imgWrap = document.querySelector(".img-wrap") as HTMLElement;
+            if (window.location.href.includes("note") && imgWrap) {
                 const imgs = document.querySelectorAll(".detail .img-wrap ul li img");
                 const offsetWidth = imgWrap.offsetWidth;
 
@@ -159,30 +159,32 @@ export const Detail = () => {
                     }
                 </div>
             }
-            <div className="info-wrap">
-                <div className="place">
-                    <div className="placename">
-                        <span className="title">{placeName}</span>
-                        {address.lotAddr ?
-                            <a href={`https://map.kakao.com/link/map/${placeName},${location.lat},${location.lng}`} target="_blank">
-                                <HiOutlineMap size={"1.5em"} />
-                            </a>
-                            : <></>
-                        }
-                    </div>
-                    <div className="address">
-                        {address.lotAddr ? <>
-                            <span>{address && address.roadAddr}</span>
-                            <span> 지번&#41; {address && address.lotAddr}</span>
-                        </> : <span className="warn">폐업 했거나 정보 제공이 중지된 장소입니다.</span>}
-                    </div>
-                    <div className="date">
-                        <span>{foodCategory}</span>
-                        <span>{date_visited} 방문</span>
+            <div className="top-wrap">
+                <div className="info-wrap">
+                    <div className="place">
+                        <div className="placename">
+                            <span className="title">{placeName}</span>
+                            {address.lotAddr ?
+                                <a href={`https://map.kakao.com/link/map/${placeName},${location.lat},${location.lng}`} target="_blank">
+                                    <HiOutlineMap size={"1.5em"} />
+                                </a>
+                                : <></>
+                            }
+                        </div>
+                        <div className="address">
+                            {address.lotAddr ? <>
+                                <span>{address && address.roadAddr}</span>
+                                <span> 지번&#41; {address && address.lotAddr}</span>
+                            </> : <span className="warn">폐업 했거나 정보 제공이 중지된 장소입니다.</span>}
+                        </div>
+                        <div className="date">
+                            <span>{foodCategory}</span>
+                            <span>{date_visited} 방문</span>
+                        </div>
                     </div>
                 </div>
+                <div className="text" dangerouslySetInnerHTML={{ __html: text }}></div>
             </div>
-            <div className="text" dangerouslySetInnerHTML={{ __html: text }}></div>
             <div className="bottom-wrap">
                 <button type="button" className="back" onClick={() => navigate("/", { state: sortStatus })}>
                     <BiChevronLeft size={"1.5em"} />
