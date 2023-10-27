@@ -57,41 +57,42 @@ export const Home = ({ notes, ogNotes, setNotes, isLoading }: RouterType) => {
     const sortBy = (value: string, innerText: string) => {
         switch (value) {
             case "cre_asc":
-                const cre_asc = notes.sort((a, b) => {
-                    if (a.date_created < b.date_created) return 1;
-                    else if (a.date_created > b.date_created) return -1;
-                    else return 0;
-                });
+                const cre_asc = notes.sort((a, b): any =>
+                    sortFactory(a.date_created, b.date_created, "asc"));
                 setNotes(cre_asc);
                 setSortStatus(innerText);
                 break;
             case "cre_desc":
-                const cre_desc = notes.sort((a, b) => {
-                    if (a.date_created > b.date_created) return 1;
-                    else if (a.date_created < b.date_created) return -1;
-                    else return 0;
-                });
+                const cre_desc = notes.sort((a, b): any =>
+                    sortFactory(a.date_created, b.date_created, "desc"));
                 setNotes(cre_desc);
                 setSortStatus(innerText);
                 break;
             case "visit_asc":
-                const visit_asc = notes.sort((a, b) => {
-                    if (a.date_visited < b.date_visited) return 1;
-                    else if (a.date_visited > b.date_visited) return -1;
-                    else return 0;
-                });
+                const visit_asc = notes.sort((a, b): any =>
+                    sortFactory(a.date_visited, b.date_visited, "asc"));
                 setNotes(visit_asc);
                 setSortStatus(innerText);
                 break;
             case "visit_desc":
-                const visit_desc = notes.sort((a, b) => {
-                    if (a.date_visited > b.date_visited) return 1;
-                    else if (a.date_visited < b.date_visited) return -1;
-                    else return 0;
-                });
+                const visit_desc = notes.sort((a, b): any =>
+                    sortFactory(a.date_visited, b.date_visited, "desc"));
                 setNotes(visit_desc);
                 setSortStatus(innerText);
                 break;
+        }
+    }
+
+    const sortFactory = (a: string, b: string, type: string) => {
+        switch (type) {
+            case "asc":
+                if (a < b) return 1;
+                else if (a > b) return -1;
+                else return 0;
+            case "desc":
+                if (a > b) return 1;
+                else if (a < b) return -1;
+                else return 0;
         }
     }
 
