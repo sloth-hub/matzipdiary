@@ -159,12 +159,9 @@ main .inner {
   flex-direction: column;
 }
 
-main .inner:has(.detail) {
+main .inner:has(.detail), main .inner:has(.login-form), main .inner:has(.sign-form) {
   place-content: center;
-}
-
-main .inner.center {
-  place-content: center;
+  min-height: 77vh;
 }
 
 .warn:not(.detail .warn) {
@@ -688,7 +685,7 @@ textarea {
   flex-direction: column;
   justify-content: space-between;
   width: 680px;
-  min-height: 300px;
+  min-height: 350px;
   padding: 20px;
   border-radius: 8px;
   border: 1px solid var(--S-L-gray);
