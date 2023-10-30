@@ -29,7 +29,7 @@ export const WriteNote = ({ userObj }: any) => {
         placeName: "",
         images: []
     });
-    
+
     const [prevData, setPrevData] = useState<NoteInterface>({
         uid: userObj.uid,
         id: "",
@@ -41,13 +41,14 @@ export const WriteNote = ({ userObj }: any) => {
         placeName: "",
         images: []
     });
-    
+
     const [deleteImages, setDeleteImages] = useState<Images[]>([]);
     const [thumbnail, setThumbnail] = useState<Images[]>([]);
     const [image, setImage] = useState<img[]>([]);
     const [quillText, setQuillText] = useState<string>("");
     const [isModify, setIsModify] = useState<boolean>(false);
     const [isNoAdd, setIsNoAdd] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const statedata = useLocation();
     const navigate = useNavigate();
@@ -72,11 +73,13 @@ export const WriteNote = ({ userObj }: any) => {
 
     const onSubmit = async (e: any) => {
         e.preventDefault();
+        setIsLoading(true);
         const requiredInputs = [
             inputs["foodCategory"], inputs["date_visited"], inputs["placeName"], inputs["text"]
         ];
         if (requiredInputs.includes("")) {
             alert("필수 항목을 입력하세요.");
+            setIsLoading(false);
         } else {
             if (isModify) {
                 // 글 수정
@@ -104,6 +107,7 @@ export const WriteNote = ({ userObj }: any) => {
             images: result,
             date_created: moment().utc().format("YYYY-MM-DD HH:mm:ss")
         }).then(() => {
+            setIsLoading(false);
             alert("등록이 완료되었습니다.");
             navigate("/");
             navigate(0);
@@ -139,6 +143,7 @@ export const WriteNote = ({ userObj }: any) => {
                     console.log("이미지 삭제 완료");
                 }).catch(err => console.log(`${err.code} - ${err.message}`));
             });
+            setIsLoading(false);
             alert("수정이 완료되었습니다.");
             // 첫화면 + 새로고침
             navigate("/");
@@ -326,6 +331,11 @@ export const WriteNote = ({ userObj }: any) => {
             <div className="btn-wrap">
                 <button type="button" onClick={() => navigate(-1)} className="back">뒤로</button>
                 <button type="submit">완료</button>
+            </div>
+            <div className={isLoading ? "modal active" : "modal"}>
+                <div className="write-loader">
+                    Loading...
+                </div>
             </div>
         </form>
     )
