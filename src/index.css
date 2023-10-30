@@ -1133,28 +1133,28 @@ input[type="file"] {
   font-size: 18px;
 }
 
+.preview-box {
+  margin-top: 20px;
+}
+
 .preview-box ul {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-column-gap: 10px;
+}
+
+.preview-box ul:first-of-type {
+  margin-bottom: 10px;
 }
 
 .preview-box ul li {
   position: relative;
   overflow: hidden;
-  width: 100px;
+  width: 111px;
+  height: 111px;
   display: flex;
-  height: 100px;
-  border: 1px solid var(--L-gray);
   align-items: center;
-}
-
-.preview-box ul li+li {
-  margin-left: 10px;
-}
-
-.preview-box ul:first-of-type li {
-  margin-bottom: 10px;
-  margin-top: 20px;
+  border: 1px solid var(--L-gray);
 }
 
 .preview-box .delete {
@@ -1241,6 +1241,7 @@ footer span {
   .note .content-wrap {
     height: 35%;
   }
+
 }
 
 /* 타블렛  */
@@ -1305,6 +1306,11 @@ footer span {
 
   .note-form {
     width: 100%
+  }
+
+  .preview-box ul li {
+    width: max(100%, 13.5vw);
+    height: max(13.5vw, 13.5vw);
   }
 
   .search .select-box {
@@ -1425,4 +1431,10 @@ footer span {
   .detail .created-date {
     font-size: 13px;
   }
+
+  .preview-box ul li {
+    width: max(100%, 13vw);
+    height: max(13vw, 13vw);
+  }
+
 }
