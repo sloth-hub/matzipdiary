@@ -1,23 +1,48 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Note } from "../Components/Note";
 import { NoteInterface } from "../interfaces/note.interface";
 import { Link, useLocation } from "react-router-dom";
 import { PiWarningFill } from "react-icons/pi";
 import { BiEditAlt } from "react-icons/bi";
 import { RiArrowDownSLine } from "react-icons/ri";
+import { collection, getDocs, limit, orderBy, query, startAfter, where } from "firebase/firestore";
+import { db } from "../Firebase";
 
-type RouterType = {
-    notes: NoteInterface[],
-    ogNotes: NoteInterface[]
-    isLoading: boolean,
-    setNotes: (value: any) => void,
-}
+export const Home = ({ userObj }: any) => {
 
-export const Home = ({ notes, ogNotes, setNotes, isLoading }: RouterType) => {
-
+    const [notes, setNotes] = useState<NoteInterface[]>([]);
+    const [ogNotes, setOgNotes] = useState<NoteInterface[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [cursor, setCursor] = useState(null);
+    const [isEmpty, setIsEmpty] = useState(false);
     const location = useLocation();
     const prevSortStatus = location.state;
     const [sortStatus, setSortStatus] = useState<string>(prevSortStatus ? prevSortStatus : "정렬");
+
+    useEffect(() => {
+        if (userObj) getNotes();
+    }, []);
+
+    const getNotes = async () => {
+        const q = query(
+            collection(db, "notes"),
+            where("uid", "==", userObj!.uid),
+            limit(8),
+            orderBy("date_created", "desc"));
+        const snap = await getDocs(q);
+        const data = snap.docs.map((doc) => {
+            return {
+                ...doc.data(), id: doc.id
+            }
+        });
+        // @ts-ignore
+        setNotes(data);
+        // @ts-ignore
+        setCursor(snap.docs[snap.docs.length - 1]);
+        // @ts-ignore
+        setOgNotes(data);
+        setIsLoading(false);
+    }
 
     const changeStyle = (e: React.MouseEvent) => {
         const target = e.currentTarget;
@@ -115,6 +140,30 @@ export const Home = ({ notes, ogNotes, setNotes, isLoading }: RouterType) => {
         }
     }
 
+    const usePagination = async () => {
+        const q = query(collection(db, "notes"),
+            where("uid", "==", userObj!.uid),
+            orderBy("date_created", "desc"),
+            startAfter(cursor),
+            limit(4));
+        const snap = await getDocs(q);
+        if (snap.empty === true) {
+            setIsEmpty(true);
+        } else {
+            // @ts-ignore
+            setCursor(snap.docs[snap.docs.length - 1]);
+            const data = snap.docs.map((doc) => {
+                return {
+                    ...doc.data(), id: doc.id
+                }
+            });
+            // @ts-ignore
+            setOgNotes([...notes, ...data]);
+            // @ts-ignore
+            setNotes([...notes, ...data]);
+        }
+    }
+
     return (
         <>
             {isLoading ? <div className="loader">Loading...</div>
@@ -149,7 +198,6 @@ export const Home = ({ notes, ogNotes, setNotes, isLoading }: RouterType) => {
                         :
                         <></>
                     }
-
                     <div className="notes-wrap">
                         <div className="notes">
                             {notes.length > 0 ?
@@ -164,6 +212,13 @@ export const Home = ({ notes, ogNotes, setNotes, isLoading }: RouterType) => {
                             }
                         </div>
                     </div>
+                    {isEmpty ? <></>
+                        : <button type="button"
+                            className="more pagination"
+                            onClick={usePagination}>
+                            더보기
+                        </button>
+                    }
                     <Link to="/write" className="write-btn" onMouseOver={changeStyle} onMouseOut={removeStyle}>
                         <BiEditAlt size={"1.4em"} className="write-icon" />
                         <span className="text">일기쓰기</span>

@@ -338,10 +338,6 @@ nav .login:hover {
   transition: all .08s linear;
 }
 
-.write-btn:hover {
-  opacity: .9;
-}
-
 .write-btn.active {
   width: 100px;
   border-radius: 30px;
@@ -411,6 +407,17 @@ nav .login:hover {
 .search .select-box .selected .arrow {
   right: 5px;
   bottom: 2px;
+}
+
+.more.pagination {
+  text-align: center;
+  width: 100%;
+  margin-top: 30px;
+  padding: 10px 0;
+
+}
+.more.pagination:hover {
+  background-color: var(--S-L-gray);
 }
 
 /* form */

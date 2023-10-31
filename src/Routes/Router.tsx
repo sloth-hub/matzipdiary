@@ -8,7 +8,7 @@ import { WriteNote } from "../pages/WriteNote";
 import Nav from "../Components/Nav";
 import { Detail } from "../pages/Detail";
 import { db } from "../Firebase";
-import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
+import { collection, getDocs, orderBy, query, where, limit } from "firebase/firestore";
 import { NoteInterface } from "../interfaces/note.interface";
 
 type RouterType = {
@@ -18,32 +18,6 @@ type RouterType = {
 
 export const AppRouter = ({ isLoggedIn, userObj }: RouterType) => {
 
-    const [notes, setNotes] = useState<NoteInterface[]>([]);
-    const [ogNotes, setOgNotes] = useState<NoteInterface[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
-
-    useEffect(() => {
-        if (userObj) getNotes();
-    }, []);
-
-    const getNotes = async () => {
-        const q = query(
-            collection(db, "notes"),
-            where("uid", "==", userObj!.uid),
-            orderBy("date_created", "desc"));
-        const querySnapshot = await getDocs(q);
-        const data = querySnapshot.docs.map((doc) => {
-            return {
-                ...doc.data(), id: doc.id
-            }
-        });
-        // @ts-ignore
-        setNotes(data);
-        // @ts-ignore
-        setOgNotes(data);
-        setIsLoading(false);
-    }
-
     return (
         <HashRouter>
             <Nav userObj={userObj} />
@@ -52,7 +26,7 @@ export const AppRouter = ({ isLoggedIn, userObj }: RouterType) => {
                     <Routes>
                         {isLoggedIn ?
                             <>
-                                <Route path="/" element={<Home notes={notes} ogNotes={ogNotes} setNotes={setNotes} isLoading={isLoading} />} />
+                                <Route path="/" element={<Home userObj={userObj} />} />
                                 <Route path="/write" element={<WriteNote userObj={userObj} />} />
                                 <Route path="/note/:id" element={<Detail />} />
                                 <Route path="/note/:id/write" element={<WriteNote userObj={userObj} />} />
