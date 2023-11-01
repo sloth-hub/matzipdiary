@@ -16,6 +16,7 @@ export const Home = ({ userObj }: any) => {
     const [isSortLoading, setIsSortLoading] = useState(false);
     const [cursor, setCursor] = useState(null);
     const [isEmpty, setIsEmpty] = useState(false);
+    const [totalStatus, setTotalStatus] = useState<number>(8);
     const location = useLocation();
     const prevSortStatus = location.state;
     const [sortStatus, setSortStatus] = useState<SortInterface>(prevSortStatus ? prevSortStatus : { kor: "정렬", eng: "date_created", type: "desc" });
@@ -31,7 +32,7 @@ export const Home = ({ userObj }: any) => {
         const q = query(
             collection(db, "notes"),
             where("uid", "==", userObj!.uid),
-            limit(8),
+            limit(totalStatus),
             orderBy(path, type === "desc" ? "desc" : "asc"));
         const snap = await getDocs(q);
         const data = snap.docs.map((doc) => {
@@ -168,6 +169,7 @@ export const Home = ({ userObj }: any) => {
             setOgNotes([...notes, ...data]);
             // @ts-ignore
             setNotes([...notes, ...data]);
+            setTotalStatus(totalStatus + snap.docs.length);
             setIsSortLoading(false);
         }
     }
