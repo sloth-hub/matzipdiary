@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Note } from "../Components/Note";
-import { NoteInterface } from "../interfaces/note.interface";
+import { NoteInterface, SortInterface } from "../interfaces/note.interface";
 import { Link, useLocation } from "react-router-dom";
 import { PiWarningFill } from "react-icons/pi";
 import { BiEditAlt } from "react-icons/bi";
@@ -17,18 +17,21 @@ export const Home = ({ userObj }: any) => {
     const [isEmpty, setIsEmpty] = useState(false);
     const location = useLocation();
     const prevSortStatus = location.state;
-    const [sortStatus, setSortStatus] = useState<string>(prevSortStatus ? prevSortStatus : "정렬");
+    const [sortStatus, setSortStatus] = useState<SortInterface>(prevSortStatus ? prevSortStatus : { kor: "정렬", eng: "date_created", type: "desc" });
 
     useEffect(() => {
-        if (userObj) getNotes();
+        if (userObj) {
+            prevSortStatus ? getNotes(sortStatus.eng, sortStatus.type)
+            : getNotes("date_created", "desc");
+        }
     }, []);
 
-    const getNotes = async () => {
+    const getNotes = async (path: string, type: string) => {
         const q = query(
             collection(db, "notes"),
             where("uid", "==", userObj!.uid),
             limit(8),
-            orderBy("date_created", "desc"));
+            orderBy(path, type === "desc" ? "desc" : "asc"));
         const snap = await getDocs(q);
         const data = snap.docs.map((doc) => {
             return {
@@ -82,42 +85,37 @@ export const Home = ({ userObj }: any) => {
     const sortBy = (value: string, innerText: string) => {
         switch (value) {
             case "cre_asc":
-                const cre_asc = notes.sort((a, b): any =>
-                    sortFactory(a.date_created, b.date_created, "asc"));
-                setNotes(cre_asc);
-                setSortStatus(innerText);
+                getNotes("date_created", "asc");
+                setSortStatus({
+                    kor: innerText,
+                    eng: "date_created",
+                    type: "asc"
+                });
                 break;
             case "cre_desc":
-                const cre_desc = notes.sort((a, b): any =>
-                    sortFactory(a.date_created, b.date_created, "desc"));
-                setNotes(cre_desc);
-                setSortStatus(innerText);
+                getNotes("date_created", "desc");
+                setSortStatus({
+                    kor: innerText,
+                    eng: "date_created",
+                    type: "desc"
+                });
                 break;
             case "visit_asc":
-                const visit_asc = notes.sort((a, b): any =>
-                    sortFactory(a.date_visited, b.date_visited, "asc"));
-                setNotes(visit_asc);
-                setSortStatus(innerText);
+                getNotes("date_visited", "asc");
+                setSortStatus({
+                    kor: innerText,
+                    eng: "date_visited",
+                    type: "asc"
+                });
                 break;
             case "visit_desc":
-                const visit_desc = notes.sort((a, b): any =>
-                    sortFactory(a.date_visited, b.date_visited, "desc"));
-                setNotes(visit_desc);
-                setSortStatus(innerText);
+                getNotes("date_visited", "desc");
+                setSortStatus({
+                    kor: innerText,
+                    eng: "date_visited",
+                    type: "desc"
+                });
                 break;
-        }
-    }
-
-    const sortFactory = (a: string, b: string, type: string) => {
-        switch (type) {
-            case "asc":
-                if (a < b) return 1;
-                else if (a > b) return -1;
-                else return 0;
-            case "desc":
-                if (a > b) return 1;
-                else if (a < b) return -1;
-                else return 0;
         }
     }
 
@@ -143,11 +141,12 @@ export const Home = ({ userObj }: any) => {
     const usePagination = async () => {
         const q = query(collection(db, "notes"),
             where("uid", "==", userObj!.uid),
-            orderBy("date_created", "desc"),
+            orderBy(sortStatus.eng, sortStatus.type === "desc" ? "desc" : "asc"),
             startAfter(cursor),
             limit(4));
         const snap = await getDocs(q);
-        if (snap.empty === true) {
+        const total = await getDocs(query(collection(db, "notes"), where("uid", "==", userObj!.uid)));
+        if (notes.length >= total.docs.length) {
             setIsEmpty(true);
         } else {
             // @ts-ignore
@@ -169,7 +168,7 @@ export const Home = ({ userObj }: any) => {
             {isLoading ? <div className="loader">Loading...</div>
                 :
                 <>
-                    {ogNotes.length > 0 ?
+                    {notes.length > 0 ?
                         <div className="search">
                             <ul className="category" onClick={clickedCategory}>
                                 <li>한식</li>
@@ -183,15 +182,15 @@ export const Home = ({ userObj }: any) => {
                             <div className="select-box" onMouseLeave={selectedHover}>
                                 <div className="selected">
                                     <button type="button" name="foodCategory" className="selected-value" onClick={selectedToggle}>
-                                        {sortStatus}
+                                        {sortStatus.kor}
                                     </button>
                                     <div className="arrow" onClick={selectedToggle}><RiArrowDownSLine size={"1.5em"} /></div>
                                 </div>
                                 <div className="sort">
-                                    <button type="button" onClick={clickedSortBtn} value="cre_asc">작성일 최신순</button>
-                                    <button type="button" onClick={clickedSortBtn} value="cre_desc">작성일 오래된순</button>
-                                    <button type="button" onClick={clickedSortBtn} value="visit_asc">방문일 최신순</button>
-                                    <button type="button" onClick={clickedSortBtn} value="visit_desc">방문일 오래된순</button>
+                                    <button type="button" onClick={clickedSortBtn} value="cre_desc">작성일 최신순</button>
+                                    <button type="button" onClick={clickedSortBtn} value="cre_asc">작성일 오래된순</button>
+                                    <button type="button" onClick={clickedSortBtn} value="visit_desc">방문일 최신순</button>
+                                    <button type="button" onClick={clickedSortBtn} value="visit_asc">방문일 오래된순</button>
                                 </div>
                             </div>
                         </div>
