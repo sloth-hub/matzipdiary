@@ -13,6 +13,7 @@ export const Home = ({ userObj }: any) => {
     const [notes, setNotes] = useState<NoteInterface[]>([]);
     const [ogNotes, setOgNotes] = useState<NoteInterface[]>([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [isSortLoading, setIsSortLoading] = useState(false);
     const [cursor, setCursor] = useState(null);
     const [isEmpty, setIsEmpty] = useState(false);
     const location = useLocation();
@@ -22,7 +23,7 @@ export const Home = ({ userObj }: any) => {
     useEffect(() => {
         if (userObj) {
             prevSortStatus ? getNotes(sortStatus.eng, sortStatus.type)
-            : getNotes("date_created", "desc");
+                : getNotes("date_created", "desc");
         }
     }, []);
 
@@ -83,9 +84,11 @@ export const Home = ({ userObj }: any) => {
     }
 
     const sortBy = (value: string, innerText: string) => {
+        setIsSortLoading(true);
         switch (value) {
             case "cre_asc":
                 getNotes("date_created", "asc");
+                setIsSortLoading(false);
                 setSortStatus({
                     kor: innerText,
                     eng: "date_created",
@@ -94,6 +97,7 @@ export const Home = ({ userObj }: any) => {
                 break;
             case "cre_desc":
                 getNotes("date_created", "desc");
+                setIsSortLoading(false);
                 setSortStatus({
                     kor: innerText,
                     eng: "date_created",
@@ -102,6 +106,7 @@ export const Home = ({ userObj }: any) => {
                 break;
             case "visit_asc":
                 getNotes("date_visited", "asc");
+                setIsSortLoading(false);
                 setSortStatus({
                     kor: innerText,
                     eng: "date_visited",
@@ -110,6 +115,7 @@ export const Home = ({ userObj }: any) => {
                 break;
             case "visit_desc":
                 getNotes("date_visited", "desc");
+                setIsSortLoading(false);
                 setSortStatus({
                     kor: innerText,
                     eng: "date_visited",
@@ -139,6 +145,7 @@ export const Home = ({ userObj }: any) => {
     }
 
     const usePagination = async () => {
+        setIsSortLoading(true);
         const q = query(collection(db, "notes"),
             where("uid", "==", userObj!.uid),
             orderBy(sortStatus.eng, sortStatus.type === "desc" ? "desc" : "asc"),
@@ -147,6 +154,7 @@ export const Home = ({ userObj }: any) => {
         const snap = await getDocs(q);
         const total = await getDocs(query(collection(db, "notes"), where("uid", "==", userObj!.uid)));
         if (notes.length >= total.docs.length) {
+            setIsSortLoading(false);
             setIsEmpty(true);
         } else {
             // @ts-ignore
@@ -160,6 +168,7 @@ export const Home = ({ userObj }: any) => {
             setOgNotes([...notes, ...data]);
             // @ts-ignore
             setNotes([...notes, ...data]);
+            setIsSortLoading(false);
         }
     }
 
@@ -222,6 +231,11 @@ export const Home = ({ userObj }: any) => {
                         <BiEditAlt size={"1.4em"} className="write-icon" />
                         <span className="text">일기쓰기</span>
                     </Link>
+                    <div className={isSortLoading ? "modal active" : "modal"}>
+                        <div className="write-loader">
+                            Loading...
+                        </div>
+                    </div>
                 </>
             }
         </>
