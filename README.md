@@ -1,6 +1,7 @@
 # 맛집일기 matzip diary
 
-> 맛집 리뷰를 일기처럼 프라이빗하게 쓰고 볼 수 있는 사이트 입니다. 
+> **맛집 리뷰를 일기처럼 프라이빗하게 쓰고 볼 수 있는 웹 서비스 입니다.** <br>
+카카오맵 api를 이용해 가게 검색, 위치 정보를 저장하고 react-quill 에디터로 자유롭게 글을 쓸 수 있습니다.
 
 ## 🔗 **SITE LINK**
 https://sloth-hub.github.io/matzipdiary/
