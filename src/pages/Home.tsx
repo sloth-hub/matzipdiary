@@ -10,6 +10,7 @@ import { db } from "../Firebase";
 
 export const Home = ({ userObj }: any) => {
 
+    const [total, setTotal] = useState<number>(0);
     const [notes, setNotes] = useState<NoteInterface[]>([]);
     const [ogNotes, setOgNotes] = useState<NoteInterface[]>([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -23,10 +24,16 @@ export const Home = ({ userObj }: any) => {
 
     useEffect(() => {
         if (userObj) {
+            getTotal();
             prevSortStatus ? getNotes(sortStatus.eng, sortStatus.type)
                 : getNotes("date_created", "desc");
         }
     }, []);
+
+    const getTotal = async () => {
+        const result = await getDocs(query(collection(db, "notes"), where("uid", "==", userObj!.uid)));
+        setTotal(result.docs.length);
+    }
 
     const getNotes = async (path: string, type: string) => {
         const q = query(
@@ -153,24 +160,23 @@ export const Home = ({ userObj }: any) => {
             startAfter(cursor),
             limit(4));
         const snap = await getDocs(q);
-        const total = await getDocs(query(collection(db, "notes"), where("uid", "==", userObj!.uid)));
-        if (notes.length >= total.docs.length) {
+
+        // @ts-ignore
+        setCursor(snap.docs[snap.docs.length - 1]);
+        const data = snap.docs.map((doc) => {
+            return {
+                ...doc.data(), id: doc.id
+            }
+        });
+        // @ts-ignore
+        setOgNotes([...notes, ...data]);
+        // @ts-ignore
+        setNotes([...notes, ...data]);
+        setTotalStatus(totalStatus + snap.docs.length);
+        setIsSortLoading(false);
+        if (notes.length + data.length >= total) {
             setIsSortLoading(false);
             setIsEmpty(true);
-        } else {
-            // @ts-ignore
-            setCursor(snap.docs[snap.docs.length - 1]);
-            const data = snap.docs.map((doc) => {
-                return {
-                    ...doc.data(), id: doc.id
-                }
-            });
-            // @ts-ignore
-            setOgNotes([...notes, ...data]);
-            // @ts-ignore
-            setNotes([...notes, ...data]);
-            setTotalStatus(totalStatus + snap.docs.length);
-            setIsSortLoading(false);
         }
     }
 
@@ -222,13 +228,11 @@ export const Home = ({ userObj }: any) => {
                             }
                         </div>
                     </div>
-                    {isEmpty ? <></>
-                        : <button type="button"
-                            className="more pagination"
-                            onClick={usePagination}>
-                            더보기
-                        </button>
-                    }
+                    {total > 8 && !isEmpty ? <button type="button"
+                        className="more pagination"
+                        onClick={usePagination}>
+                        더보기
+                    </button> : <></>}
                     <Link to="/write" className="write-btn" onMouseOver={changeStyle} onMouseOut={removeStyle}>
                         <BiEditAlt size={"1.4em"} className="write-icon" />
                         <span className="text">일기쓰기</span>
