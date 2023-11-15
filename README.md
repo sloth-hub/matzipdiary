@@ -77,13 +77,13 @@ https://sloth-hub.github.io/matzipdiary/
 ![tablet_5](https://github.com/sloth-hub/matzipdiary/assets/53851248/1ecf4499-6e6e-4125-bd93-2d6d6d919fb9)
 
 ## 📱 PREVIEW - **MOBILE**
-### 메인 페이지
-![mobile_1](https://github.com/sloth-hub/matzipdiary/assets/53851248/9b24bd6d-cb5f-4d6a-9481-fa646eaa8b41)
-### 상세 페이지
-![mobile_2](https://github.com/sloth-hub/matzipdiary/assets/53851248/876a1a65-f9b9-404f-ae25-2beb665d7f08)
+### 메인 페이지 / 상세 페이지
+<img src="https://github.com/sloth-hub/matzipdiary/assets/53851248/9b24bd6d-cb5f-4d6a-9481-fa646eaa8b41" width="350" alt="메인 페이지">
+<img src="https://github.com/sloth-hub/matzipdiary/assets/53851248/876a1a65-f9b9-404f-ae25-2beb665d7f08" width="350" alt="상세 페이지">
+
 ### 일기 작성 페이지
-![mobile_3](https://github.com/sloth-hub/matzipdiary/assets/53851248/760fa4d1-86e0-4b61-a565-cc14c87a9ea9)
-### 로그인 페이지
-![mobile_4](https://github.com/sloth-hub/matzipdiary/assets/53851248/7317523e-61db-455c-a69b-c6149a5ffef9)
-### 회원가입 페이지
-![mobile_5](https://github.com/sloth-hub/matzipdiary/assets/53851248/65408196-ad0c-42e9-aaf6-151da27a5ae5)
+<img src="https://github.com/sloth-hub/matzipdiary/assets/53851248/760fa4d1-86e0-4b61-a565-cc14c87a9ea9" width="350" alt="일기 작성 페이지">
+
+### 로그인 페이지 / 회원가입 페이지
+<img src="https://github.com/sloth-hub/matzipdiary/assets/53851248/7317523e-61db-455c-a69b-c6149a5ffef9" width="350" alt="로그인 페이지">
+<img src="https://github.com/sloth-hub/matzipdiary/assets/53851248/65408196-ad0c-42e9-aaf6-151da27a5ae5" width="350" alt="회원가입 페이지">
