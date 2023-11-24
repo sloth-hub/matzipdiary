@@ -201,7 +201,7 @@ export const Detail = () => {
                 </div>
             </div>
             <div className={location.lat ? (address.lotAddr ? "loader hide" : "loader") : "loader hide"}>
-                Loading...
+                <img src={`${process.env.PUBLIC_URL}/images/loading.gif`} alt="loading" />
             </div>
         </div>
     )

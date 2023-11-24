@@ -42,7 +42,7 @@ const App = () => {
             {init ?
                 <AppRouter
                     isLoggedIn={isLoggedIn} userObj={userObj} />
-                : <div className="loader">Loading...</div>
+                : <div className="loader"><img src={`${process.env.PUBLIC_URL}/images/loading.gif`} alt="loading" /></div>
             }
         </>
     );

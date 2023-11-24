@@ -182,7 +182,7 @@ export const Home = ({ userObj }: any) => {
 
     return (
         <>
-            {isLoading ? <div className="loader">Loading...</div>
+            {isLoading ? <div className="loader"><img src={`${process.env.PUBLIC_URL}/images/loading.gif`} alt="loading" /></div>
                 :
                 <>
                     {notes.length > 0 ?
@@ -239,7 +239,7 @@ export const Home = ({ userObj }: any) => {
                     </Link>
                     <div className={isSortLoading ? "modal active" : "modal"}>
                         <div className="write-loader">
-                            Loading...
+                            <img src={`${process.env.PUBLIC_URL}/images/loading.gif`} alt="loading" />
                         </div>
                     </div>
                 </>

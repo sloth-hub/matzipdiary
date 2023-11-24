@@ -334,7 +334,7 @@ export const WriteNote = ({ userObj }: any) => {
             </div>
             <div className={isLoading ? "modal active" : "modal"}>
                 <div className="write-loader">
-                    Loading...
+                    <img src={`${process.env.PUBLIC_URL}/images/loading.gif`} alt="loading" />
                 </div>
             </div>
         </form>
