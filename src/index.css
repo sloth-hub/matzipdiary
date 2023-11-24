@@ -1030,7 +1030,7 @@ textarea {
   cursor: pointer;
 }
 
-.select-box .selected .arrow:hover {
+.select-box .selected:hover .arrow {
   color: var(--D-gray);
 }
 
