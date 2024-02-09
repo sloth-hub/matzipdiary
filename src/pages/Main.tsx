@@ -1,7 +1,9 @@
 import React from "react";
+import { useNavigate } from "react-router";
 
 export const Main = () => {
 
+    const navigate = useNavigate();
     return (
         <>
             <div className="main-content-wrap">
@@ -20,6 +22,7 @@ export const Main = () => {
                             <br />맛집 기록 서비스 입니다.
                         </h3>
                     </div>
+                    <button onClick={() => navigate("/login")}>시작하기</button>
                 </div>
                 <div className="content-right">
                     <img src={`${process.env.PUBLIC_URL}/images/matzipdiary_mobile_1.png`} alt="맛집일기 메인" />

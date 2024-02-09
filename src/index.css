@@ -418,6 +418,22 @@ nav .login:hover {
   box-shadow: -15px 15px 45px rgba(192, 128, 0, 0.6);
 }
 
+.main-content-wrap button {
+  border: 1px solid var(--black);
+  width: 120px;
+  padding: 15px 0;
+  border-radius: 25px;
+  margin-top: 30px;
+  font-weight: 600;
+}
+
+.main-content-wrap button:hover {
+  border: 1px solid var(--white);
+  background-color: var(--white);
+  color: var(--main-color);
+  opacity: 1;
+}
+
 .search {
   display: flex;
   justify-content: space-between;
@@ -1518,6 +1534,12 @@ footer span {
   .main-content-wrap .content-right img {
     width: 80%;
     box-shadow: -10px 10px 30px rgba(192, 128, 0, 0.6);
+  }
+
+  .main-content-wrap button {
+    width: 25vw;
+    padding: 10px 0;
+    font-size: 3.5vw;
   }
 
   .search {
