@@ -5,6 +5,7 @@ import { Login } from "../pages/Login"
 import { Home } from "../pages/Home";
 import { UserInterface } from "../interfaces/user.interface";
 import { WriteNote } from "../pages/WriteNote";
+import { Main } from "../pages/Main";
 import Nav from "../Components/Nav";
 import { Detail } from "../pages/Detail";
 import { db } from "../Firebase";
@@ -33,7 +34,7 @@ export const AppRouter = ({ isLoggedIn, userObj }: RouterType) => {
                             </>
                             :
                             <>
-                                <Route path="/" element={<Login />} />
+                                <Route path="/" element={<Main />} />
                                 <Route path="/login" element={<Login />} />
                                 <Route path="/signup" element={<SignUp />} />
                             </>
