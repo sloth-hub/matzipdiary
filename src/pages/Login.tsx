@@ -2,7 +2,7 @@ import { ChangeEvent, useState } from "react";
 import { UserInputInterface } from "../interfaces/user.interface";
 import { GithubAuthProvider, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { db, firebaseAuth } from "../Firebase";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { addDoc, collection, getDocs } from "firebase/firestore";
 import moment from "moment";
 import { FcGoogle } from "react-icons/fc";
@@ -19,6 +19,8 @@ export const Login = () => {
     const [val_pass, setVal_pass] = useState<string>();
 
     const { email, password } = signupData;
+
+    const navigate = useNavigate();
 
     const onChange = (e: ChangeEvent<HTMLInputElement>) => {
         let { name, value } = e.target;
@@ -77,6 +79,7 @@ export const Login = () => {
                         date_created: moment().utc().format("YYYY-MM-DD HH:mm:ss")
                     });
                 }
+                navigate("/");
                 window.location.reload();
             }).catch(err => {
                 console.log(`${err.code} - ${err.message}`);
