@@ -634,7 +634,7 @@ textarea {
 
 .notes-wrap {
   margin: -0.75rem;
-  min-height: 65vh;
+  min-height: calc(100vh - 236px);
 }
 
 .notes {
@@ -758,8 +758,7 @@ textarea {
   display: flex;
   align-items: flex-end;
   align-self: flex-end;
-  margin-right: 10px;
-  margin-bottom: 15px;
+  padding: 5px 10px 10px;
   color: var(--black);
   transition: all .08s linear;
 }
@@ -1378,11 +1377,11 @@ footer span {
   }
 
   .note {
-    height: 38vw;
+    height: 38.5vw;
   }
 
   .note * {
-    font-size: 13px
+    font-size: max(1.5vw, 13px);
   }
 
   .note .img-wrap {
@@ -1472,7 +1471,16 @@ footer span {
   }
 
   .note {
-    height: 48vw;
+    height: 50vw;
+  }
+
+  .note * {
+    font-size: max(2vw, 13px);
+    line-height: 2.4vw;
+  }
+
+  .note .more {
+    padding: 5px 10px 8px;
   }
 
   .note .img-wrap {
@@ -1565,6 +1573,15 @@ footer span {
 
   .note {
     height: 70vw;
+  }
+
+  .note * {
+    font-size: max(2.8vw, 13px);
+    line-height: max(3.2vw, 14px);
+  }
+
+  .note .more {
+    padding: 5px 10px 2vw;
   }
 
   .note .img-wrap {
