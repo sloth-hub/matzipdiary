@@ -119,7 +119,6 @@ main {
   align-items: center;
   padding-top: 80px;
   padding-bottom: 30px;
-  overflow: hidden;
 }
 
 button {
@@ -356,10 +355,10 @@ nav .login:hover {
 /* home */
 
 .bg {
-  position: absolute;
+  position: fixed;
   z-index: -1;
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   margin-top: -30px;
   background-color: var(--main-color);
 }
@@ -367,7 +366,7 @@ nav .login:hover {
 .main-content-wrap {
   display: grid;
   grid-template-columns: 40% 60%;
-  min-height: 77vh;
+  min-height: calc(100vh - 207px);
 }
 
 .main-content-wrap .content-left {
@@ -574,6 +573,8 @@ textarea {
   align-items: center;
   justify-content: center;
   width: 155px;
+  height: auto !important;
+  padding: 7px 0 8px !important;
 }
 
 .sns-login button+button {
@@ -1314,6 +1315,7 @@ footer {
   padding: 40px 0;
   border-top: 1px solid var(--S-L-gray);
   color: var(--black);
+  background-color: var(--white);
 }
 
 footer span {
@@ -1413,20 +1415,10 @@ footer span {
 
   .main-content-wrap {
     grid-template-columns: 45% 55%;
-    min-height: calc(100vh - 200px);
-  }
-
-  .main-content-wrap .content-left>div h1 {
-    font-size: 56px;
   }
 
   .main-content-wrap .content-left>div h2 {
-    font-size: 21px;
     font-weight: 800;
-  }
-
-  .main-content-wrap .content-left h3 {
-    font-size: 17px;
   }
 
   .main-content-wrap .content-right {
@@ -1531,10 +1523,12 @@ footer span {
 
   .main-content-wrap .content-left>div h2 {
     font-size: 4.5vw;
+    line-height: 8vw;
   }
 
   .main-content-wrap .content-left h3 {
     font-size: 3.5vw;
+    line-height: 7vw;
   }
 
   .main-content-wrap .content-right img:nth-child(1) {
