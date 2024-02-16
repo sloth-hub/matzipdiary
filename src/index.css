@@ -564,6 +564,13 @@ textarea {
   font-size: 14px;
 }
 
+.login-form h1, .sign-form h1 {
+  font-size: 18px;
+  font-weight: 800;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
 .sns-login {
   display: flex;
 }

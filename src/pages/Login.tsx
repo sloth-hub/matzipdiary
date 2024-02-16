@@ -89,6 +89,9 @@ export const Login = () => {
     return (
         <div className="login-form">
             <form onSubmit={onSubmit}>
+                <h1>
+                    로그인
+                </h1>
                 <div className="input-box">
                     <label htmlFor="email">이메일</label>
                     <input type="email" name="email" id="email"

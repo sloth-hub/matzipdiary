@@ -124,6 +124,7 @@ export const SignUp = () => {
     return (
         <div className="sign-form">
             <form onSubmit={onSubmit}>
+                <h1>회원가입</h1>
                 <div className="input-box">
                     <label htmlFor="email">이메일</label>
                     <input type="email" name="email" id="email"
