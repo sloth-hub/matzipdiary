@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { Routes, Route, HashRouter } from "react-router-dom";
 import { SignUp } from "../pages/SignUp";
 import { Login } from "../pages/Login"
@@ -8,16 +7,14 @@ import { WriteNote } from "../pages/WriteNote";
 import { Main } from "../pages/Main";
 import Nav from "../Components/Nav";
 import { Detail } from "../pages/Detail";
-import { db } from "../Firebase";
-import { collection, getDocs, orderBy, query, where, limit } from "firebase/firestore";
-import { NoteInterface } from "../interfaces/note.interface";
 
 type RouterType = {
     isLoggedIn: boolean,
+    setIsLoggedIn: (value: any) => void,
     userObj: UserInterface | null,
 }
 
-export const AppRouter = ({ isLoggedIn, userObj }: RouterType) => {
+export const AppRouter = ({ isLoggedIn, setIsLoggedIn, userObj }: RouterType) => {
 
     return (
         <HashRouter>
@@ -35,7 +32,7 @@ export const AppRouter = ({ isLoggedIn, userObj }: RouterType) => {
                             :
                             <>
                                 <Route path="/" element={<Main />} />
-                                <Route path="/login" element={<Login />} />
+                                <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} />} />
                                 <Route path="/signup" element={<SignUp />} />
                             </>
                         }

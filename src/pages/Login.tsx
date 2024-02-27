@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { UserInputInterface } from "../interfaces/user.interface";
 import { GithubAuthProvider, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { db, firebaseAuth } from "../Firebase";
@@ -8,7 +8,7 @@ import moment from "moment";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 
-export const Login = () => {
+export const Login = ({ setIsLoggedIn }: any, isLoggedIn: boolean) => {
 
     const [signupData, setSignupData] = useState<UserInputInterface>({
         email: "",
@@ -21,6 +21,10 @@ export const Login = () => {
     const { email, password } = signupData;
 
     const navigate = useNavigate();
+
+    useEffect(()=>{
+        console.log(isLoggedIn);
+    }, []);
 
     const onChange = (e: ChangeEvent<HTMLInputElement>) => {
         let { name, value } = e.target;
@@ -39,6 +43,8 @@ export const Login = () => {
         await signInWithEmailAndPassword(firebaseAuth, email, password)
             .then((userCredential) => {
                 const user = userCredential.user;
+                setIsLoggedIn(true);
+                navigate("/");
                 window.location.reload();
             }).catch(err => {
                 if (err.code === "auth/user-not-found") {
