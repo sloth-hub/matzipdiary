@@ -25,7 +25,7 @@ export const Main = () => {
                         <h3 data-aos="fade-right" data-aos-duration="1200" data-aos-delay="600">
                             내가 방문했던 맛집에 대해
                             <br />자유롭게 리뷰하고
-                            <br />카테고리를 볼 수 있는
+                            <br />카테고리별로 볼 수 있는
                             <br />맛집 기록 서비스 입니다.
                         </h3>
                     </div>
@@ -38,12 +38,12 @@ export const Main = () => {
                     </div>
                 </div>
                 <div className="content-right">
-                    <img src={`${process.env.PUBLIC_URL}/images/matzipdiary_mobile_1.png`}
+                    <img src={`${process.env.PUBLIC_URL}/images/matzipdiary_mobile_1.webp`}
                         alt="맛집일기 메인"
                         data-aos="fade-up"
                         data-aos-duration="1200"
                         data-aos-delay="1000" />
-                    <img src={`${process.env.PUBLIC_URL}/images/matzipdiary_mobile_2.png`}
+                    <img src={`${process.env.PUBLIC_URL}/images/matzipdiary_mobile_2.webp`}
                         alt="맛집일기 상세보기"
                         data-aos="fade-up"
                         data-aos-duration="1200"
