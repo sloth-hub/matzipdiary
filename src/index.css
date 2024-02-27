@@ -674,6 +674,7 @@ textarea {
   width: 240px;
   height: 240px;
   overflow: hidden;
+  background-color: var(--L-gray);
 }
 
 .note .img-wrap img {
@@ -910,6 +911,7 @@ textarea {
   display: flex;
   flex-direction: row;
   align-items: center;
+  background-color: var(--L-gray);
 }
 
 .detail .img-wrap ul li {
