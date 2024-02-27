@@ -6,6 +6,10 @@
 ## 🔗 **SITE LINK**
 https://sloth-hub.github.io/matzipdiary/
 
+<p>테스트용 ID : test01@test.com</p>
+
+테스트용 PW : test1234!!
+
 ## ⚙ TECHNOLOGIES
 
 ![HTML Badge](https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
