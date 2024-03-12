@@ -415,6 +415,7 @@ nav .login:hover {
 
 .main-content-wrap .content-right img {
   box-shadow: -15px 15px 45px rgba(88, 48, 11, 0.3);
+  border-radius: 15px;
 }
 
 .main-content-wrap button {
@@ -1439,6 +1440,7 @@ footer span {
 
   .main-content-wrap .content-right img {
     width: 80%;
+    border-radius: 10px;
   }
 
   .main-content-wrap .content-right img:nth-child(1) {
