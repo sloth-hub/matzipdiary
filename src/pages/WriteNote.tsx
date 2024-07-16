@@ -21,9 +21,7 @@ export const WriteNote = ({ userObj }: any) => {
     const statedata = useLocation();
     const navigate = useNavigate();
 
-    const [inputs, setInputs] = useState<NoteInterface>(statedata.state ?
-        statedata.state.data
-        : {
+    const [inputs, setInputs] = useState<NoteInterface>({
             uid: userObj.uid,
             id: "",
             date_created: "",
@@ -63,6 +61,7 @@ export const WriteNote = ({ userObj }: any) => {
         if (statedata.state) {
             setIsModify(true);
             setPrevData(statedata.state.data);
+            setInputs(statedata.state.data);
             (document.querySelector("input[type='date']") as HTMLInputElement)!.value = statedata.state.data.date_visited;
             setThumbnail(statedata.state.data.images);
         }
@@ -72,7 +71,7 @@ export const WriteNote = ({ userObj }: any) => {
         e.preventDefault();
         setIsLoading(true);
         const requiredInputs = [
-            inputs["foodCategory"], inputs["date_visited"], inputs["placeName"], inputs["text"]
+            inputs["foodCategory"], inputs["date_visited"], inputs["placeName"], inputs["text"].replace(/(<([^>]+)>)/ig, "")
         ];
         if (requiredInputs.includes("")) {
             alert("필수 항목을 입력하세요.");
@@ -220,7 +219,6 @@ export const WriteNote = ({ userObj }: any) => {
     }
 
     const deleteImage = (id: any) => {
-        // 수정시 이미지 삭제 코드 추가 필요 24.07.10
         setDeleteImages([...deleteImages, thumbnail[id]]);
         setThumbnail(thumbnail.filter((_, index) => index !== id));
     };
@@ -327,7 +325,7 @@ export const WriteNote = ({ userObj }: any) => {
             </div>
             <Editor quillText={quillText} setQuillText={setQuillText}
                 prevData={statedata.state && statedata.state.data}
-                getInputs={getInputs} />
+                setInputs={setInputs} inputs={inputs}/>
             <div className="btn-wrap">
                 <button type="button" onClick={() => navigate(-1)} className="back">뒤로</button>
                 <button type="submit">완료</button>

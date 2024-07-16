@@ -7,9 +7,10 @@ type Props = {
     quillText: string,
     setQuillText: (value: string) => void,
     prevData: NoteInterface,
-    getInputs: (value: string) => void,
+    setInputs: (value: NoteInterface) => void,
+    inputs: NoteInterface,
 }
-export const Editor = ({ quillText, setQuillText, prevData, getInputs }: Props) => {
+export const Editor = ({ quillText, setQuillText, prevData, setInputs, inputs }: Props) => {
 
     useEffect(() => {
         if (prevData) {
@@ -51,14 +52,9 @@ export const Editor = ({ quillText, setQuillText, prevData, getInputs }: Props) 
         'align', 'color', 'background',
     ]
 
-    const changeQuillText = (e: string) => {
-        setQuillText(e);
-        getInputs(e);
-    }
-
     return (
         <ReactQuill
-            onChange={(e) => changeQuillText(e)}
+            onChange={(e) => { setQuillText(e); setInputs({ ...inputs, text: e }) }}
             placeholder="솔직한 후기를 남겨보세요! *필수입력사항"
             modules={modules}
             formats={formats}
