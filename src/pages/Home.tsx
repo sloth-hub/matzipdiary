@@ -10,6 +10,8 @@ import { db } from "../Firebase";
 
 export const Home = ({ userObj }: any) => {
 
+    const location = useLocation();
+    const prevSortStatus = location.state;
     const [total, setTotal] = useState<number>(0);
     const [notes, setNotes] = useState<NoteInterface[]>([]);
     const [ogNotes, setOgNotes] = useState<NoteInterface[]>([]);
@@ -18,8 +20,6 @@ export const Home = ({ userObj }: any) => {
     const [cursor, setCursor] = useState(null);
     const [isEmpty, setIsEmpty] = useState(false);
     const [totalStatus, setTotalStatus] = useState<number>(8);
-    const location = useLocation();
-    const prevSortStatus = location.state;
     const [sortStatus, setSortStatus] = useState<SortInterface>(prevSortStatus ? prevSortStatus : { kor: "정렬", eng: "date_created", type: "desc" });
 
     useEffect(() => {
@@ -228,10 +228,10 @@ export const Home = ({ userObj }: any) => {
                             }
                         </div>
                     </div>
-                    {total > 8 && !isEmpty ? <button type="button"
+                    {notes.length >= 8 && !isEmpty ? <button type="button"
                         className="more pagination"
                         onClick={usePagination}>
-                        더보기
+                        더보기 {notes.length}
                     </button> : <></>}
                     <Link to="/write" className="write-btn" onMouseOver={changeStyle} onMouseOut={removeStyle}>
                         <BiEditAlt size={"1.4em"} className="write-icon" />
