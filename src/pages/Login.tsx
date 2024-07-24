@@ -22,10 +22,6 @@ export const Login = ({ setIsLoggedIn }: any, isLoggedIn: boolean) => {
 
     const navigate = useNavigate();
 
-    useEffect(()=>{
-        console.log(isLoggedIn);
-    }, []);
-
     const onChange = (e: ChangeEvent<HTMLInputElement>) => {
         let { name, value } = e.target;
         if (name === "email") {
