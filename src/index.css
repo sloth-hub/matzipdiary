@@ -512,11 +512,11 @@ nav .login:hover {
   width: 100%;
   margin-top: 30px;
   padding: 10px 0;
-
+  background-color: var(--M-L-gray);
 }
 
 .more.pagination:hover {
-  background-color: var(--S-L-gray);
+  background-color: var(--L-gray);
 }
 
 /* form */

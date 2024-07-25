@@ -231,7 +231,7 @@ export const Home = ({ userObj }: any) => {
                     {notes.length >= 8 && !isEmpty ? <button type="button"
                         className="more pagination"
                         onClick={usePagination}>
-                        더보기 {notes.length}
+                        더보기 {`+${total - notes.length}`}
                     </button> : <></>}
                     <Link to="/write" className="write-btn" onMouseOver={changeStyle} onMouseOut={removeStyle}>
                         <BiEditAlt size={"1.4em"} className="write-icon" />
