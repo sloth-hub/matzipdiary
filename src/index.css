@@ -370,7 +370,7 @@ nav .login:hover {
 .main-content-wrap {
   display: grid;
   grid-template-columns: 40% 60%;
-  min-height: calc(100vh - 207px);
+  min-height: calc(100vh - 176px);
 }
 
 .main-content-wrap .content-left {
@@ -659,7 +659,7 @@ textarea {
 
 .notes-wrap {
   margin: -0.75rem;
-  min-height: calc(100vh - 365px);
+  min-height: calc(100vh - 290px);
 }
 
 .notes {
@@ -683,6 +683,10 @@ textarea {
   margin: 0.75rem;
 }
 
+.note * {
+  font-size: 15px;
+}
+
 .note .img-wrap {
   display: flex;
   justify-content: center;
@@ -695,8 +699,13 @@ textarea {
   background-color: var(--L-gray);
 }
 
+.note .img-wrap>div {
+  height: 100%;
+}
+
 .note .img-wrap img {
-  width: 100%;
+  object-fit: cover;
+  min-height: 100%;
 }
 
 .note .imgcount {
@@ -784,7 +793,7 @@ textarea {
   display: flex;
   align-items: flex-end;
   align-self: flex-end;
-  padding: 5px 10px 10px;
+  padding: 12.5px;
   color: var(--black);
   transition: all .08s linear;
 }
@@ -1368,11 +1377,6 @@ footer span {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 240px;
-  }
-
-  .note .content-wrap {
-    height: 35%;
   }
 
 }
@@ -1482,7 +1486,7 @@ footer span {
   }
 
   .note .more {
-    padding: 5px 10px 8px;
+    padding: 12.5px;
   }
 
   .note .img-wrap {
@@ -1594,6 +1598,10 @@ footer span {
 
   .note .img-wrap {
     height: 65%;
+  }
+
+  .note .content-wrap {
+    height: 35%;
   }
 
   .note .content-wrap p {
