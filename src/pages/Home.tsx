@@ -137,7 +137,7 @@ export const Home = ({ userObj }: any) => {
         const target = e.target as HTMLElement;
         const catName = target.innerText;
         const lists = (target.parentNode as HTMLElement).children;
-        if (target.tagName === "LI") {
+        if (target.tagName === "BUTTON") {
             if (target.classList.contains("active")) {
                 setNotes(ogNotes);
                 target.classList.remove("active");
@@ -188,13 +188,13 @@ export const Home = ({ userObj }: any) => {
                     {ogNotes.length > 0 ?
                         <div className="search">
                             <ul className="category" onClick={clickedCategory}>
-                                <li>한식</li>
-                                <li>양식</li>
-                                <li>중식</li>
-                                <li>일식</li>
-                                <li>아시아/퓨전</li>
-                                <li>카페</li>
-                                <li>기타</li>
+                                <li><button>한식</button></li>
+                                <li><button>양식</button></li>
+                                <li><button>중식</button></li>
+                                <li><button>일식</button></li>
+                                <li><button>아시아/퓨전</button></li>
+                                <li><button>카페</button></li>
+                                <li><button>기타</button></li>
                             </ul>
                             <div className="select-box" onMouseLeave={selectedHover}>
                                 <div className="selected">

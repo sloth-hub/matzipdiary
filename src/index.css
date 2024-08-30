@@ -132,10 +132,15 @@ button {
   cursor: pointer;
   opacity: 1;
   border-radius: 5px;
+  font-weight: 700;
   transition: all .08s linear;
 }
 
-button:hover {
+button:not(.selected-value), button:not(#placeName) {
+  font-weight: normal;
+}
+
+button:hover, button:focus {
   opacity: .85;
 }
 
@@ -550,8 +555,8 @@ input:not(#images), .selected-value, .food-category, textarea, #placeName, .file
   transition: all .05s linear;
 }
 
-input:focus {
-  border: 1px solid var(--main-color);
+input:focus, button.selected-value:focus {
+  border: 1px solid var(--M-gray) !important;
 }
 
 .input-error {
