@@ -21,19 +21,7 @@ export const WriteNote = ({ userObj }: any) => {
     const statedata = useLocation();
     const navigate = useNavigate();
 
-    const [inputs, setInputs] = useState<NoteInterface>({
-            uid: userObj.uid,
-            id: "",
-            date_created: "",
-            date_visited: "",
-            foodCategory: "",
-            location: { lat: 0, lng: 0 },
-            text: "",
-            placeName: "",
-            images: []
-        });
-
-    const [prevData, setPrevData] = useState<NoteInterface>({
+    const defaultNote: NoteInterface = {
         uid: userObj.uid,
         id: "",
         date_created: "",
@@ -43,7 +31,10 @@ export const WriteNote = ({ userObj }: any) => {
         text: "",
         placeName: "",
         images: []
-    });
+    };
+
+    const [inputs, setInputs] = useState<NoteInterface>(defaultNote);
+    const [prevData, setPrevData] = useState<NoteInterface>(defaultNote);
 
     const [deleteImages, setDeleteImages] = useState<Images[]>([]);
     const [thumbnail, setThumbnail] = useState<Images[]>([]);
@@ -325,7 +316,7 @@ export const WriteNote = ({ userObj }: any) => {
             </div>
             <Editor quillText={quillText} setQuillText={setQuillText}
                 prevData={statedata.state && statedata.state.data}
-                setInputs={setInputs} inputs={inputs}/>
+                setInputs={setInputs} inputs={inputs} />
             <div className="btn-wrap">
                 <button type="button" onClick={() => navigate(-1)} className="back">뒤로</button>
                 <button type="submit">완료</button>
