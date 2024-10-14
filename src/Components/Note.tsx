@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { BiChevronRight, BiCalendar } from "react-icons/bi";
+import { BiChevronRight, BiCalendar, BiSolidStar } from "react-icons/bi";
 import { HiLocationMarker } from "react-icons/hi";
 
 export const Note = ({ note, sortStatus }: any) => {
@@ -11,12 +11,12 @@ export const Note = ({ note, sortStatus }: any) => {
         placeName,
         images,
         text,
+        rate,
         id } = note;
 
     const imgLazyLoading = (e: React.SyntheticEvent) => {
         const target = e.target as HTMLImageElement;
         const loader = target.nextSibling as HTMLElement;
-        const div = document.querySelectorAll(".note .img-wrap>div");
         if (target.complete) {
             loader.classList.add("false");
         }
@@ -53,6 +53,14 @@ export const Note = ({ note, sortStatus }: any) => {
                     <HiLocationMarker />
                     <span className="category">{foodCategory}</span>
                     <span>{placeName}</span>
+                </div>
+                <div className="star-rating" role="img" aria-label={`별점: 5점 만점에 ${rate}점`}>
+                    <div className="star-rating-base" aria-hidden="true">
+                        {Array.from({ length: 5 }, (_, i) => <BiSolidStar key={i} className="star" />)}
+                    </div>
+                    <div className="star-rating-fill" aria-hidden="true" style={{ width: `${(rate / 5) * 100}%` }}>
+                        {Array.from({ length: 5 }, (_, i) => <BiSolidStar key={i} className="star" />)}
+                    </div>
                 </div>
                 <p>{text.replace(/(<([^>]+)>)/ig, "").replaceAll("&amp;", "")}</p>
             </div>

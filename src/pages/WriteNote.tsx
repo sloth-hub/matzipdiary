@@ -28,6 +28,7 @@ export const WriteNote = ({ userObj }: any) => {
         date_visited: "",
         foodCategory: "",
         location: { lat: 0, lng: 0 },
+        rate: 0,
         text: "",
         placeName: "",
         images: []

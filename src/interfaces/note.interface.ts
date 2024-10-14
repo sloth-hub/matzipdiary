@@ -6,6 +6,7 @@ export interface NoteInterface {
     foodCategory: string,
     placeName: string,
     location: Locations,
+    rate: number,
     text: string,
     images: Array<Images>,
     [prop: string]: any
