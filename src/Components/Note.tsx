@@ -1,7 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { BiChevronRight, BiCalendar, BiSolidStar } from "react-icons/bi";
+import { BiChevronRight, BiCalendar } from "react-icons/bi";
 import { HiLocationMarker } from "react-icons/hi";
+import StarRating from "./StarRating";
 
 export const Note = ({ note, sortStatus }: any) => {
 
@@ -54,14 +55,7 @@ export const Note = ({ note, sortStatus }: any) => {
                     <span className="category">{foodCategory}</span>
                     <span>{placeName}</span>
                 </div>
-                <div className="star-rating" role="img" aria-label={`별점: 5점 만점에 ${rate}점`}>
-                    <div className="star-rating-base" aria-hidden="true">
-                        {Array.from({ length: 5 }, (_, i) => <BiSolidStar key={i} className="star" />)}
-                    </div>
-                    <div className="star-rating-fill" aria-hidden="true" style={{ width: `${(rate / 5) * 100}%` }}>
-                        {Array.from({ length: 5 }, (_, i) => <BiSolidStar key={i} className="star" />)}
-                    </div>
-                </div>
+                <StarRating rate={rate}/>
                 <p>{text.replace(/(<([^>]+)>)/ig, "").replaceAll("&amp;", "")}</p>
             </div>
             <Link to={`/note/${id}`} state={{ note, id, sortStatus }} className="more">
