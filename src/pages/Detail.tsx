@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { doc, deleteDoc } from "firebase/firestore";
 import { ref, deleteObject } from "firebase/storage"
 import { storage, db } from "../Firebase";
+import StarRating from "../Components/StarRating";
 
 export const Detail = () => {
 
@@ -24,6 +25,7 @@ export const Detail = () => {
         placeName,
         images,
         location,
+        rate,
         text } = statedata.state.note;
     const id = statedata.state.id;
     const sortStatus = statedata.state.sortStatus;
@@ -171,15 +173,14 @@ export const Detail = () => {
                                 : <></>
                             }
                         </div>
-                        <div className="address">
-                            {address.lotAddr ? <>
-                                <span>{address && address.roadAddr}</span>
-                                <span> 지번&#41; {address && address.lotAddr}</span>
-                            </> : <span className="warn">폐업 했거나 정보 제공이 중지된 장소입니다.</span>}
+                        <div className="star-rating-wrap">
+                            <StarRating rate={rate} />
+                            <span className="star-rating-text">{rate}</span>
                         </div>
-                        <div className="date">
-                            <span>{foodCategory}</span>
-                            <span>{date_visited} 방문</span>
+                        <div className="info">
+                            <span aria-label="지역">{address.lotAddr.includes("경기") ? address.lotAddr.substring(0, 5) : address.lotAddr.substring(0, 2)}</span>
+                            <span aria-label="업종">{foodCategory}</span>
+                            <span aria-label="방문일">{date_visited} 방문</span>
                         </div>
                     </div>
                 </div>
