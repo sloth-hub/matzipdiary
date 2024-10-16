@@ -128,6 +128,21 @@ export const Detail = () => {
         }
     }
 
+    const filteringAddr = (addr: string) => {
+        const cities = ["서울", "인천", "대구", "광주", "대전", "울산"];
+        if (cities.some(city => addr.includes(city))) {
+            return addr.includes("경기 광주") ? addr.substring(0, 5) : addr.substring(0, 2);
+        } else if (addr.includes("특별자치도")) {
+            const siIndex = addr.indexOf("시");
+            const gunIndex = addr.indexOf("군");
+            const index = siIndex !== -1 ? siIndex : gunIndex;
+
+            return index > 1 && addr.substring(index - 2, index);
+        } else {
+            return addr.substring(0, 5);
+        };
+    }
+
     return (
         <div className="detail">
             {images.length > 0 &&
@@ -178,7 +193,7 @@ export const Detail = () => {
                             <span className="star-rating-text">{rate}</span>
                         </div>
                         <div className="info">
-                            <span aria-label="지역">{address.lotAddr.includes("경기") ? address.lotAddr.substring(0, 5) : address.lotAddr.substring(0, 2)}</span>
+                            <span aria-label="지역">{filteringAddr(address.lotAddr)}</span>
                             <span aria-label="업종">{foodCategory}</span>
                             <span aria-label="방문일">{date_visited} 방문</span>
                         </div>
