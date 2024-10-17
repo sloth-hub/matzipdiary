@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { doc, deleteDoc } from "firebase/firestore";
 import { ref, deleteObject } from "firebase/storage"
 import { storage, db } from "../Firebase";
-import StarRating from "../Components/StarRating";
+import Stars from "../Components/Stars";
 
 export const Detail = () => {
 
@@ -189,7 +189,7 @@ export const Detail = () => {
                             }
                         </div>
                         <div className="star-rating-wrap">
-                            <StarRating rate={rate} />
+                            <Stars rate={rate} />
                             <span className="star-rating-text">{rate}</span>
                         </div>
                         <div className="info">

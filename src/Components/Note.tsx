@@ -2,9 +2,15 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { BiChevronRight, BiCalendar } from "react-icons/bi";
 import { HiLocationMarker } from "react-icons/hi";
-import StarRating from "./StarRating";
+import Stars from "./Stars";
+import { NoteInterface, SortInterface } from "../interfaces/note.interface";
 
-export const Note = ({ note, sortStatus }: any) => {
+type Props = {
+    note: NoteInterface,
+    sortStatus: SortInterface
+}
+
+export const Note = ({ note, sortStatus }: Props) => {
 
     const {
         date_visited,
@@ -55,7 +61,7 @@ export const Note = ({ note, sortStatus }: any) => {
                     <span className="category">{foodCategory}</span>
                     <span>{placeName}</span>
                 </div>
-                <StarRating rate={rate}/>
+                <Stars rate={rate} />
                 <p>{text.replace(/(<([^>]+)>)/ig, "").replaceAll("&amp;", "")}</p>
             </div>
             <Link to={`/note/${id}`} state={{ note, id, sortStatus }} className="more">
