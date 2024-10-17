@@ -11,6 +11,7 @@ import { storage, db } from "../Firebase";
 import { v4 as uuid4 } from "uuid";
 import moment from "moment";
 import Editor from "../Components/Editor";
+import StarRating from "../Components/StarRating";
 
 export const WriteNote = ({ userObj }: any) => {
 
@@ -237,10 +238,6 @@ export const WriteNote = ({ userObj }: any) => {
         input.focus();
     }
 
-    const getInputs = (e: string) => {
-        setInputs({ ...inputs, text: e });
-    }
-
     return (
         <form className="note-form" onSubmit={onSubmit}>
             <div className="input-wrap">
@@ -284,6 +281,7 @@ export const WriteNote = ({ userObj }: any) => {
             </div>
             <Map setInputs={setInputs} id={statedata.state ? statedata.state.id : ""} location={statedata.state ? statedata.state.data.location : {}} />
             <span className="self-input">※ 주소 검색 결과가 없을 경우 <button type="button" onClick={setPlaceName}>여기</button>를 눌러주세요.</span>
+            <StarRating rate={isModify ? prevData.rate : 0} setInputs={setInputs} inputs={inputs} />
             <div className="file-box">
                 <div className="drag-box"
                     onDrop={e => dragEvent(e, "drop")}
