@@ -281,7 +281,7 @@ export const WriteNote = ({ userObj }: any) => {
             </div>
             <Map setInputs={setInputs} id={statedata.state ? statedata.state.id : ""} location={statedata.state ? statedata.state.data.location : {}} />
             <span className="self-input">※ 주소 검색 결과가 없을 경우 <button type="button" onClick={setPlaceName}>여기</button>를 눌러주세요.</span>
-            <StarRating rate={isModify ? prevData.rate : 0} setInputs={setInputs} inputs={inputs} />
+            <StarRating prevRate={prevData.rate ? prevData.rate : 0} setInputs={setInputs} inputs={inputs} />
             <div className="file-box">
                 <div className="drag-box"
                     onDrop={e => dragEvent(e, "drop")}
