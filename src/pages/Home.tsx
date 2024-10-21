@@ -130,6 +130,24 @@ export const Home = ({ userObj }: any) => {
                     type: "desc"
                 });
                 break;
+            case "rate_asc":
+                getNotes("rate", "asc");
+                setIsSortLoading(false);
+                setSortStatus({
+                    kor: innerText,
+                    eng: "rate",
+                    type: "asc"
+                });
+                break;
+            case "rate_desc":
+                getNotes("rate", "desc");
+                setIsSortLoading(false);
+                setSortStatus({
+                    kor: innerText,
+                    eng: "rate",
+                    type: "desc"
+                });
+                break;
         }
     }
 
@@ -208,6 +226,8 @@ export const Home = ({ userObj }: any) => {
                                     <button type="button" onClick={clickedSortBtn} value="cre_asc">작성일 오래된순</button>
                                     <button type="button" onClick={clickedSortBtn} value="visit_desc">방문일 최신순</button>
                                     <button type="button" onClick={clickedSortBtn} value="visit_asc">방문일 오래된순</button>
+                                    <button type="button" onClick={clickedSortBtn} value="rate_desc">별점 높은순</button>
+                                    <button type="button" onClick={clickedSortBtn} value="rate_asc">별점 낮은순</button>
                                 </div>
                             </div>
                         </div>
