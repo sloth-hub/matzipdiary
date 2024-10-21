@@ -1198,12 +1198,16 @@ form button:not(.selected-value, .food-category button, #placeName, .back, .quil
   padding: 15px;
 }
 
+#menu_wrap button {
+  font-size: 14px;
+}
+
 .self-input {
   color: var(--D-gray);
+  margin: 10px 0 20px;
 }
 
 .self-input button {
-  margin: 10px 0 20px;
   font-weight: 600;
 }
 
@@ -1348,11 +1352,18 @@ input[type="file"] {
 
 .note-form .star-rating-wrap {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 100px;
+  height: 100%;
+  padding: 20px; 
   margin-bottom: 20px;
+  gap: 10px;
+}
+
+.note-form .star-rating-wrap p {
+  font-size: 15px;
 }
 
 .note-form .star-rating {
@@ -1370,10 +1381,11 @@ input[type="file"] {
 .note-form .star-wrap label {
   margin-bottom: 0;
   display: inline-block;
+  cursor: pointer;
 }
 
 .note-form .star-wrap svg {
-  font-size: 28px;
+  font-size: 32px;
 }
 
 .note-form .star-wrap .star-rating-label.half svg {
@@ -1636,7 +1648,7 @@ footer span {
   }
 
   .note {
-    height: 70vw;
+    height: 72vw;
   }
 
   .note * {
@@ -1645,7 +1657,7 @@ footer span {
   }
 
   .note .more {
-    padding: 5px 10px 2vw;
+    padding: 5px 10px 10px;
   }
 
   .note .img-wrap {
@@ -1653,7 +1665,8 @@ footer span {
   }
 
   .note .content-wrap {
-    height: 35%;
+    height: auto;
+    gap: 3px;
   }
 
   .note .content-wrap p {
