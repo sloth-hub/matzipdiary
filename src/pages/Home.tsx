@@ -92,63 +92,29 @@ export const Home = ({ userObj }: any) => {
     }
 
     const sortBy = (value: string, innerText: string) => {
-        setIsSortLoading(true);
-        switch (value) {
-            case "cre_asc":
-                getNotes("date_created", "asc");
-                setIsSortLoading(false);
-                setSortStatus({
-                    kor: innerText,
-                    eng: "date_created",
-                    type: "asc"
-                });
-                break;
-            case "cre_desc":
-                getNotes("date_created", "desc");
-                setIsSortLoading(false);
-                setSortStatus({
-                    kor: innerText,
-                    eng: "date_created",
-                    type: "desc"
-                });
-                break;
-            case "visit_asc":
-                getNotes("date_visited", "asc");
-                setIsSortLoading(false);
-                setSortStatus({
-                    kor: innerText,
-                    eng: "date_visited",
-                    type: "asc"
-                });
-                break;
-            case "visit_desc":
-                getNotes("date_visited", "desc");
-                setIsSortLoading(false);
-                setSortStatus({
-                    kor: innerText,
-                    eng: "date_visited",
-                    type: "desc"
-                });
-                break;
-            case "rate_asc":
-                getNotes("rate", "asc");
-                setIsSortLoading(false);
-                setSortStatus({
-                    kor: innerText,
-                    eng: "rate",
-                    type: "asc"
-                });
-                break;
-            case "rate_desc":
-                getNotes("rate", "desc");
-                setIsSortLoading(false);
-                setSortStatus({
-                    kor: innerText,
-                    eng: "rate",
-                    type: "desc"
-                });
-                break;
+
+        const sortOptions: Record<string, { field: string, type: "asc" | "desc" }> = {
+            cre_asc: { field: "date_created", type: "asc" },
+            cre_desc: { field: "date_created", type: "desc" },
+            visit_asc: { field: "date_visited", type: "asc" },
+            visit_desc: { field: "date_visited", type: "desc" },
+            rate_asc: { field: "rate", type: "asc" },
+            rate_desc: { field: "rate", type: "desc" }
+        };
+
+        const option = sortOptions[value];
+
+        if (option) {
+            setIsSortLoading(true);
+            getNotes(option.field, option.type);
+            setIsSortLoading(false);
+            setSortStatus({
+                kor: innerText,
+                eng: option.field,
+                type: option.type
+            });
         }
+       
     }
 
     const clickedCategory = (e: React.MouseEvent) => {
