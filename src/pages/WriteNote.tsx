@@ -66,7 +66,7 @@ export const WriteNote = ({ userObj }: any) => {
         const requiredInputs = [
             inputs["foodCategory"], inputs["date_visited"], inputs["placeName"], inputs["text"].replace(/(<([^>]+)>)/ig, "")
         ];
-        if (requiredInputs.includes("")) {
+        if (requiredInputs.includes("") || inputs.rate === 0) {
             alert("필수 항목을 입력하세요.");
             setIsLoading(false);
         } else {

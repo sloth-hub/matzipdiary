@@ -15,9 +15,9 @@ export const StarRating = ({ prevRate, setInputs, inputs }: Props) => {
 
     useEffect(() => {
         if (prevRate !== 0) {
-          setSelectedRating(prevRate);
+            setSelectedRating(prevRate);
         }
-      }, [prevRate]);
+    }, [prevRate]);
 
     const handleRatingChange = (value: number) => {
         setSelectedRating(value);
@@ -36,6 +36,7 @@ export const StarRating = ({ prevRate, setInputs, inputs }: Props) => {
 
     return (
         <div className="star-rating-wrap">
+            <p>별점을 매겨주세요.<span className="required">*</span></p>
             <div className="star-rating">
                 {Array.from({ length: 5 }, (_, i) => (
                     <div className="star-wrap" key={i}>
