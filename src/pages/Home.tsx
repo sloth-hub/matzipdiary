@@ -120,7 +120,7 @@ export const Home = ({ userObj }: any) => {
     const clickedCategory = (e: React.MouseEvent) => {
         const target = e.target as HTMLElement;
         const catName = target.innerText;
-        const lists = (target.parentNode as HTMLElement).children;
+        const lists = document.querySelectorAll(".category li button");
         if (target.tagName === "BUTTON") {
             if (target.classList.contains("active")) {
                 setNotes(ogNotes);
@@ -128,9 +128,7 @@ export const Home = ({ userObj }: any) => {
             } else {
                 const result = ogNotes.filter(note => note.foodCategory === catName);
                 setNotes(result);
-                for (let i = 0; i < lists.length; i++) {
-                    lists[i].classList.remove("active");
-                }
+                lists.forEach(v => v.classList.remove("active"));
                 target.classList.add("active");
             }
         }

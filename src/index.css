@@ -468,13 +468,13 @@ nav .login:hover {
   align-items: center;
 }
 
-.search .category li::before {
+.search .category li button::before {
   content: "#";
   color: var(--M-gray);
   margin-right: 2px;
 }
 
-.search .category li {
+.search .category li button{
   border: 1px solid var(--L-gray);
   border-radius: 20px;
   padding: 8px 15px;
@@ -486,7 +486,7 @@ nav .login:hover {
   margin-left: 10px;
 }
 
-.search .category li:hover, .search .category li.active {
+.search .category li button:hover, .search .category li button.active {
   border: 1px solid var(--M-gray);
 }
 
