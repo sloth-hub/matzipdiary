@@ -262,7 +262,7 @@ nav .pfp-popup.on {
   flex-direction: column;
   align-items: center;
   right: -32px;
-  padding: 20px 15px;
+  padding: 15px;
   margin-top: 7px;
   max-width: 102px;
   text-align: center;
@@ -459,7 +459,7 @@ nav .login:hover {
 .search {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 50px;
+  margin-bottom: 30px;
   width: 100%;
 }
 
@@ -474,7 +474,7 @@ nav .login:hover {
   margin-right: 2px;
 }
 
-.search .category li button{
+.search .category li button {
   border: 1px solid var(--L-gray);
   border-radius: 20px;
   padding: 8px 15px;
@@ -830,6 +830,7 @@ textarea {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  gap: 15px;
   width: 680px;
   min-height: 350px;
   padding: 20px;
@@ -848,7 +849,8 @@ textarea {
   position: relative;
   display: flex;
   flex-direction: column;
-  margin-top: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--L-gray);
 }
 
 .detail .title {
@@ -860,8 +862,6 @@ textarea {
   display: flex;
   flex-direction: column;
   gap: 3px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--L-gray);
 }
 
 .detail .placename {
@@ -1062,8 +1062,8 @@ textarea {
 }
 
 .detail .text {
-  padding-top: 15px;
-  margin-bottom: 30px;
+  padding: 15px 0;
+  line-height: 20px;
 }
 
 .detail .bottom-wrap {
@@ -1357,7 +1357,7 @@ input[type="file"] {
   justify-content: center;
   width: 100%;
   height: 100%;
-  padding: 20px; 
+  padding: 20px;
   margin-bottom: 20px;
   gap: 10px;
 }
@@ -1405,7 +1405,7 @@ input[type="file"] {
 }
 
 .note-form .star-rating-label:hover svg,
-.note-form .star-rating-label:hover svg ~ .note-form .star-rating-label svg {
+.note-form .star-rating-label:hover svg~.note-form .star-rating-label svg {
   color: var(--main-color) !important;
 }
 
