@@ -743,7 +743,7 @@ textarea {
   flex-direction: column;
   padding: 12.5px 15px 0;
   flex: auto;
-  gap: 2px;
+  gap: 3px;
 }
 
 .note .date {
@@ -1554,7 +1554,7 @@ footer span {
   }
 
   .note .more {
-    padding: 12.5px;
+    padding: 5px 15px 15px;
   }
 
   .note .img-wrap {
@@ -1657,7 +1657,7 @@ footer span {
   }
 
   .note .more {
-    padding: 5px 10px 10px;
+    padding: 5px 12.5px 12.5px;
   }
 
   .note .img-wrap {
@@ -1666,7 +1666,7 @@ footer span {
 
   .note .content-wrap {
     height: auto;
-    gap: 3px;
+    padding: 12.5px 12.5px 0;
   }
 
   .note .content-wrap p {
