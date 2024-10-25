@@ -46,6 +46,13 @@ export const WriteNote = ({ userObj }: any) => {
     const [isNoAdd, setIsNoAdd] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
+    const maxSize = 5 * 1024 * 1024;
+    const maxFiles = 10;
+    const allowedExtensions = ["png", "jpg", "jpeg"];
+    const oversizedFiles: string[] = []; // 용량 초과 파일 저장 배열
+    const invalidFiles: string[] = []; // 확장자 불일치 파일 저장 배열
+    let alertMessage = "";
+
     useEffect(() => {
         const categories = document.querySelector(".food-category");
         categories!.addEventListener("click", (e: Event) => {
@@ -62,22 +69,23 @@ export const WriteNote = ({ userObj }: any) => {
 
     const onSubmit = async (e: any) => {
         e.preventDefault();
-        setIsLoading(true);
-        const requiredInputs = [
-            inputs["foodCategory"], inputs["date_visited"], inputs["placeName"], inputs["text"].replace(/(<([^>]+)>)/ig, "")
-        ];
-        if (requiredInputs.includes("") || inputs.rate === 0) {
-            alert("필수 항목을 입력하세요.");
-            setIsLoading(false);
-        } else {
-            if (isModify) {
-                // 글 수정
-                modifyNote();
-            } else {
-                // 새로 글쓰기
-                newNote();
-            }
-        }
+        console.log(image);
+        // setIsLoading(true);
+        // const requiredInputs = [
+        //     inputs["foodCategory"], inputs["date_visited"], inputs["placeName"], inputs["text"].replace(/(<([^>]+)>)/ig, "")
+        // ];
+        // if (requiredInputs.includes("") || inputs.rate === 0) {
+        //     alert("필수 항목을 입력하세요.");
+        //     setIsLoading(false);
+        // } else {
+        //     if (isModify) {
+        //         // 글 수정
+        //         modifyNote();
+        //     } else {
+        //         // 새로 글쓰기
+        //         newNote();
+        //     }
+        // }
     }
 
     const newNote = async () => {
@@ -158,62 +166,71 @@ export const WriteNote = ({ userObj }: any) => {
 
     const saveFileImage = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { target: { files } } = e;
-        let fileLists: any = [...image];
-        let previewLists: any = [...thumbnail];
-        const maxSize = 5 * 1024 * 1024;
-
-        // 파일 개수 체크 (코드 수정 필요)
-        if (files!.length > 10 || fileLists.length > 10 || previewLists.length > 10) {
-            alert("파일은 10개까지만 첨부 가능합니다.");
-            fileLists = fileLists.slice(0, 10);
-            previewLists = previewLists.slice(0, 10);
-        }
-
-        for (let i = 0; i < files!.length; i++) {
-            // 파일 용량 체크
-            if (files![i].size > maxSize) {
-                alert("파일첨부 사이즈는 5MB 이내로 가능합니다.");
-                e.target.value = "";
-            } else {
-                const currentUrl = URL.createObjectURL(files![i]);
-                fileLists.push({ fileUrl: files![i] });
-                previewLists.push({ fileUrl: currentUrl });
-            }
-        }
-        setImage(fileLists); // db 저장용 파일(File)
-        setThumbnail(previewLists); // 미리보기용 파일(string)
+        checkedFile(files!);
     }
 
     const dragEvent = (e: React.DragEvent<HTMLDivElement>, type: string) => {
         e.preventDefault();
         e.stopPropagation();
         if (type === "drop") {
-
-            let thisFile = e.dataTransfer.files[0];
-            const maxSize = 5 * 1024 * 1024;
-            let fileLists: any = [...thumbnail];
-
-            // 파일 개수 체크
-            if (fileLists.length > 10) {
-                alert("파일은 10개까지만 첨부 가능합니다.");
-                fileLists = fileLists.slice(0, 10);
-            }
-            // 파일 용량 체크
-            if (thisFile.size > maxSize) {
-                alert("파일첨부 사이즈는 5MB 이내로 가능합니다.");
-                (e.target as HTMLInputElement).value = "";
-            } else {
-                const currentUrl = URL.createObjectURL(thisFile);
-                fileLists.push(currentUrl);
-                setThumbnail(fileLists);
-            }
-
+            const { dataTransfer: { files } } = e;
+            checkedFile(files!);
         }
     }
 
-    const deleteImage = (id: any) => {
-        setDeleteImages([...deleteImages, thumbnail[id]]);
-        setThumbnail(thumbnail.filter((_, index) => index !== id));
+    const checkedFile = (files: FileList) => {
+
+        let fileLists: img[] = [...image];
+        let previewLists: Images[] = [...thumbnail];
+
+        for (let i = 0; i < files!.length; i++) {
+            const file = files![i];
+            const fileExtension = file.name.split(".").pop()?.toLowerCase();
+
+            // 확장자 필터링
+            if (!fileExtension || !allowedExtensions.includes(fileExtension)) {
+                invalidFiles.push(file.name);
+                continue;
+            }
+            // 파일 용량 체크
+            if (file.size > maxSize) {
+                oversizedFiles.push(file.name);
+                continue;
+            }
+
+            if (fileLists.length >= maxFiles) break;
+
+            const currentUrl = URL.createObjectURL(file);
+            fileLists.push({ fileUrl: file });
+            previewLists.push({ fileUrl: currentUrl });
+        }
+
+        // 파일 조건에 따른 알림 메시지
+        if (fileLists.length > maxFiles || files!.length + fileLists.length > maxFiles) {
+            alertMessage += `파일은 최대 10개까지만 첨부 가능합니다.`;
+            fileLists = fileLists.slice(0, maxFiles);
+            previewLists = previewLists.slice(0, maxFiles);
+        }
+        if (oversizedFiles.length > 0) {
+            alertMessage += `다음 파일은 5MB를 초과합니다. : ${oversizedFiles.join(", ")}\n`;
+        }
+        if (invalidFiles.length > 0) {
+            alertMessage += `다음 파일은 지원되지 않는 확장자 파일입니다. (png, jpg, jpeg만 가능) : ${invalidFiles.join(", ")}`;
+        }
+
+        // 알림 메시지가 있으면 alert 표시
+        if (alertMessage) {
+            alert(alertMessage.trim());
+        }
+
+        setImage(fileLists); // db 저장용 파일(File)
+        setThumbnail(previewLists); // 미리보기용 파일(string)
+    }
+
+    const deleteImage = (index: number) => {
+        setImage(image.filter((_, i) => i !== index));
+        setDeleteImages([...deleteImages, thumbnail[index]]);
+        setThumbnail(thumbnail.filter((_, i) => i !== index));
     };
 
     const onChange = (e: any) => {
@@ -290,24 +307,26 @@ export const WriteNote = ({ userObj }: any) => {
                     <span className="drag-text">이미지를 여기에 드래그 해보세요!</span>
                     <span>5MB 이하, 10개 이하 첨부 가능</span>
                     <label htmlFor="input-file">이미지 선택</label>
-                    <input type="file" id="input-file" accept="image/jpg, image/jpeg, image/png" onChange={saveFileImage} multiple />
+                    <input type="file" id="input-file"
+                        accept="image/jpg, image/jpeg, image/png"
+                        onChange={saveFileImage} multiple />
                 </div>
                 <div className="preview-box">
                     <ul>
-                        {thumbnail && thumbnail.slice(0, 5).map((image, id) => (
-                            <li key={id}>
+                        {thumbnail && thumbnail.slice(0, 5).map((image, index) => (
+                            <li key={index}>
                                 {/* @ts-ignore */}
-                                <img src={image.fileUrl} alt={`thumbnail-${id}`} />
-                                <span className="delete" onClick={() => deleteImage(id)}><IoIosClose size={"1.5em"} /></span>
+                                <img src={image.fileUrl} alt={`thumbnail-${index}`} />
+                                <span className="delete" onClick={() => deleteImage(index)}><IoIosClose size={"1.5em"} /></span>
                             </li>
                         ))}
                     </ul>
                     <ul>
-                        {thumbnail && thumbnail.slice(5, 10).map((image, id) => (
-                            <li key={id}>
+                        {thumbnail && thumbnail.slice(5, 10).map((image, index) => (
+                            <li key={5 + index}>
                                 {/* @ts-ignore */}
-                                <img src={image.fileUrl} alt={`thumbnail-${id}`} />
-                                <span className="delete" onClick={() => deleteImage(id)}><IoIosClose size={"1.5em"} /></span>
+                                <img src={image.fileUrl} alt={`thumbnail-${5 + index}`} />
+                                <span className="delete" onClick={() => deleteImage(5 + index)}><IoIosClose size={"1.5em"} /></span>
                             </li>
                         ))}
                     </ul>
