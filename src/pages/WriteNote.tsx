@@ -69,23 +69,22 @@ export const WriteNote = ({ userObj }: any) => {
 
     const onSubmit = async (e: any) => {
         e.preventDefault();
-        console.log(image);
-        // setIsLoading(true);
-        // const requiredInputs = [
-        //     inputs["foodCategory"], inputs["date_visited"], inputs["placeName"], inputs["text"].replace(/(<([^>]+)>)/ig, "")
-        // ];
-        // if (requiredInputs.includes("") || inputs.rate === 0) {
-        //     alert("필수 항목을 입력하세요.");
-        //     setIsLoading(false);
-        // } else {
-        //     if (isModify) {
-        //         // 글 수정
-        //         modifyNote();
-        //     } else {
-        //         // 새로 글쓰기
-        //         newNote();
-        //     }
-        // }
+        setIsLoading(true);
+        const requiredInputs = [
+            inputs["foodCategory"], inputs["date_visited"], inputs["placeName"], inputs["text"].replace(/(<([^>]+)>)/ig, "")
+        ];
+        if (requiredInputs.includes("") || inputs.rate === 0) {
+            alert("필수 항목을 입력하세요.");
+            setIsLoading(false);
+        } else {
+            if (isModify) {
+                // 글 수정
+                modifyNote();
+            } else {
+                // 새로 글쓰기
+                newNote();
+            }
+        }
     }
 
     const newNote = async () => {
