@@ -1266,6 +1266,10 @@ input[type="file"] {
   font-size: 18px;
 }
 
+.preview-box {
+  width: 100%;
+}
+
 .preview-box ul {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -1275,8 +1279,8 @@ input[type="file"] {
 .preview-box ul li {
   position: relative;
   overflow: hidden;
-  width: 111px;
-  height: 111px;
+  width: 119px;
+  height: 119px;
   display: flex;
   align-items: center;
   border: 1px solid var(--L-gray);
