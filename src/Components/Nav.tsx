@@ -14,7 +14,8 @@ export const Nav = ({ userObj }: RouterType) => {
         if (response) {
             firebaseAuth.signOut()
                 .then(() => {
-                    window.location.reload();
+                    navigate("/");
+                    navigate(0);
                 }).catch(err => {
                     console.log(`${err.code} - ${err.message}`);
                 });
