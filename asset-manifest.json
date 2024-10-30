@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/matzipdiary/static/css/main.d96ae09a.css",
-    "main.js": "/matzipdiary/static/js/main.495d52aa.js",
+    "main.css": "/matzipdiary/static/css/main.b9184e83.css",
+    "main.js": "/matzipdiary/static/js/main.dc0668c7.js",
     "index.html": "/matzipdiary/index.html",
-    "main.d96ae09a.css.map": "/matzipdiary/static/css/main.d96ae09a.css.map",
-    "main.495d52aa.js.map": "/matzipdiary/static/js/main.495d52aa.js.map"
+    "main.b9184e83.css.map": "/matzipdiary/static/css/main.b9184e83.css.map",
+    "main.dc0668c7.js.map": "/matzipdiary/static/js/main.dc0668c7.js.map"
   },
   "entrypoints": [
-    "static/css/main.d96ae09a.css",
-    "static/js/main.495d52aa.js"
+    "static/css/main.b9184e83.css",
+    "static/js/main.dc0668c7.js"
   ]
 }
