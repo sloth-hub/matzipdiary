@@ -29,7 +29,7 @@ https://sloth-hub.github.io/matzipdiary/
 
 - ### / - 메인 페이지
     - 프로필 이미지 클릭시 회원정보, 로그아웃 팝업 활성화
-    - 작성일순, 방문일순 정렬
+    - 작성일순, 방문일순, 별점순 정렬
     - 업종 카테고리 정렬
     - 이미지 레이지 로딩
     - 페이지네이션 (더보기 버튼)
@@ -50,6 +50,7 @@ https://sloth-hub.github.io/matzipdiary/
 - ### /write - 일기 작성 페이지
   - 카카오맵을 이용한 위치 검색 및 위치 정보 가져오기
   - 이미지 드래그 첨부
+  - 별점 매기기
   - React-quill 에디터를 사용한 글쓰기
   - Firebase Database에 일기 데이터 저장, Firebase Storage에 이미지 업로드 및 연동
 
