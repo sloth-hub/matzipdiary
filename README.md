@@ -55,24 +55,20 @@ https://sloth-hub.github.io/matzipdiary/
   - Firebase Database에 일기 데이터 저장, Firebase Storage에 이미지 업로드 및 연동
 
 - ### /note/:id/write - 일기 수정 페이지
-  - 이전 페이지 일기 데이터 표시 (useLocation 훅 사용)
+  - 이전 페이지 일기 데이터 표시
   - 수정된 일기 데이터를 Firebase Database에 다시 저장
 
 ## 🖥 PREVIEW, DETAIL - **WEB**
-### 메인 페이지
-![matzipdiary_detail_1](https://github.com/user-attachments/assets/c53e4a90-501d-4ea9-9d00-550c3877c3e8)
-### 상세 페이지
-![matzipdiary_detail_2](https://github.com/user-attachments/assets/af9baff6-9154-459e-b79c-5f64bdfd80bd)
-### 일기 작성 페이지
-![matzipdiary_detail_3](https://github.com/user-attachments/assets/83e81b57-b3e0-4d86-9fff-09463d46813a)
-### 로그인 페이지
-![matzipdiary_detail_4](https://github.com/user-attachments/assets/1149e6ae-8ede-44b9-995b-d29d326f4387)
-### 회원가입 페이지
-![matzipdiary_detail_5](https://github.com/user-attachments/assets/b8bffd52-4651-4b96-9bf4-075647016f70)
+
+![matzipdiary_detail_1](https://github.com/user-attachments/assets/5e5cb55a-7c79-42d3-9a18-7aa816566d4b)
+![matzipdiary_detail_2](https://github.com/user-attachments/assets/d8abfc86-fc77-4fb2-a4e0-18101e772d12)
+![matzipdiary_detail_3](https://github.com/user-attachments/assets/c7a23ad1-c058-48aa-93fb-4ff735231eb5)
+![matzipdiary_detail_4](https://github.com/user-attachments/assets/604ad417-b058-4aac-aa80-80c1b8abbdee)
+![matzipdiary_detail_5](https://github.com/user-attachments/assets/166b1d11-a869-4beb-8796-70d3f26647f3)
 
 ## 💻 PREVIEW - **TABLET**
-![matzipdiary_tablet](https://github.com/user-attachments/assets/b06ebaa9-7eb2-45a4-84b1-47b732cd7b43)
+![matzipdiary_tablet](https://github.com/user-attachments/assets/d28e35fd-9857-4d09-bdef-281322d3ff85)
 
 ## 📱 PREVIEW - **MOBILE**
-![matzipdiary_mobile](https://github.com/user-attachments/assets/8831bbd4-ddf5-4b56-b1be-39b8e7bd1d97)
+![matzipdiary_mobile](https://github.com/user-attachments/assets/03b2d132-3396-4944-9fa5-36c49564b4bd)
 
